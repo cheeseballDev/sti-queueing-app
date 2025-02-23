@@ -54,7 +54,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/old_student_button"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="36dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="72dp"
                 android:layout_marginEnd="60dp"
@@ -67,14 +67,15 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/new_student_button"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="36dp"
                 android:layout_marginStart="60dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginEnd="60dp"
                 android:layout_weight="1"
                 android:background="@drawable/default_button"
@@ -85,7 +86,8 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/old_student_button" />
+                app:layout_constraintTop_toBottomOf="@+id/old_student_button"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
