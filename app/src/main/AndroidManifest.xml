@@ -13,6 +13,10 @@
         android:theme="@style/Theme.STIQueuingApp"
         tools:targetApi="31">
         <activity
+            android:name=".OldStudentActivity"
+            android:exported="false"
+            android:theme="@style/Theme.STIQueuingApp" />
+        <activity
             android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
