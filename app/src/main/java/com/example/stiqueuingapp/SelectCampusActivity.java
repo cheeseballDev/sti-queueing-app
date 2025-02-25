@@ -1,6 +1,8 @@
 package com.example.stiqueuingapp;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +22,17 @@ public class SelectCampusActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        initializeDropDown();
+    }
+
+    void initializeDropDown() {
+        Spinner campusDropDown = findViewById(R.id.campus_spinner);
+
+        // TO IMPLEMENT THE FIREBASE DATABASE
+        String[] campuses = new String[]{"Ortigas-Cainta", "Alabang", "Tanay"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
+        campusDropDown.setAdapter(adapter);
     }
 }

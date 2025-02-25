@@ -25,16 +25,19 @@ public class WelcomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
         Button newStudentButton = findViewById(R.id.new_student_button);
         Button oldStudentButton = findViewById(R.id.old_student_button);
-        TextView text = findViewById(R.id.textView);
+
         oldStudentButton.setOnClickListener(view -> {
             startActivity(new Intent(this, OldStudentActivity.class));
             finish();
         });
 
         newStudentButton.setOnClickListener(view -> {
-
+            startActivity(new Intent(this, SelectCampusActivity.class));
+            finish();
         });
     }
 }
