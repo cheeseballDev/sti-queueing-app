@@ -1,6 +1,8 @@
 package com.example.stiqueuingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,11 @@ public class OldStudentActivity extends AppCompatActivity {
             return insets;
         });
 
+        Button nextPageButton = findViewById(R.id.button_next_page);
 
+        nextPageButton.setOnClickListener(view -> {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        });
     }
 }
