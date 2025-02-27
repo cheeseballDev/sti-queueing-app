@@ -49,4 +49,5 @@
     <string name="which_campus">Which campus are you\ncurrently at?</string>
     <string name="your_number">YOUR NUMBER</string>
     <string name="your_cooldown">YOUR COOLDOWN</string>
+    <string name="n_a">N/A</string>
 </resources>
