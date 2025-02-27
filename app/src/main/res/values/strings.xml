@@ -51,5 +51,9 @@
     <string name="your_cooldown">YOUR COOLDOWN</string>
     <string name="n_a">N/A</string>
     <string name="now_serving">NOW SERVING</string>
-    <string name="a_000">A-000</string>
+    <string name="queue_number">A-000</string>
+    <string name="counter">COUNTER</string>
+    <string name="counter_number">1</string>
+    <string name="cut_off">CUT OFF</string>
+    <string name="cut_off_number">000</string>
 </resources>

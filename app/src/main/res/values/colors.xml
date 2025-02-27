@@ -13,4 +13,6 @@
     <color name="decline_button_text">#DE6F6F</color>
     <color name="plain_button">#E2E2E2</color>
     <color name="plain_button_text">#555555</color>
+    <color name="red">#C6513D</color>
+    <color name="green">#3DC69B</color>
 </resources>
