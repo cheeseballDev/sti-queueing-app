@@ -14,7 +14,6 @@ public class SelectCampusActivity extends AppCompatActivity {
 
     private String[] campuses;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,5 +36,6 @@ public class SelectCampusActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
         campusDropDown.setAdapter(adapter);
+
     }
 }
