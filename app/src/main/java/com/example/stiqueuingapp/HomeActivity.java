@@ -26,6 +26,14 @@ public class HomeActivity extends AppCompatActivity {
         View registrar = findViewById(R.id.registrar_queue);
         View cashier = findViewById(R.id.cashier_queue);
 
-        
+        View admissionDivider = admission.findViewById(R.id.divider);
+        View registrarDivider = registrar.findViewById(R.id.divider);
+        View cashierDivider = cashier.findViewById(R.id.divider);
+
+        admissionDivider.setBackgroundColor(getResources().getColor(R.color.blue, null));
+        registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
+        cashierDivider.setBackgroundColor(getResources().getColor(R.color.green, null));
+
+
     }
 }
