@@ -5,7 +5,9 @@
     android:id="@+id/CardView3"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@drawable/card_background">
+    android:background="@drawable/card_background"
+    app:cardCornerRadius="8dp"
+    >
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -39,7 +41,7 @@
 
     <View
         android:id="@+id/divider"
-        android:layout_width="407dp"
+        android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="@drawable/line_design"
         android:backgroundTint="@color/blue"
