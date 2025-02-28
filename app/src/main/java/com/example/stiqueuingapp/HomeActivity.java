@@ -1,6 +1,7 @@
 package com.example.stiqueuingapp;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +21,11 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        View admission = findViewById(R.id.admission_queue);
+        View registrar = findViewById(R.id.registrar_queue);
+        View cashier = findViewById(R.id.cashier_queue);
+
+        
     }
 }

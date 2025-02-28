@@ -43,8 +43,6 @@
                 android:layout_marginEnd="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:layout_constrainedWidth_default="percent"
-                app:layout_constrainedWidth_percent="0.48"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
@@ -101,8 +99,6 @@
                 android:layout_marginStart="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:layout_constrainedWidth_default="percent"
-                app:layout_constrainedWidth_percent="0.48"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
@@ -163,109 +159,35 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ConstraintLayout">
-            <androidx.cardview.widget.CardView
-                android:id="@+id/CardView3"
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/card_background"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <include
+                    android:id="@+id/admission_queue"
+                    layout="@layout/queue_card"
+                    />
+
+                <include
+                    android:id="@+id/registrar_queue"
+                    layout="@layout/queue_card"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp"
+                    />
 
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="13dp"
-                        android:text="@string/now_serving"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:textColor="@color/grey"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <include
+                    android:id="@+id/cashier_queue"
+                    layout="@layout/queue_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp"
+                    />
 
-                    <TextView
-                        android:id="@+id/admission_current_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/montserrat_extrabold"
-                        android:text="@string/queue_number"
-                        android:textColor="@color/primary_black"
-                        android:textSize="38sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                    <View
-                        android:id="@+id/divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="7dp"
-                        android:background="@drawable/line_design"
-                        android:backgroundTint="@color/blue"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginTop="13dp"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="@string/counter"
-                        android:textColor="@color/grey"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@+id/textView3"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/admission_counter_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/montserrat_extrabold"
-                        android:text="@string/counter_number"
-                        android:textColor="@color/primary_black"
-                        android:textSize="38sp"
-                        app:layout_constraintStart_toEndOf="@+id/textView3"
-                        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="13dp"
-                        android:layout_marginEnd="15dp"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="@string/cut_off"
-                        android:textColor="@color/grey"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/admission_cut_off_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:fontFamily="@font/montserrat_extrabold"
-                        android:text="@string/cut_off_number"
-                        android:textColor="@color/primary_black"
-                        android:textSize="38sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
