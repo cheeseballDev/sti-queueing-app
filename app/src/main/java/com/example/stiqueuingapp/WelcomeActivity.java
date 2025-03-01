@@ -15,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    private Button newStudentButton, oldStudentButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +29,8 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
 
-        Button newStudentButton = findViewById(R.id.new_student_button);
-        Button oldStudentButton = findViewById(R.id.old_student_button);
+        newStudentButton = findViewById(R.id.new_student_button);
+        oldStudentButton = findViewById(R.id.old_student_button);
 
         oldStudentButton.setOnClickListener(view -> {
             startActivity(new Intent(this, OldStudentActivity.class));

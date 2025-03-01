@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class OldStudentActivity extends AppCompatActivity {
 
+    private Button nextPageButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +26,7 @@ public class OldStudentActivity extends AppCompatActivity {
             return insets;
         });
 
-        Button nextPageButton = findViewById(R.id.button_next_page);
+        nextPageButton = findViewById(R.id.button_next_page);
 
         nextPageButton.setOnClickListener(view -> {
             startActivity(new Intent(this, HomeActivity.class));

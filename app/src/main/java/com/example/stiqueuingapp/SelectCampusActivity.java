@@ -14,6 +14,8 @@ public class SelectCampusActivity extends AppCompatActivity {
 
     private String[] campuses;
 
+    private Spinner campusDropDown;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,7 @@ public class SelectCampusActivity extends AppCompatActivity {
     }
 
     void initializeDropDown() {
-        Spinner campusDropDown = findViewById(R.id.campus_spinner);
+        campusDropDown = findViewById(R.id.campus_spinner);
 
         // TO IMPLEMENT THE FIREBASE DATABASE
         campuses = new String[]{"Ortigas-Cainta", "Alabang", "Tanay"};
