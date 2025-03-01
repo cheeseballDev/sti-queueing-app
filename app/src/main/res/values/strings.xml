@@ -56,4 +56,5 @@
     <string name="counter_number">1</string>
     <string name="cut_off">CUT OFF</string>
     <string name="cut_off_number">000</string>
+    <string name="enter_the_queue">Enter the Queue</string>
 </resources>
