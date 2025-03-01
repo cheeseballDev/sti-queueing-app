@@ -78,6 +78,7 @@
                 android:ems="10"
                 android:hint="@string/student_number"
                 android:inputType="number"
+                android:textColor="@color/primary_black"
                 android:paddingStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -91,13 +92,14 @@
                 android:background="@drawable/ghost_button"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="@string/next"
-                android:textColor="@color/ghost_button_text"
                 android:textAllCaps="false"
+                android:textColor="@color/ghost_button_text"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextNumber"
+                tools:ignore="TouchTargetSizeCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.stiqueuingapp;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private View admission, registrar, cashier, admissionDivider, registrarDivider, cashierDivider;
+
+    private Button enterQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +27,19 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
 
-        View admission = findViewById(R.id.admission_queue);
-        View registrar = findViewById(R.id.registrar_queue);
-        View cashier = findViewById(R.id.cashier_queue);
+        admission = findViewById(R.id.admission_queue);
+        registrar = findViewById(R.id.registrar_queue);
+        cashier = findViewById(R.id.cashier_queue);
 
-        View admissionDivider = admission.findViewById(R.id.divider);
-        View registrarDivider = registrar.findViewById(R.id.divider);
-        View cashierDivider = cashier.findViewById(R.id.divider);
+        admissionDivider = admission.findViewById(R.id.divider);
+        registrarDivider = registrar.findViewById(R.id.divider);
+        cashierDivider = cashier.findViewById(R.id.divider);
 
         admissionDivider.setBackgroundColor(getResources().getColor(R.color.blue, null));
         registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
         cashierDivider.setBackgroundColor(getResources().getColor(R.color.green, null));
+
+
 
 
     }
