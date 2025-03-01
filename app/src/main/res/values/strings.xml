@@ -61,4 +61,5 @@
     <string name="are_you_a_person_with_disability">Are you a person with disability?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="please_enter_an_email_to_link_nwith_your_account">Please enter an email to link \nwith your account</string>
 </resources>
