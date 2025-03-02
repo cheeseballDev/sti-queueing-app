@@ -1,7 +1,6 @@
 package com.example.stiqueuingapp;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -26,7 +25,7 @@ public class OldStudentActivity extends AppCompatActivity {
             return insets;
         });
 
-        nextPageButton = findViewById(R.id.button_next_page);
+        nextPageButton = findViewById(R.id.button_verify_page);
 
         nextPageButton.setOnClickListener(view -> {
             startActivity(new Intent(this, HomeActivity.class));
