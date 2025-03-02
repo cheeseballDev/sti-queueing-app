@@ -78,7 +78,6 @@
                 android:ems="10"
                 android:hint="@string/student_number"
                 android:inputType="number"
-                android:textColor="@color/primary_black"
                 android:paddingStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -87,19 +86,16 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_next_page"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/ghost_button"
-                android:fontFamily="@font/montserrat_semibold"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="@string/next"
-                android:textAllCaps="false"
                 android:textColor="@color/ghost_button_text"
-                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextNumber"
-                tools:ignore="TouchTargetSizeCheck" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

@@ -57,13 +57,12 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="54dp"
+                android:layout_height="47dp"
                 android:layout_marginEnd="2dp"
                 android:layout_weight="1"
                 android:padding="5.5dp"
-                android:src=""
-                android:background="@color/ghost_button_text"
+                android:src="@drawable/email"
                 app:layout_constraintEnd_toStartOf="@+id/edit_text_email"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
