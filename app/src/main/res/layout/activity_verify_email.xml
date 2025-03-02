@@ -136,13 +136,13 @@
                 android:layout_marginTop="24dp"
                 android:background="@drawable/ghost_button"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="@string/next"
+                android:text="Verify"
                 android:textAllCaps="false"
                 android:textColor="@color/ghost_button_text"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/otp1"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/otp1"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
