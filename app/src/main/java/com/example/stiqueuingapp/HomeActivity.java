@@ -1,7 +1,12 @@
 package com.example.stiqueuingapp;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -14,7 +19,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private View admission, registrar, cashier, admissionDivider, registrarDivider, cashierDivider;
 
-    private Button enterQueue;
+    private Button enterQueueButton, confirmButton, declineButton;
+
+    private Dialog dialog;
 
 
     @Override
@@ -26,6 +33,8 @@ public class HomeActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
+
         });
 
         admission = findViewById(R.id.admission_queue);
@@ -40,8 +49,28 @@ public class HomeActivity extends AppCompatActivity {
         registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
         cashierDivider.setBackgroundColor(getResources().getColor(R.color.green, null));
 
+        dialog = new Dialog(HomeActivity.this);
+        dialog.setContentView(R.layout.pop_up_pwd);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        enterQueueButton = findViewById(R.id.enter_the_queue_button);
+        confirmButton = dialog.findViewById(R.id.pwd_confirm_button);
+        declineButton = dialog.findViewById(R.id.pwd_decline_button);
+
+        confirmButton.setOnClickListener(view -> {
+            Log.d("HI","HO");
+        });
+
+        declineButton.setOnClickListener(view -> {
+            Log.d("HI", "HI");
+        });
 
 
 
+
+        enterQueueButton.setOnClickListener(view ->{
+            dialog.show();
+        });
     }
 }
