@@ -21,7 +21,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Button enterQueueButton, confirmButton, declineButton;
 
-    private Dialog dialog;
+    private Dialog dialogPWD;
 
 
     @Override
@@ -33,8 +33,6 @@ public class HomeActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-
-
         });
 
         admission = findViewById(R.id.admission_queue);
@@ -49,14 +47,14 @@ public class HomeActivity extends AppCompatActivity {
         registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
         cashierDivider.setBackgroundColor(getResources().getColor(R.color.green, null));
 
-        dialog = new Dialog(HomeActivity.this);
-        dialog.setContentView(R.layout.pop_up_pwd);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(true);
+        dialogPWD = new Dialog(HomeActivity.this);
+        dialogPWD.setContentView(R.layout.pop_up_pwd);
+        dialogPWD.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogPWD.setCancelable(true);
 
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
-        confirmButton = dialog.findViewById(R.id.pwd_confirm_button);
-        declineButton = dialog.findViewById(R.id.pwd_decline_button);
+        confirmButton = dialogPWD.findViewById(R.id.confirm_button);
+        declineButton = dialogPWD.findViewById(R.id.decline_button);
 
         confirmButton.setOnClickListener(view -> {
             Log.d("HI","HO");
@@ -66,11 +64,8 @@ public class HomeActivity extends AppCompatActivity {
             Log.d("HI", "HI");
         });
 
-
-
-
         enterQueueButton.setOnClickListener(view ->{
-            dialog.show();
+            dialogPWD.show();
         });
     }
 }
