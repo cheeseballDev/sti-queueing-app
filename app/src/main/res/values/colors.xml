@@ -14,5 +14,8 @@
     <color name="plain_button">#E2E2E2</color>
     <color name="plain_button_text">#555555</color>
     <color name="red">#C6513D</color>
+    <color name="red_two">#B74461</color>
+    <color name="red_two_opacity_15">#26B74461</color>
+    <color name="red_three">#A32E4B</color>
     <color name="green">#3DC69B</color>
 </resources>

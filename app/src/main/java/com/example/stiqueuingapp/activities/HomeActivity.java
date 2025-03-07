@@ -1,8 +1,6 @@
-package com.example.stiqueuingapp;
+package com.example.stiqueuingapp.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,11 +13,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.stiqueuingapp.R;
+
 public class HomeActivity extends AppCompatActivity {
 
     private View admission, registrar, cashier, admissionDivider, registrarDivider, cashierDivider;
 
-    private Button enterQueueButton, confirmButton, declineButton;
+    private Button enterQueueButton, PWDconfirmButton, PWDdeclineButton;
 
     private Dialog dialogPWD;
 
@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
         admission = findViewById(R.id.admission_queue);
         registrar = findViewById(R.id.registrar_queue);
@@ -52,20 +53,25 @@ public class HomeActivity extends AppCompatActivity {
         dialogPWD.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogPWD.setCancelable(true);
 
+
+
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
-        confirmButton = dialogPWD.findViewById(R.id.confirm_button);
-        declineButton = dialogPWD.findViewById(R.id.decline_button);
-
-        confirmButton.setOnClickListener(view -> {
-            Log.d("HI","HO");
-        });
-
-        declineButton.setOnClickListener(view -> {
-            Log.d("HI", "HI");
-        });
+        PWDconfirmButton = dialogPWD.findViewById(R.id.confirm_button);
+        PWDdeclineButton = dialogPWD.findViewById(R.id.decline_button);
 
         enterQueueButton.setOnClickListener(view ->{
             dialogPWD.show();
+        });
+    }
+
+    protected void startPWD() {
+
+        PWDconfirmButton.setOnClickListener(view -> {
+            Log.d("HI","HO");
+        });
+
+        PWDdeclineButton.setOnClickListener(view -> {
+            Log.d("HI", "HI");
         });
     }
 }

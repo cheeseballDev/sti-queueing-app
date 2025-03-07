@@ -13,23 +13,23 @@
         android:theme="@style/Theme.STIQueuingApp"
         tools:targetApi="31">
         <activity
-            android:name=".LinkEmailActivity"
+            android:name=".activities.LinkEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".VerifyEmailActivity"
+            android:name=".activities.VerifyEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".SelectCampusActivity"
+            android:name=".activities.SelectCampusActivity"
             android:exported="false" />
         <activity
-            android:name=".OldStudentActivity"
+            android:name=".activities.OldStudentActivity"
             android:exported="false"
             android:theme="@style/Theme.STIQueuingApp" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
