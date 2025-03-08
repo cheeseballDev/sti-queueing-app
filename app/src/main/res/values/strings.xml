@@ -66,4 +66,5 @@
     <string name="select_a_queue">Select a Queue</string>
     <string name="disclaimer">DISCLAIMER</string>
     <string name="cooldown_text_warning">You won\'t be able to queue again for\n5 minutes</string>
+    <string name="select_a_form">Select a form</string>
 </resources>

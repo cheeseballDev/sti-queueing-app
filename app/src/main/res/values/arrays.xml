@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="spinner_items">
+        <item>None</item>
+        <item>Queue 1</item>
+        <item>Queue 2</item>
+        <item>Queue 3</item>
+    </string-array>
+</resources>
