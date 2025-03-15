@@ -33,8 +33,5 @@ public class OldStudentActivity extends AppCompatActivity {
             startActivity(new Intent(this, HomeActivity.class));
             finish();
         });
-
-
-
     }
 }
