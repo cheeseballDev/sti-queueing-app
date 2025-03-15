@@ -27,7 +27,8 @@
         <activity
             android:name=".activities.OldStudentActivity"
             android:exported="false"
-            android:theme="@style/Theme.STIQueuingApp" />
+            android:theme="@style/Theme.STIQueuingApp"
+            />
         <activity
             android:name=".activities.WelcomeActivity"
             android:exported="true">
