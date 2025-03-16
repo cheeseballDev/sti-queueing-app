@@ -4,17 +4,22 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class VerifyEmailActivity extends AppCompatActivity {
 
     private Button verifyButton;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +31,23 @@ public class VerifyEmailActivity extends AppCompatActivity {
             return insets;
         });
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+
 
         verifyButton = findViewById(R.id.button_verify_page);
 
         verifyButton.setOnClickListener(view -> {
-            //functions
+
         });
     }
+
+    /*
+    void getStudentID() {
+        db.collection("STUDENTS")
+                .get()
+
+
+    }
+     */
 }

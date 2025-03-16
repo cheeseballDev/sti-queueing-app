@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -27,6 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
             return insets;
         });
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         newStudentButton = findViewById(R.id.new_student_button);
         oldStudentButton = findViewById(R.id.old_student_button);
