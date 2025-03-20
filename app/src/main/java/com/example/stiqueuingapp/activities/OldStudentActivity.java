@@ -68,14 +68,16 @@ public class OldStudentActivity extends AppCompatActivity {
     }
 
     void setStudentNumber() {
-        db.collection("STUDENTS")
+
+        db.collection("STUDENTS").document("STUDENT_ID")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentReference docRef =
-                        Student student = document.toObject(Student.class);
-                        studentNumber = student.getStudentID();
-
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Student student = document.toObject(Student.class);
+                            studentNumber = student.getStudentID();
+                        }
                     }
                     Log.e("Firestore", "ERROR FETCHING", task.getException());
                 });
