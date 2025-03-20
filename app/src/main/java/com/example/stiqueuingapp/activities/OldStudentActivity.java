@@ -16,6 +16,8 @@ import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.models.Student;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,6 +28,7 @@ public class OldStudentActivity extends AppCompatActivity {
     private Button nextPageButton;
     private EditText studentNumberTextField;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private int studentNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,26 +45,39 @@ public class OldStudentActivity extends AppCompatActivity {
         nextPageButton = findViewById(R.id.button_verify_page);
 
         nextPageButton.setOnClickListener(view -> {
+
             if (studentNumberTextField.getText().toString().trim().equalsIgnoreCase("")) {
                 studentNumberTextField.setError("This field cannot be blank");
+                return;
             }
 
-            db.collection("STUDENTS")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document: task.getResult()) {
-                                Student student = document.toObject(Student.class);
-                                Log.d("Firestore", String.valueOf(document.getData()));
-                            }
-                        } else {
-                            Log.e("Firestore", "ERROR FETCHING", task.getException());
-                        }
-                    });
-            /*
+            if (studentNumberTextField.getText().toString().length() != 11) {
+                studentNumberTextField.setError("Invalid student number");
+                return;
+            }
+
+            setStudentNumber();
+            if (Integer.parseInt(studentNumberTextField.getText().toString()) != studentNumber) {
+                studentNumberTextField.setError("No such student number exists");
+                return;
+            }
+
             startActivity(new Intent(this, HomeActivity.class));
             finish();
-            */
         });
+    }
+
+    void setStudentNumber() {
+        db.collection("STUDENTS")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentReference docRef =
+                        Student student = document.toObject(Student.class);
+                        studentNumber = student.getStudentID();
+
+                    }
+                    Log.e("Firestore", "ERROR FETCHING", task.getException());
+                });
     }
 }
