@@ -1,17 +1,25 @@
 package com.example.stiqueuingapp.activities.models;
 
+import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
 public class Student {
-    @PropertyName("STUDENT_ID")
-    private int studentID;
+
+    @PropertyName("id")
+    private long studentID;
 
     public Student() { }
 
-    @PropertyName("STUDENT_ID")
-    public int getStudentID() { return studentID; }
+    public Student(long studentID) {
+            this.studentID = studentID;
+    }
 
-    @PropertyName("STUDENT_ID")
-    public void setStudentID(int studentID) { this.studentID = studentID; }
+    @PropertyName("id")
+    public long getStudentID() { return studentID; }
+
+    @PropertyName("id")
+    public void setStudentID(long studentID) { this.studentID = studentID; }
+
+
 
 }

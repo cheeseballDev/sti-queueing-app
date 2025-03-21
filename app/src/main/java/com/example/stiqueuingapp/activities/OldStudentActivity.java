@@ -28,7 +28,7 @@ public class OldStudentActivity extends AppCompatActivity {
     private Button nextPageButton;
     private EditText studentNumberTextField;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private int studentNumber;
+    private long studentNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class OldStudentActivity extends AppCompatActivity {
         studentNumberTextField = findViewById(R.id.student_number_number_box);
         nextPageButton = findViewById(R.id.button_verify_page);
 
+        setStudentNumber();
         nextPageButton.setOnClickListener(view -> {
 
             if (studentNumberTextField.getText().toString().trim().equalsIgnoreCase("")) {
@@ -56,7 +57,7 @@ public class OldStudentActivity extends AppCompatActivity {
                 return;
             }
 
-            setStudentNumber();
+
             if (Integer.parseInt(studentNumberTextField.getText().toString()) != studentNumber) {
                 studentNumberTextField.setError("No such student number exists");
                 return;
@@ -77,9 +78,10 @@ public class OldStudentActivity extends AppCompatActivity {
                         if (document.exists()) {
                             Student student = document.toObject(Student.class);
                             studentNumber = student.getStudentID();
+                        } else {
+                            Log.e("Firestore", "ERROR FETCHING", task.getException());
                         }
                     }
-                    Log.e("Firestore", "ERROR FETCHING", task.getException());
-                });
+                    });
     }
 }
