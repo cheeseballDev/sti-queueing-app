@@ -11,12 +11,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.example.stiqueuingapp.activities.enums.Campuses;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SelectCampusActivity extends AppCompatActivity {
 
-    private String[] campuses;
-
     private Spinner campusDropDown;
+
+    private ArrayList<Campuses> campuses = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +43,8 @@ public class SelectCampusActivity extends AppCompatActivity {
     void initializeDropDown() {
         campusDropDown = findViewById(R.id.campus_spinner);
 
-        // TO IMPLEMENT THE FIREBASE DATABASE
-        campuses = new String[]{"Ortigas-Cainta", "Alabang", "Tanay"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
+        campuses.addAll(Arrays.asList(Campuses.values()));
+        ArrayAdapter<Campuses> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
         campusDropDown.setAdapter(adapter);
 
     }
