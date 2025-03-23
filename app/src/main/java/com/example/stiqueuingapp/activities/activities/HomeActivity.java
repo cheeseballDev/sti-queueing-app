@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         selectQueueCloseButton.setOnClickListener(view -> {
-
+            dialogSelectQueue.dismiss();
         });
     }
 
