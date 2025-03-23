@@ -1,8 +1,7 @@
-package com.example.stiqueuingapp.activities;
+package com.example.stiqueuingapp.activities.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,15 +42,15 @@ public class OldStudentActivity extends AppCompatActivity {
             return insets;
 
         });
-
-        studentNumberTextField = findViewById(R.id.student_number_number_box);
-        nextPageButton = findViewById(R.id.button_verify_page);
-
         setButtons();
 
     }
 
-    void setButtons() {
+    protected void setButtons() {
+
+        studentNumberTextField = findViewById(R.id.student_number_number_box);
+        nextPageButton = findViewById(R.id.button_verify_page);
+
         nextPageButton.setOnClickListener(view -> {
 
             if (studentNumberTextField.getText().toString().trim().equalsIgnoreCase("")) {
@@ -64,7 +63,6 @@ public class OldStudentActivity extends AppCompatActivity {
                 return;
             }
 
-
             for (int i = 0; i < studentNumbers.size(); i++) {
                 if (Integer.parseInt(studentNumberTextField.getText().toString()) != studentNumbers.get(i)) {
                     studentNumberTextField.setError("No such student number exists");
@@ -72,15 +70,13 @@ public class OldStudentActivity extends AppCompatActivity {
                 }
             }
 
-
             startActivity(new Intent(this, HomeActivity.class));
             finish();
         });
     }
 
 
-    void getStudentNumbers() {
-
+    protected void getStudentNumbers() {
         db.collection("STUDENTS")
                 .whereEqualTo("id", true)
                 .get()

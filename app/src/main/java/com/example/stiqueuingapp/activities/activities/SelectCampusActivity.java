@@ -1,4 +1,4 @@
-package com.example.stiqueuingapp.activities;
+package com.example.stiqueuingapp.activities.activities;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;

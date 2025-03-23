@@ -1,4 +1,4 @@
-package com.example.stiqueuingapp.activities;
+package com.example.stiqueuingapp.activities.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
