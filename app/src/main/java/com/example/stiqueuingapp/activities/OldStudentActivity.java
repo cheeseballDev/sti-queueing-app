@@ -43,9 +43,15 @@ public class OldStudentActivity extends AppCompatActivity {
             return insets;
 
         });
+
         studentNumberTextField = findViewById(R.id.student_number_number_box);
         nextPageButton = findViewById(R.id.button_verify_page);
 
+        setButtons();
+
+    }
+
+    void setButtons() {
         nextPageButton.setOnClickListener(view -> {
 
             if (studentNumberTextField.getText().toString().trim().equalsIgnoreCase("")) {
