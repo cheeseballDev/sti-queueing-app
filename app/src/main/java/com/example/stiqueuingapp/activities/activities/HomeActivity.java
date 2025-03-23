@@ -2,11 +2,12 @@ package com.example.stiqueuingapp.activities.activities;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,18 +16,26 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.example.stiqueuingapp.activities.enums.QueueType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HomeActivity extends AppCompatActivity {
 
     private View admission, registrar, cashier, admissionDivider, registrarDivider, cashierDivider;
 
-    private Button enterQueueButton, PWDConfirmButton, PWDDeclineButton;
+    private Button enterQueueButton, PWDConfirmButton, PWDDeclineButton, selectQueueNextButton;
 
-    private ImageButton  PWDCloseButton;
+    private ImageButton  PWDCloseButton, selectQueueCloseButton;
 
     private Dialog dialogPWD, dialogSelectQueue;
 
+    private Spinner spinnerSelectQueue;
+
     private boolean isPWD = false;
+
+    private ArrayList<QueueType> queueTypes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +61,23 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void startSelectQueue() {
+        selectQueueNextButton = dialogSelectQueue.findViewById(R.id.queue_next_button);
+        selectQueueCloseButton = dialogSelectQueue.findViewById(R.id.close_button);
+
         dialogSelectQueue.show();
+
+        spinnerSelectQueue = dialogSelectQueue.findViewById(R.id.spinner_select_queue);
+        queueTypes.addAll(Arrays.asList(QueueType.values()));
+        ArrayAdapter<QueueType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, queueTypes);
+        spinnerSelectQueue.setAdapter(adapter);
+
+        selectQueueNextButton.setOnClickListener(view -> {
+
+        });
+
+        selectQueueCloseButton.setOnClickListener(view -> {
+
+        });
     }
 
     protected void startPWD() {
@@ -63,10 +88,12 @@ public class HomeActivity extends AppCompatActivity {
         PWDConfirmButton.setOnClickListener(view -> {
             startSelectQueue();
             isPWD = true;
+            dialogPWD.dismiss();
         });
 
         PWDDeclineButton.setOnClickListener(view -> {
             startSelectQueue();
+            dialogPWD.dismiss();
         });
 
         PWDCloseButton.setOnClickListener(view -> {
