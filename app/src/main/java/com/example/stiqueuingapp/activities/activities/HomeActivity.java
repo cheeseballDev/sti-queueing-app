@@ -1,6 +1,7 @@
 package com.example.stiqueuingapp.activities.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.QueueType;
+import com.example.stiqueuingapp.activities.forms.saf_page1;
 
 import java.util.ArrayList;
 import java.util.Arrays;

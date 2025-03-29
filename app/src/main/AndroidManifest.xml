@@ -13,6 +13,39 @@
         android:theme="@style/Theme.STIQueuingApp"
         tools:targetApi="31">
         <activity
+            android:name=".activities.forms.srf_page5"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.srf_page4"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.srf_page3"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.srf_page2"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.srf_page1"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.saf_page6"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.saf_page5"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.saf_page4"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.saf_page3"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.saf_page2"
+            android:exported="false" />
+        <activity
+            android:name=".activities.forms.saf_page1"
+            android:exported="false" />
+        <activity
             android:name=".activities.activities.LinkEmailActivity"
             android:exported="false" />
         <activity
@@ -27,8 +60,7 @@
         <activity
             android:name=".activities.activities.OldStudentActivity"
             android:exported="false"
-            android:theme="@style/Theme.STIQueuingApp"
-            />
+            android:theme="@style/Theme.STIQueuingApp" />
         <activity
             android:name=".activities.activities.WelcomeActivity"
             android:exported="true">

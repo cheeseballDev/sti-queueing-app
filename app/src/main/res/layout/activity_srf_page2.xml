@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.forms.srf_page2">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/SAFR_instructions"
+                android:layout_width="399dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="104dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center"
+                android:text="@string/instructions"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SAFR_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                android:text="@string/scholarship_nrenewal_form_saf"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="61dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/sti_logo" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="172dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/line" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="40dp"
+                android:layout_height="23dp"
+                android:layout_marginTop="24dp"
+                android:color="#767676"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.958"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/gear_solid" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/blue"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingStart="35dp"
+                android:text="I. STUDENT DETAILS"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/SAFR_instructions" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/student_information"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <EditText
+                android:id="@+id/last_name_srf2"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/last_name"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <EditText
+                android:id="@+id/first_name_srf2"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/first_name"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/last_name_srf2" />
+
+            <EditText
+                android:id="@+id/middle_name_srf2"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/middle_name"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/first_name_srf2" />
+
+            <EditText
+                android:id="@+id/studentNum_srf2"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Student Number:"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/middle_name_srf2" />
+
+            <EditText
+                android:id="@+id/contact_number_srf2"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/contact_number"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/permanent_address_srf2" />
+
+            <EditText
+                android:id="@+id/permanent_address_srf2"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/permanent_address"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/studentNum_srf2" />
+
+            <EditText
+                android:id="@+id/emailStudent2_srf2"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="School Email Address:"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contact_number_srf2" />
+
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emailStudent2_srf2"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/next_srf2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:textColor="@color/dark_yellow"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailStudent2_srf2" />
+
+            <Button
+                android:id="@+id/back_srf2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="@color/dark_yellow"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailStudent2_srf2" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
