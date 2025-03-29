@@ -12,8 +12,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -43,10 +45,10 @@
                 android:layout_marginEnd="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/CardView2"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintEnd_toStartOf="@id/CardView2">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -100,9 +102,9 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/CardView1">
+                app:layout_constraintStart_toEndOf="@+id/CardView1"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -151,6 +153,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -168,24 +171,21 @@
 
                 <include
                     android:id="@+id/admission_queue"
-                    layout="@layout/queue_card"
-                    />
+                    layout="@layout/queue_card" />
 
                 <include
                     android:id="@+id/registrar_queue"
                     layout="@layout/queue_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:layout_marginTop="12dp" />
 
                 <include
                     android:id="@+id/cashier_queue"
                     layout="@layout/queue_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:layout_marginTop="12dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/enter_the_queue_button"
@@ -193,11 +193,11 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="28dp"
                     android:background="@drawable/ghost_button"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/montserrat_semibold"
+                    android:text="@string/enter_the_queue"
+                    android:textAllCaps="false"
                     android:textColor="@color/ghost_button_text"
-                    android:textSize="16sp"
-                    android:text="@string/enter_the_queue" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

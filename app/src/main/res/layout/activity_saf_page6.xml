@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.forms.saf_page6">
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/SAF_instructions"
+                android:layout_width="399dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="104dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center"
+                android:text="@string/instructions"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SAF_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                android:text="@string/SAFTitle"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="61dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/sti_logo" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="172dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/line" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="40dp"
+                android:layout_height="23dp"
+                android:layout_marginTop="24dp"
+                android:color="#767676"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.958"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/gear_solid" />
+
+            <TextView
+                android:id="@+id/reqChecklist"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/blue"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingStart="35dp"
+                android:text="V. APPLICATION REQUIREMENT CHECKLIST"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+            <TextView
+                android:id="@+id/sibling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/sibling_scholarship"
+                android:textSize="17dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reqChecklist" />
+
+            <TextView
+                android:id="@+id/fullSaf"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/fullSaf"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sibling" />
+
+            <ImageView
+                android:id="@+id/box1"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/fullSaf"
+                app:layout_constraintTop_toBottomOf="@+id/sibling"
+                app:srcCompat="@drawable/square_regular" />
+
+            <TextView
+                android:id="@+id/psaCopy"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Copy of PSA BC/Adoption Papers"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fullSaf" />
+
+            <ImageView
+                android:id="@+id/box2"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/psaCopy"
+                app:layout_constraintTop_toBottomOf="@+id/fullSaf"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/separator1"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/box2"
+                app:srcCompat="@drawable/line" />
+
+            <TextView
+                android:id="@+id/tertiaryOpenSch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="TERTIARY OPEN SCHOLARSHIP"
+                android:textSize="17dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator1" />
+
+            <TextView
+                android:id="@+id/fullSaf2"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/fullSaf"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tertiaryOpenSch" />
+
+            <ImageView
+                android:id="@+id/box3"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/fullSaf2"
+                app:layout_constraintTop_toBottomOf="@+id/tertiaryOpenSch"
+                app:srcCompat="@drawable/square_regular" />
+
+            <TextView
+                android:id="@+id/examResult"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Examination Result"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fullSaf2" />
+
+            <ImageView
+                android:id="@+id/box4"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/examResult"
+                app:layout_constraintTop_toBottomOf="@+id/fullSaf2"
+                app:srcCompat="@drawable/square_regular" />
+
+            <TextView
+                android:id="@+id/shsCard"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="SHS Report Card"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/examResult" />
+
+            <ImageView
+                android:id="@+id/box5"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/shsCard"
+                app:layout_constraintTop_toBottomOf="@+id/box4"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/separator2"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shsCard"
+                app:srcCompat="@drawable/line" />
+
+            <TextView
+                android:id="@+id/shsOpenSch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="SHS OPEN SCHOLARSHIP"
+                android:textSize="17dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator2" />
+
+            <TextView
+                android:id="@+id/fullSaf3"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/fullSaf"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shsOpenSch" />
+
+            <ImageView
+                android:id="@+id/box6"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/fullSaf3"
+                app:layout_constraintTop_toBottomOf="@+id/shsOpenSch"
+                app:srcCompat="@drawable/square_regular" />
+
+            <TextView
+                android:id="@+id/examResult2"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Examination Result (90 Above)"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fullSaf3" />
+
+            <ImageView
+                android:id="@+id/box7"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/examResult2"
+                app:layout_constraintTop_toBottomOf="@+id/fullSaf3"
+                app:srcCompat="@drawable/square_regular" />
+
+            <TextView
+                android:id="@+id/jhsCard"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="JHS Report Card"
+                android:textColor="@color/gray"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/examResult2" />
+
+            <ImageView
+                android:id="@+id/box8"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/jhsCard"
+                app:layout_constraintTop_toBottomOf="@+id/box7"
+                app:srcCompat="@drawable/square_regular" />
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/box8"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/submitForm_saf6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Submit Form"
+                android:textAllCaps="false"
+                android:textColor="@color/dark_yellow"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/box8" />
+
+            <Button
+                android:id="@+id/back_saf6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="@color/dark_yellow"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/box8" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
