@@ -33,12 +33,10 @@ public class SelectCampusActivity extends AppCompatActivity {
             return insets;
         });
 
-
-
         initializeDropDown();
-
-
     }
+
+    
 
     void initializeDropDown() {
         campusDropDown = findViewById(R.id.campus_spinner);

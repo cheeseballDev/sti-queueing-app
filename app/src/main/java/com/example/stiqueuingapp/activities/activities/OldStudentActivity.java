@@ -64,14 +64,13 @@ public class OldStudentActivity extends AppCompatActivity {
             }
 
             for (int i = 0; i < studentNumbers.size(); i++) {
-                if (Integer.parseInt(studentNumberTextField.getText().toString()) != studentNumbers.get(i)) {
-                    studentNumberTextField.setError("No such student number exists");
-                    return;
+                if (Integer.parseInt(studentNumberTextField.getText().toString()) == studentNumbers.get(i)) {
+                    startActivity(new Intent(this, HomeActivity.class));
+                    finish();
                 }
             }
 
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
+            studentNumberTextField.setError("No such student number exists");
         });
     }
 
