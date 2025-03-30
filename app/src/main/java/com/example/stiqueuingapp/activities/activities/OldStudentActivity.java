@@ -2,6 +2,7 @@ package com.example.stiqueuingapp.activities.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -64,30 +65,33 @@ public class OldStudentActivity extends AppCompatActivity {
             }
 
             for (int i = 0; i < studentNumbers.size(); i++) {
-                if (Integer.parseInt(studentNumberTextField.getText().toString()) != studentNumbers.get(i)) {
-                    studentNumberTextField.setError("No such student number exists");
-                    return;
+                if (Long.parseLong(studentNumberTextField.getText().toString()) == studentNumbers.get(i)) {
+
+                    startActivity(new Intent(this, HomeActivity.class));
+                    finish();
                 }
+                Log.w("Student Number", "Student Number: " + studentNumbers.get(i));
             }
 
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
+            studentNumberTextField.setError("No such student number exists");
         });
     }
 
 
     protected void getStudentNumbers() {
         db.collection("STUDENTS")
-                .whereEqualTo("id", true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful())
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Student student = document.toObject(Student.class);
+                                studentNumbers.add(student.getStudentID());
+                            }
+                        } else {
                             Toast.makeText(OldStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Student student = document.toObject(Student.class);
-                            studentNumbers.add(student.getStudentID());
+                            Log.e("Something went wrong", "bruh");
                         }
                     }
                 });
