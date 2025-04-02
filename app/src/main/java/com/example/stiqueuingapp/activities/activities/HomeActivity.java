@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.QueueType;
-import com.example.stiqueuingapp.activities.forms.saf_page1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +54,6 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         setCategories();
         setDialogs();
         setSpinner();
@@ -65,7 +63,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // START QUEUE
     protected void startQueueButton() {
-        enterQueueButton = findViewById(R.id.enter_the_queue_button);
         enterQueueButton.setOnClickListener(view ->{
             dialogPWD.show();
             startPWD();
@@ -74,10 +71,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // PWD POP UP
     protected void startPWD() {
-        PWDConfirmButton = dialogPWD.findViewById(R.id.confirm_button);
-        PWDDeclineButton = dialogPWD.findViewById(R.id.decline_button);
-        PWDCloseButton = dialogPWD.findViewById(R.id.close_button);
-
         PWDConfirmButton.setOnClickListener(view -> {
             startSelectQueue();
             isPWD = true;
@@ -107,9 +100,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // SELECT QUEUE POP UP
     protected void startSelectQueue() {
-        selectQueueNextButton = dialogSelectQueue.findViewById(R.id.queue_next_button);
-        selectQueueCloseButton = dialogSelectQueue.findViewById(R.id.close_button);
-
         dialogSelectQueue.show();
 
         selectQueueNextButton.setOnClickListener(view -> {
@@ -124,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void updateQueue() {
-
+        admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
     }
 
 
@@ -134,16 +124,24 @@ public class HomeActivity extends AppCompatActivity {
         dialogPWD.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogPWD.setCancelable(true);
 
+        PWDConfirmButton = dialogPWD.findViewById(R.id.confirm_button);
+        PWDDeclineButton = dialogPWD.findViewById(R.id.decline_button);
+        PWDCloseButton = dialogPWD.findViewById(R.id.close_button);
+
         dialogSelectQueue = new Dialog(HomeActivity.this);
         dialogSelectQueue.setContentView(R.layout.pop_up_select_queue);
         dialogSelectQueue.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogSelectQueue.setCancelable(true);
+
+        selectQueueNextButton = dialogSelectQueue.findViewById(R.id.queue_next_button);
+        selectQueueCloseButton = dialogSelectQueue.findViewById(R.id.close_button);
 
         dialogSelectForm = new Dialog(HomeActivity.this);
         dialogSelectForm.setContentView(R.layout.pop_up_select_form);
         dialogSelectForm.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogSelectForm.setCancelable(true);
 
+        enterQueueButton = findViewById(R.id.enter_the_queue_button);
     }
 
     protected void setCategories() {
