@@ -55,9 +55,11 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
         setCategories();
-        setDialogs();
+        setDialogsAndButtons();
         setSpinner();
         startQueueButton();
+
+
     }
 
 
@@ -89,8 +91,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // SELECT FORM POP UP
     protected void startSelectForm() {
-        selectFormNextButton = dialogSelectForm.findViewById(R.id.enter_queue_button);
-
         dialogSelectForm.show();
 
         selectFormNextButton.setOnClickListener(view -> {
@@ -118,7 +118,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    protected void setDialogs() {
+    protected void setDialogsAndButtons() {
+        enterQueueButton = findViewById(R.id.enter_the_queue_button);
+
         dialogPWD = new Dialog(HomeActivity.this);
         dialogPWD.setContentView(R.layout.pop_up_pwd);
         dialogPWD.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -127,6 +129,7 @@ public class HomeActivity extends AppCompatActivity {
         PWDConfirmButton = dialogPWD.findViewById(R.id.confirm_button);
         PWDDeclineButton = dialogPWD.findViewById(R.id.decline_button);
         PWDCloseButton = dialogPWD.findViewById(R.id.close_button);
+
 
         dialogSelectQueue = new Dialog(HomeActivity.this);
         dialogSelectQueue.setContentView(R.layout.pop_up_select_queue);
@@ -141,7 +144,7 @@ public class HomeActivity extends AppCompatActivity {
         dialogSelectForm.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogSelectForm.setCancelable(true);
 
-        enterQueueButton = findViewById(R.id.enter_the_queue_button);
+        selectFormNextButton = dialogSelectForm.findViewById(R.id.enter_queue_button);
     }
 
     protected void setCategories() {
