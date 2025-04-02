@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private ImageButton  PWDCloseButton, selectQueueCloseButton;
 
+    private TextView
+            admissionCurrentQueueNumber, registrarCurrentQueueNumber, cashierCurrentQueueNumber,
+            admissionCurrentCutOff, registrarCurrentCutOff, cashierCurrentCutOff,
+            admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter;
+
     private Dialog dialogPWD, dialogSelectQueue, dialogSelectForm;
 
     private Spinner spinnerSelectQueue;
@@ -49,7 +55,6 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
 
         setCategories();
         setDialogs();
@@ -117,6 +122,11 @@ public class HomeActivity extends AppCompatActivity {
             dialogSelectQueue.dismiss();
         });
     }
+
+    protected void updateQueue() {
+
+    }
+
 
     protected void setDialogs() {
         dialogPWD = new Dialog(HomeActivity.this);

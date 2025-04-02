@@ -64,14 +64,14 @@ public class OldStudentActivity extends AppCompatActivity {
 
             for (int i = 0; i < studentNumbers.size(); i++) {
                 if (Long.parseLong(studentNumberTextField.getText().toString()) == studentNumbers.get(i)) {
-
                     startActivity(new Intent(this, HomeActivity.class));
                     finish();
                 }
                 Log.w("Student Number", "Student Number: " + studentNumbers.get(i));
             }
 
-            studentNumberTextField.setError("No such student number exists");
+            if (!studentNumbers.contains(Long.parseLong(studentNumberTextField.getText().toString())))
+                studentNumberTextField.setError("No such student number exists");
         });
     }
 
@@ -82,14 +82,14 @@ public class OldStudentActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Student student = document.toObject(Student.class);
-                                studentNumbers.add(student.getStudentID());
-                            }
-                        } else {
+                        if (!task.isSuccessful()) {
                             Toast.makeText(OldStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                             Log.e("Something went wrong", "bruh");
+                            return;
+                        }
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Student student = document.toObject(Student.class);
+                            studentNumbers.add(student.getStudentID());
                         }
                     }
                 });
