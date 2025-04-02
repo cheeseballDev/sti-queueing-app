@@ -27,11 +27,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private View admission, registrar, cashier, admissionDivider, registrarDivider, cashierDivider;
 
-    private Button enterQueueButton, PWDConfirmButton, PWDDeclineButton, selectQueueNextButton;
+    private Button enterQueueButton, PWDConfirmButton, PWDDeclineButton, selectQueueNextButton, selectFormNextButton;
 
     private ImageButton  PWDCloseButton, selectQueueCloseButton;
 
-    private Dialog dialogPWD, dialogSelectQueue;
+    private Dialog dialogPWD, dialogSelectQueue, dialogSelectForm;
 
     private Spinner spinnerSelectQueue;
 
@@ -49,11 +49,16 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
         setCategories();
         setDialogs();
+        setSpinner();
         startQueueButton();
     }
 
+
+    // START QUEUE
     protected void startQueueButton() {
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
         enterQueueButton.setOnClickListener(view ->{
@@ -62,26 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    protected void startSelectQueue() {
-        selectQueueNextButton = dialogSelectQueue.findViewById(R.id.queue_next_button);
-        selectQueueCloseButton = dialogSelectQueue.findViewById(R.id.close_button);
-
-        dialogSelectQueue.show();
-
-        spinnerSelectQueue = dialogSelectQueue.findViewById(R.id.spinner_select_queue);
-        queueTypes.addAll(Arrays.asList(QueueType.values()));
-        ArrayAdapter<QueueType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, queueTypes);
-        spinnerSelectQueue.setAdapter(adapter);
-
-        selectQueueNextButton.setOnClickListener(view -> {
-
-        });
-
-        selectQueueCloseButton.setOnClickListener(view -> {
-            dialogSelectQueue.dismiss();
-        });
-    }
-
+    // PWD POP UP
     protected void startPWD() {
         PWDConfirmButton = dialogPWD.findViewById(R.id.confirm_button);
         PWDDeclineButton = dialogPWD.findViewById(R.id.decline_button);
@@ -103,6 +89,35 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    // SELECT FORM POP UP
+    protected void startSelectForm() {
+        selectFormNextButton = dialogSelectForm.findViewById(R.id.enter_queue_button);
+
+        dialogSelectForm.show();
+
+        selectFormNextButton.setOnClickListener(view -> {
+            // backend logic
+        });
+    }
+
+    // SELECT QUEUE POP UP
+    protected void startSelectQueue() {
+        selectQueueNextButton = dialogSelectQueue.findViewById(R.id.queue_next_button);
+        selectQueueCloseButton = dialogSelectQueue.findViewById(R.id.close_button);
+
+        dialogSelectQueue.show();
+
+        selectQueueNextButton.setOnClickListener(view -> {
+            startSelectForm();
+            dialogSelectQueue.dismiss();
+        });
+
+        selectQueueCloseButton.setOnClickListener(view -> {
+            isPWD = false;
+            dialogSelectQueue.dismiss();
+        });
+    }
+
     protected void setDialogs() {
         dialogPWD = new Dialog(HomeActivity.this);
         dialogPWD.setContentView(R.layout.pop_up_pwd);
@@ -114,6 +129,10 @@ public class HomeActivity extends AppCompatActivity {
         dialogSelectQueue.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogSelectQueue.setCancelable(true);
 
+        dialogSelectForm = new Dialog(HomeActivity.this);
+        dialogSelectForm.setContentView(R.layout.pop_up_select_form);
+        dialogSelectForm.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogSelectForm.setCancelable(true);
 
     }
 
@@ -129,5 +148,12 @@ public class HomeActivity extends AppCompatActivity {
         admissionDivider.setBackgroundColor(getResources().getColor(R.color.blue, null));
         registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
         cashierDivider.setBackgroundColor(getResources().getColor(R.color.green, null));
+    }
+
+    protected void setSpinner() {
+        spinnerSelectQueue = dialogSelectQueue.findViewById(R.id.spinner_select_queue);
+        queueTypes.addAll(Arrays.asList(QueueType.values()));
+        ArrayAdapter<QueueType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, queueTypes);
+        spinnerSelectQueue.setAdapter(adapter);
     }
 }
