@@ -17,6 +17,7 @@ import com.example.stiqueuingapp.activities.enums.Campuses;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SelectCampusActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class SelectCampusActivity extends AppCompatActivity {
 
     private Spinner campusDropDown;
 
-    private ArrayList<Campuses> campuses = new ArrayList<>();
+    private ArrayList<String> campuses = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +38,30 @@ public class SelectCampusActivity extends AppCompatActivity {
             return insets;
         });
         setDropDown();
+        setButtons();
+    }
+
+    protected void updateDatabase() {
+        //backend logic
+    }
+
+    protected void setButtons() {
         nextButton = findViewById(R.id.next_button);
         nextButton.setOnClickListener(view -> {
             startActivity(new Intent(this, LinkEmailActivity.class));
             finish();
         });
     }
+
     protected void setDropDown() {
         campusDropDown = findViewById(R.id.campus_spinner);
-        campuses.addAll(Arrays.asList(Campuses.values()));
-        ArrayAdapter<Campuses> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
+        for (Campuses campus : Campuses.values()) {
+            if (campus.toString().contains("_"))
+                campuses.add(campus.toString().replaceAll("_", " "));
+            else
+            campuses.add(campus.toString());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
         campusDropDown.setAdapter(adapter);
     }
 }
