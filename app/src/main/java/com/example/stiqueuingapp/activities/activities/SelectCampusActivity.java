@@ -1,7 +1,9 @@
 package com.example.stiqueuingapp.activities.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +20,8 @@ import java.util.Arrays;
 
 public class SelectCampusActivity extends AppCompatActivity {
 
+    private Button nextButton;
+
     private Spinner campusDropDown;
 
     private ArrayList<Campuses> campuses = new ArrayList<>();
@@ -32,20 +36,17 @@ public class SelectCampusActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-
-        initializeDropDown();
-
-
+        setDropDown();
+        nextButton = findViewById(R.id.next_button);
+        nextButton.setOnClickListener(view -> {
+            startActivity(new Intent(this, LinkEmailActivity.class));
+            finish();
+        });
     }
-
-    void initializeDropDown() {
+    protected void setDropDown() {
         campusDropDown = findViewById(R.id.campus_spinner);
-
         campuses.addAll(Arrays.asList(Campuses.values()));
         ArrayAdapter<Campuses> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
         campusDropDown.setAdapter(adapter);
-
     }
 }

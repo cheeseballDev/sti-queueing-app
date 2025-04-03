@@ -84,7 +84,6 @@ public class OldStudentActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (!task.isSuccessful()) {
                             Toast.makeText(OldStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                            Log.e("Something went wrong", "bruh");
                             return;
                         }
                         for (QueryDocumentSnapshot document : task.getResult()) {

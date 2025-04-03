@@ -1,3 +1,3 @@
 package com.example.stiqueuingapp.activities.enums;
 
-public enum Campuses {OrtigasCainta, Alabang, Tanay, PasayEdsa, Bulacan}
+public enum Campuses {Ortigas_Cainta, Alabang, Tanay, Pasay_Edsa, Bulacan}

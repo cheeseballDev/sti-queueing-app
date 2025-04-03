@@ -126,4 +126,5 @@
     <string name="sibling_scholarship">SIBLING SCHOLARSHIP</string>
     <string name="fullSaf">Fully Accomplished SAF Form</string>
     <string name="scholarship_nrenewal_form_saf">SCHOLARSHIP\nRENEWAL FORM (SAF)</string>
+    <string name="enter_queue">Enter Queue</string>
 </resources>
