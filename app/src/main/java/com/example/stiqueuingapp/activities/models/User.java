@@ -5,11 +5,11 @@ public class User {
     private String userEmail;
 
 
-    public void getUserCampus(String userCampus) {
+    public void setUserCampus(String userCampus) {
         this.userCampus = userCampus;
     }
 
-    public void getUserEmail(String userEmail) {
+    public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
 

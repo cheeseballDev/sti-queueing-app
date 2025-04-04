@@ -1,6 +1,8 @@
 package com.example.stiqueuingapp.activities.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,5 +24,13 @@ public class LinkEmailActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        setButtons();
+
+    }
+    protected void setButtons() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        String campus = sharedPreferences.getString("campus", "");
+
+        Log.w("Campus", "Campus: " + campus);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.stiqueuingapp.activities.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,8 +17,6 @@ import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.Campuses;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class SelectCampusActivity extends AppCompatActivity {
 
@@ -48,7 +47,10 @@ public class SelectCampusActivity extends AppCompatActivity {
     protected void setButtons() {
         nextButton = findViewById(R.id.next_button);
         nextButton.setOnClickListener(view -> {
-            campuses.get(campusDropDown.getSelectedItemPosition());
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("campus", campusDropDown.getSelectedItem().toString());
+            editor.apply();
 
             startActivity(new Intent(this, LinkEmailActivity.class));
             finish();
