@@ -63,11 +63,12 @@ public class OldStudentActivity extends AppCompatActivity {
             }
 
             for (int i = 0; i < studentNumbers.size(); i++) {
+                Log.w("Student Number", "Student Number: " + studentNumbers.get(i));
                 if (Long.parseLong(studentNumberTextField.getText().toString()) == studentNumbers.get(i)) {
                     startActivity(new Intent(this, HomeActivity.class));
                     finish();
+                    return;
                 }
-                Log.w("Student Number", "Student Number: " + studentNumbers.get(i));
             }
 
             if (!studentNumbers.contains(Long.parseLong(studentNumberTextField.getText().toString())))

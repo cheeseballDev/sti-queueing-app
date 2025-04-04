@@ -48,6 +48,8 @@ public class SelectCampusActivity extends AppCompatActivity {
     protected void setButtons() {
         nextButton = findViewById(R.id.next_button);
         nextButton.setOnClickListener(view -> {
+            campuses.get(campusDropDown.getSelectedItemPosition());
+
             startActivity(new Intent(this, LinkEmailActivity.class));
             finish();
         });
@@ -56,10 +58,11 @@ public class SelectCampusActivity extends AppCompatActivity {
     protected void setDropDown() {
         campusDropDown = findViewById(R.id.campus_spinner);
         for (Campuses campus : Campuses.values()) {
-            if (campus.toString().contains("_"))
+            if (campus.toString().contains("_")) {
                 campuses.add(campus.toString().replaceAll("_", " "));
-            else
-            campuses.add(campus.toString());
+            } else {
+                campuses.add(campus.toString());
+            }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
         campusDropDown.setAdapter(adapter);
