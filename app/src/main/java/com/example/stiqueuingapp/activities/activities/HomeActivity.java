@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private ImageButton  PWDCloseButton, selectQueueCloseButton;
 
     private TextView
+            userNumber, userCooldown,
             admissionCurrentQueueNumber, registrarCurrentQueueNumber, cashierCurrentQueueNumber,
             admissionCurrentCutOff, registrarCurrentCutOff, cashierCurrentCutOff,
             admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter;
@@ -58,10 +59,19 @@ public class HomeActivity extends AppCompatActivity {
         setDialogsAndButtons();
         setSpinner();
         startQueueButton();
-
+        updateQueue();
 
     }
 
+    // DATABASE QUEUE
+    protected void updateQueue() {
+        userNumber = findViewById(R.id.user_number);
+        userCooldown = findViewById(R.id.user_cooldown);
+
+        admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
+        admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_counter);
+        admissionCurrentCutOff = admission.findViewById(R.id.queue_current_cut_off);
+    }
 
     // START QUEUE
     protected void startQueueButton() {
@@ -95,6 +105,7 @@ public class HomeActivity extends AppCompatActivity {
 
         selectFormNextButton.setOnClickListener(view -> {
             // backend logic
+            //if
         });
     }
 
@@ -113,10 +124,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    protected void updateQueue() {
-        admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
-    }
-
 
     protected void setDialogsAndButtons() {
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
@@ -133,7 +140,7 @@ public class HomeActivity extends AppCompatActivity {
 
         dialogSelectQueue = new Dialog(HomeActivity.this);
         dialogSelectQueue.setContentView(R.layout.pop_up_select_queue);
-        dialogSelectQueue.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogSelectQueue.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogSelectQueue.setCancelable(true);
 
         selectQueueNextButton = dialogSelectQueue.findViewById(R.id.queue_next_button);
