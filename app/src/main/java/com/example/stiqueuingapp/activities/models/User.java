@@ -5,30 +5,30 @@ import com.google.firebase.firestore.PropertyName;
 public class User {
 
     @PropertyName("CAMPUS")
-    private String userCampus;
+    private String CAMPUS;
     @PropertyName("EMAIL")
-    private String userEmail;
+    private String EMAIL;
 
 
-    public void setUserCampus(String userCampus) {
-        this.userCampus = userCampus;
+    public void setCAMPUS(String CAMPUS) {
+        this.CAMPUS = CAMPUS;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setEMAIL(String EMAIL) {
+        this.EMAIL = EMAIL;
     }
 
-    public String getUserCampus() {
-        return userCampus;
+    public String getCAMPUS() {
+        return CAMPUS;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEMAIL() {
+        return EMAIL;
     }
 
 
-    public User(String userEmail, String userCampus) {
-        this.userEmail = userEmail;
-        this.userCampus = userCampus;
+    public User(String EMAIL, String CAMPUS) {
+        this.EMAIL = EMAIL;
+        this.CAMPUS = CAMPUS;
     }
 }

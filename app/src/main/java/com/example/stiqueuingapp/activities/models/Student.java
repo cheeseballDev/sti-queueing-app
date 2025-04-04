@@ -20,6 +20,4 @@ public class Student {
     @PropertyName("id")
     public void setStudentID(long studentID) { this.studentID = studentID; }
 
-
-
 }
