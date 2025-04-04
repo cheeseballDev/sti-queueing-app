@@ -1,5 +1,6 @@
 package com.example.stiqueuingapp.activities.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.example.stiqueuingapp.activities.models.User;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,21 +68,26 @@ public class LinkEmailActivity extends AppCompatActivity {
                 return;
             }
 
-            updateDatabase();
+            updateDatabase(emailTextField.getText().toString().trim().toLowerCase(),campus);
         });
     }
 
-    protected void updateDatabase() {
+    protected void updateDatabase(String email, String campus) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference user = db.collection("USERS").document();
+        DocumentReference user = db.collection("USERS").document(email);
 
         db.runTransaction((Transaction.Function<Void>) transaction -> {
             DocumentSnapshot snapshot = transaction.get(user);
-            if (snapshot.exists()) {
-                Log.w("guh","Document exists!");
-            }
-            return null;
+                if (snapshot.exists()) {
+                    startActivity(new Intent(this, HomeActivity.class));
+                    finish();
+                    return null;
+                }
+                transaction.set(user, new User(email, campus));
+                startActivity(new Intent(this, HomeActivity.class));
+                finish();
+                return null;
         });
     }
 

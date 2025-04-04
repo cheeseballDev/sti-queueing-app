@@ -1,7 +1,12 @@
 package com.example.stiqueuingapp.activities.models;
 
+import com.google.firebase.firestore.PropertyName;
+
 public class User {
+
+    @PropertyName("CAMPUS")
     private String userCampus;
+    @PropertyName("EMAIL")
     private String userEmail;
 
 
@@ -21,4 +26,9 @@ public class User {
         return userEmail;
     }
 
+
+    public User(String userEmail, String userCampus) {
+        this.userEmail = userEmail;
+        this.userCampus = userCampus;
+    }
 }
