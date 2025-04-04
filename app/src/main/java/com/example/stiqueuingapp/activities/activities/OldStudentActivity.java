@@ -27,8 +27,11 @@ import java.util.ArrayList;
 public class OldStudentActivity extends AppCompatActivity {
 
     private Button nextPageButton;
+
     private EditText studentNumberTextField;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     private ArrayList<Long> studentNumbers = new ArrayList<>();
 
     @Override

@@ -40,10 +40,6 @@ public class SelectCampusActivity extends AppCompatActivity {
         setButtons();
     }
 
-    protected void updateDatabase() {
-        //backend logic
-    }
-
     protected void setButtons() {
         nextButton = findViewById(R.id.next_button);
         nextButton.setOnClickListener(view -> {
@@ -51,7 +47,6 @@ public class SelectCampusActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("campus", campusDropDown.getSelectedItem().toString());
             editor.apply();
-
             startActivity(new Intent(this, LinkEmailActivity.class));
             finish();
         });
@@ -61,7 +56,7 @@ public class SelectCampusActivity extends AppCompatActivity {
         campusDropDown = findViewById(R.id.campus_spinner);
         for (Campuses campus : Campuses.values()) {
             if (campus.toString().contains("_")) {
-                campuses.add(campus.toString().replaceAll("_", " "));
+                campuses.add(campus.toString().replaceAll("_", "-"));
             } else {
                 campuses.add(campus.toString());
             }
