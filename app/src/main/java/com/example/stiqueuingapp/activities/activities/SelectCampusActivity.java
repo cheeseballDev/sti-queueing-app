@@ -57,9 +57,9 @@ public class SelectCampusActivity extends AppCompatActivity {
         for (Campuses campus : Campuses.values()) {
             if (campus.toString().contains("_")) {
                 campuses.add(campus.toString().replaceAll("_", "-"));
-            } else {
-                campuses.add(campus.toString());
+                continue;
             }
+            campuses.add(campus.toString());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
         campusDropDown.setAdapter(adapter);

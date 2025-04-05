@@ -18,6 +18,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.example.stiqueuingapp.activities.enums.Campuses;
+import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 
 import java.util.ArrayList;
@@ -46,12 +48,12 @@ public class HomeActivity extends AppCompatActivity {
 
     private Dialog dialogPWD, dialogSelectQueue, dialogSelectForm;
 
-    private Spinner spinnerSelectQueue;
+    private Spinner spinnerSelectQueue, spinnerSelectForm;
 
     private boolean isPWD = false;
 
     private ArrayList<QueueType> queueTypes = new ArrayList<>();
-
+    private ArrayList<String> forms = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,7 +184,18 @@ public class HomeActivity extends AppCompatActivity {
     protected void setSpinner() {
         spinnerSelectQueue = dialogSelectQueue.findViewById(R.id.spinner_select_queue);
         queueTypes.addAll(Arrays.asList(QueueType.values()));
-        ArrayAdapter<QueueType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, queueTypes);
-        spinnerSelectQueue.setAdapter(adapter);
+        ArrayAdapter<QueueType> queueTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, queueTypes);
+        spinnerSelectQueue.setAdapter(queueTypeAdapter);
+
+        spinnerSelectForm = dialogSelectForm.findViewById(R.id.spinner_select_form);
+        for (Forms form : Forms.values()) {
+            if (form.toString().contains("_")) {
+                forms.add(form.toString().replaceAll("_", " "));
+                continue;
+            }
+            forms.add(form.toString());
+        }
+        ArrayAdapter<String> formAdapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, forms);
+        spinnerSelectForm.setAdapter(formAdapter);
     }
 }
