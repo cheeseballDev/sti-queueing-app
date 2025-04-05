@@ -27,9 +27,16 @@ public class HomeActivity extends AppCompatActivity {
 
     private View admission, registrar, cashier, admissionDivider, registrarDivider, cashierDivider;
 
-    private Button enterQueueButton, PWDConfirmButton, PWDDeclineButton, selectQueueNextButton, selectFormNextButton;
+    private Button
+            enterQueueButton,
+            PWDConfirmButton, PWDDeclineButton,
+            selectQueueNextButton,
+            selectFormNextButton;
 
-    private ImageButton  PWDCloseButton, selectQueueCloseButton;
+    private ImageButton
+            PWDCloseButton,
+            selectQueueCloseButton,
+            selectFormCloseButton;
 
     private TextView
             userNumber, userCooldown,
@@ -107,6 +114,10 @@ public class HomeActivity extends AppCompatActivity {
             // backend logic
             //if
         });
+
+        selectFormCloseButton.setOnClickListener(view -> {
+            dialogSelectForm.dismiss();
+        });
     }
 
     // SELECT QUEUE POP UP
@@ -137,7 +148,6 @@ public class HomeActivity extends AppCompatActivity {
         PWDDeclineButton = dialogPWD.findViewById(R.id.decline_button);
         PWDCloseButton = dialogPWD.findViewById(R.id.close_button);
 
-
         dialogSelectQueue = new Dialog(HomeActivity.this);
         dialogSelectQueue.setContentView(R.layout.pop_up_select_queue);
         dialogSelectQueue.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -152,6 +162,7 @@ public class HomeActivity extends AppCompatActivity {
         dialogSelectForm.setCancelable(true);
 
         selectFormNextButton = dialogSelectForm.findViewById(R.id.enter_queue_button);
+        selectFormCloseButton = dialogSelectForm.findViewById(R.id.close_button);
     }
 
     protected void setCategories() {
