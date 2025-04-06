@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
         userCooldown = findViewById(R.id.user_cooldown);
 
         admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
-        admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_counter);
+        admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_number);
         admissionCurrentCutOff = admission.findViewById(R.id.queue_current_cut_off);
 
         registrarCurrentCounter = registrar.findViewById(R.id.queue_current_counter);
