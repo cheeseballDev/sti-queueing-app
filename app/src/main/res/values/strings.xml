@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">STIQueuingApp</string>
-    <string name="old_student">Old Student</string>
+    <string name="old_student">Existing Student</string>
     <string name="new_student_parent">New Student / Parent</string>
     <string name="welcome_to_the_sti_nqueuing_app">Welcome to the STI\nQueuing App</string>
     <!-- Strings used for fragments for navigation -->
@@ -65,7 +65,7 @@
     <string name="verify">Verify</string>
     <string name="select_a_queue">Select a Queue</string>
     <string name="disclaimer">DISCLAIMER</string>
-    <string name="cooldown_text_warning">qYou won\'t be able to queue again for\n5 minutes</string>
+    <string name="cooldown_text_warning">You won\'t be able to queue again for\n5 minutes</string>
     <string name="select_a_form">Select a form</string>
     <string name="queued_successfully">Queued Successfully</string>
     <string name="your_number_in_the_queue_is">Your number in the queue is</string>

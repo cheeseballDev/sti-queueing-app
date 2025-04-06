@@ -21,6 +21,8 @@ import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.Campuses;
 import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
+import com.example.stiqueuingapp.activities.forms.saf_page1;
+import com.example.stiqueuingapp.activities.forms.srf_page1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,12 +66,10 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        setCategories();
         setDialogsAndButtons();
+        setCategories();
         setSpinner();
         startQueueButton();
-        updateQueue();
-
     }
 
     // DATABASE QUEUE
@@ -80,6 +80,14 @@ public class HomeActivity extends AppCompatActivity {
         admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
         admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_counter);
         admissionCurrentCutOff = admission.findViewById(R.id.queue_current_cut_off);
+
+        registrarCurrentCounter = registrar.findViewById(R.id.queue_current_counter);
+        registrarCurrentCutOff = registrar.findViewById(R.id.queue_current_cut_off);
+        registrarCurrentQueueNumber = registrar.findViewById(R.id.queue_current_counter);
+
+        cashierCurrentCounter = cashier.findViewById(R.id.queue_current_counter);
+        cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
+        cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_counter);
     }
 
     // START QUEUE
@@ -108,20 +116,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // SELECT FORM POP UP
-    protected void startSelectForm() {
-        dialogSelectForm.show();
-
-        selectFormNextButton.setOnClickListener(view -> {
-            // backend logic
-            //if
-        });
-
-        selectFormCloseButton.setOnClickListener(view -> {
-            dialogSelectForm.dismiss();
-        });
-    }
-
     // SELECT QUEUE POP UP
     protected void startSelectQueue() {
         dialogSelectQueue.show();
@@ -137,6 +131,34 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    // SELECT FORM POP UP
+    protected void startSelectForm() {
+        dialogSelectForm.show();
+
+        selectFormNextButton.setOnClickListener(view -> {
+            if (spinnerSelectForm.getSelectedItem().toString().equals("None")) {
+                updateQueue();
+            }
+
+            if (spinnerSelectForm.getSelectedItem().toString().equals("Scholarship Application Form")) {
+                dialogSelectForm.dismiss();
+                startActivity(new Intent(this, saf_page1.class));
+                finish();
+            }
+
+            if (spinnerSelectForm.getSelectedItem().toString().equals("Scholarship Renewal Form")) {
+                dialogSelectForm.dismiss();
+                startActivity(new Intent(this, srf_page1.class));
+                finish();
+            }
+            // backend logic
+            //if
+        });
+
+        selectFormCloseButton.setOnClickListener(view -> {
+            dialogSelectForm.dismiss();
+        });
+    }
 
     protected void setDialogsAndButtons() {
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
