@@ -144,17 +144,15 @@ public class HomeActivity extends AppCompatActivity {
 
             if (spinnerSelectForm.getSelectedItem().toString().equals("Scholarship Application Form")) {
                 dialogSelectForm.dismiss();
-                startActivity(new Intent(this, saf_page1.class));
+                startActivity(new Intent(HomeActivity.this, saf_page1.class));
                 finish();
             }
 
             if (spinnerSelectForm.getSelectedItem().toString().equals("Scholarship Renewal Form")) {
                 dialogSelectForm.dismiss();
-                startActivity(new Intent(this, srf_page1.class));
+                startActivity(new Intent(HomeActivity.this, srf_page1.class));
                 finish();
             }
-
-
         });
 
         selectFormCloseButton.setOnClickListener(view -> {

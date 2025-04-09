@@ -17,8 +17,6 @@ import com.example.stiqueuingapp.activities.activities.WelcomeActivity;
 
 public class saf_page1 extends AppCompatActivity {
     private Button nextPageSaf1;
-    private Button tempHome;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
