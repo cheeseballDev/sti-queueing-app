@@ -32,7 +32,7 @@ public class OldStudentActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private ArrayList<Long> studentNumbers = new ArrayList<>();
+    private ArrayList<String> studentNumbers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class OldStudentActivity extends AppCompatActivity {
 
             for (int i = 0; i < studentNumbers.size(); i++) {
                 Log.w("Student Number", "Student Number: " + studentNumbers.get(i));
-                if (Long.parseLong(studentNumberTextField.getText().toString()) == studentNumbers.get(i)) {
+                if (studentNumberTextField.getText().toString().equals(studentNumbers.get(i))) {
                     startActivity(new Intent(this, HomeActivity.class));
                     finish();
                     return;
@@ -88,11 +88,9 @@ public class OldStudentActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (!task.isSuccessful()) {
                             Toast.makeText(OldStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                            return;
                         }
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Student student = document.toObject(Student.class);
-                            studentNumbers.add(student.getStudentID());
+                            studentNumbers.add(document.getId());
                         }
                     }
                 });

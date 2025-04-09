@@ -88,6 +88,8 @@ public class HomeActivity extends AppCompatActivity {
         cashierCurrentCounter = cashier.findViewById(R.id.queue_current_counter);
         cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
         cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_counter);
+
+
     }
 
     // START QUEUE
@@ -151,8 +153,8 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(this, srf_page1.class));
                 finish();
             }
-            // backend logic
-            //if
+
+
         });
 
         selectFormCloseButton.setOnClickListener(view -> {

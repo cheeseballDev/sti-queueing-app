@@ -1,14 +1,16 @@
 package com.example.stiqueuingapp.activities.activities;
 
+import static com.google.android.gms.tasks.Tasks.await;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -19,9 +21,10 @@ import com.example.stiqueuingapp.activities.models.User;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +33,7 @@ public class LinkEmailActivity extends AppCompatActivity {
     private Button nextButton;
 
     private EditText emailTextField;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,21 +77,19 @@ public class LinkEmailActivity extends AppCompatActivity {
     }
 
     protected void updateDatabase(String email, String campus) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        DocumentReference user = db.collection("USERS").document(email);
-
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference emailDoc = db.collection("USERS").document(email);
         db.runTransaction((Transaction.Function<Void>) transaction -> {
-            DocumentSnapshot snapshot = transaction.get(user);
-                if (snapshot.exists()) {
-                    startActivity(new Intent(this, HomeActivity.class));
-                    finish();
-                    return null;
-                }
-                transaction.set(user, new User(email, campus));
-                startActivity(new Intent(this, HomeActivity.class));
-                finish();
-                return null;
+            DocumentSnapshot snapshot = transaction.get(emailDoc);
+            if (snapshot.exists())
+                transaction.update(emailDoc, "campus", campus);
+            transaction.set(emailDoc, new User(email, campus));
+           return null;
+        }).addOnSuccessListener(e -> {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        }).addOnFailureListener(e -> {
+            Log.e("Transaction", "Error in transaction", e);
         });
     }
 
