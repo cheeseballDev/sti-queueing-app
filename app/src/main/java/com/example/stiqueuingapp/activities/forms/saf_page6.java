@@ -12,9 +12,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.example.stiqueuingapp.activities.activities.HomeActivity;
 
 public class saf_page6 extends AppCompatActivity {
-    private Button previousPageSaf6;
+
+    private Button previousPageSaf6, submitPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +29,15 @@ public class saf_page6 extends AppCompatActivity {
             return insets;
         });
         previousPageSaf6=findViewById(R.id.back_saf6);
-        previousPageSaf6.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(saf_page6.this, saf_page5.class);
-                startActivity(intent);
-            }
+        submitPage = findViewById(R.id.submitForm_saf6);
+
+        previousPageSaf6.setOnClickListener(view -> {
+            startActivity(new Intent(saf_page6.this, saf_page5.class));
+        });
+
+        submitPage.setOnClickListener(view -> {
+            startActivity(new Intent(saf_page6.this, HomeActivity.class));
+            finish();
         });
     }
 }

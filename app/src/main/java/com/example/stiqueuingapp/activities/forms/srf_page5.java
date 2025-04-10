@@ -1,6 +1,7 @@
 package com.example.stiqueuingapp.activities.forms;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.example.stiqueuingapp.R;
 
 public class srf_page5 extends AppCompatActivity {
 
+    private Button submit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +24,7 @@ public class srf_page5 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //submitPage = findViewById(R.id.);
     }
 }

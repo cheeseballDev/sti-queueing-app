@@ -23,6 +23,7 @@ import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,6 +90,7 @@ public class HomeActivity extends AppCompatActivity {
         cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
         cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_counter);
 
+        // PUT THE SHIT ABOVE IN THE METHOD BELOW THAT SETS THE THING
 
     }
 
@@ -121,7 +123,6 @@ public class HomeActivity extends AppCompatActivity {
     // SELECT QUEUE POP UP
     protected void startSelectQueue() {
         dialogSelectQueue.show();
-
         selectQueueNextButton.setOnClickListener(view -> {
             startSelectForm();
             dialogSelectQueue.dismiss();
