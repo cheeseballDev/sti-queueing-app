@@ -2,6 +2,7 @@ package com.example.stiqueuingapp.activities.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,17 @@ import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -101,9 +106,51 @@ public class HomeActivity extends AppCompatActivity {
             DocumentReference queueRef = db.collection("queues").document(selectedQueueType);
 
             db.runTransaction(transaction -> {
-                DocumentSnapshot snapshot = transaction.get(queueRef);
-                return null;
+                DocumentSnapshot currentQueueNumber = db.collection().document("currentNumber");
+                Long currentNumber = currentQueueNumber.getLong("id");
+                long newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
+
+                transaction.update(queueRef, "currentNumber", newNumber);
+
+                Map<String, Object> ticket = new HashMap<>()
+                    ticket.put("number", newNumber);
+                    ticket.put("service", selectedQueueType);
+                    ticket.put("status", "waiting");
+                    ticket.put("createdat", FieldValue.serverTimestamp());
+                    ticket.put("userid", getUserId(db));
+
+
+                return currentNumber;
             });
+    }
+
+    public String getUserId(FirebaseFirestore db) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        boolean isNewUser = sharedPreferences.getBoolean("isNewUser", false);
+        String email = sharedPreferences.getString("userEmail", "");
+        if (isNewUser) {
+            DocumentReference docRef = db.collection("USERS").document(email);
+        } else {
+            DocumentReference docRef = db.collection("").document();
+        }
+        /*
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+         */
     }
 
     // START QUEUE

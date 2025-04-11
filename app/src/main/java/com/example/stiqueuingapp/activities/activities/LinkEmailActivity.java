@@ -89,6 +89,11 @@ public class LinkEmailActivity extends AppCompatActivity {
                     transaction.set(emailDoc, new User(email, campus, newId));
                     return null;
                 }).addOnSuccessListener(e -> {
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("userEmail", email);
+                    editor.putBoolean("isNewUser", true);
+                    editor.apply();
                     startActivity(new Intent(LinkEmailActivity.this, HomeActivity.class));
                     finish();
                 }).addOnFailureListener(e -> {

@@ -74,7 +74,7 @@ public class OldStudentActivity extends AppCompatActivity {
                 }
             }
 
-            if (!studentNumbers.contains(Long.parseLong(studentNumberTextField.getText().toString())))
+            if (!studentNumbers.contains(studentNumberTextField.getText().toString()))
                 studentNumberTextField.setError("No such student number exists");
         });
     }
