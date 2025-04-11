@@ -23,6 +23,9 @@ import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -54,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
     private boolean isPWD = false;
+
+    private String selectedQueueType;
 
     private ArrayList<QueueType> queueTypes = new ArrayList<>();
     private ArrayList<String> forms = new ArrayList<>();
@@ -92,6 +97,13 @@ public class HomeActivity extends AppCompatActivity {
 
         // PUT THE SHIT ABOVE IN THE METHOD BELOW THAT SETS THE THING
 
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference queueRef = db.collection("queues").document(selectedQueueType);
+
+            db.runTransaction(transaction -> {
+                DocumentSnapshot snapshot = transaction.get(queueRef);
+                return null;
+            });
     }
 
     // START QUEUE
@@ -124,6 +136,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void startSelectQueue() {
         dialogSelectQueue.show();
         selectQueueNextButton.setOnClickListener(view -> {
+            selectedQueueType = spinnerSelectQueue.getSelectedItem().toString().toLowerCase();
             startSelectForm();
             dialogSelectQueue.dismiss();
         });
@@ -135,6 +148,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // SELECT FORM POP UP
+    // MAIN
     protected void startSelectForm() {
         dialogSelectForm.show();
 
