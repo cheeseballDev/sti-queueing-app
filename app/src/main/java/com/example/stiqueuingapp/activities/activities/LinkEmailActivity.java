@@ -83,7 +83,7 @@ public class LinkEmailActivity extends AppCompatActivity {
             DocumentSnapshot snapshot = transaction.get(emailDoc);
             if (snapshot.exists())
                 transaction.update(emailDoc, "campus", campus);
-            Long latestIDNumber = snapshot.getLong("id") + 1;
+            double latestIDNumber = snapshot.getDouble("id") + 1;
             transaction.set(emailDoc, new User(email, campus, latestIDNumber));
            return null;
         }).addOnSuccessListener(e -> {
