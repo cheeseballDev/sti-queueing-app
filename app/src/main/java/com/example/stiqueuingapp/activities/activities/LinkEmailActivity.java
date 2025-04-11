@@ -5,7 +5,6 @@ import static com.google.android.gms.tasks.Tasks.await;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,10 +20,9 @@ import com.example.stiqueuingapp.activities.models.User;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +31,6 @@ public class LinkEmailActivity extends AppCompatActivity {
     private Button nextButton;
 
     private EditText emailTextField;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +76,52 @@ public class LinkEmailActivity extends AppCompatActivity {
     protected void updateDatabase(String email, String campus) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference emailDoc = db.collection("USERS").document(email);
-        db.runTransaction((Transaction.Function<Void>) transaction -> {
-            DocumentSnapshot snapshot = transaction.get(emailDoc);
-            if (snapshot.exists())
-                transaction.update(emailDoc, "campus", campus);
-            double latestIDNumber = snapshot.getDouble("id") + 1;
-            transaction.set(emailDoc, new User(email, campus, latestIDNumber));
-           return null;
-        }).addOnSuccessListener(e -> {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
-        }).addOnFailureListener(e -> {
-            Log.e("Transaction", "Error in transaction", e);
+
+        retrieveMostRecentID(db, new OnMostRecentIdRetrievedListener() {
+            @Override
+            public void onMostRecentIdRetrieved(Long mostRecentId) {
+                db.runTransaction((Transaction.Function<Void>) transaction -> {
+                    DocumentSnapshot snapshot = transaction.get(emailDoc);
+                    if (snapshot.exists()) {
+                        transaction.update(emailDoc, "campus", campus);
+                    }
+                    long newId = (mostRecentId != null) ? mostRecentId + 1 : 1L;
+                    transaction.set(emailDoc, new User(email, campus, newId));
+                    return null;
+                }).addOnSuccessListener(e -> {
+                    startActivity(new Intent(LinkEmailActivity.this, HomeActivity.class));
+                    finish();
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(LinkEmailActivity.this, "Error in transaction. Please contact support", Toast.LENGTH_LONG).show();
+                });
+            }
+
+            @Override
+            public void onRetrievalFailed(Exception e) {
+                Toast.makeText(LinkEmailActivity.this, "Error retrieving ID. Please try again.", Toast.LENGTH_SHORT).show();
+                }
         });
+    }
+
+    protected void retrieveMostRecentID(FirebaseFirestore db, OnMostRecentIdRetrievedListener listener) {
+        Query query = db.collection("USERS").orderBy("id", Query.Direction.DESCENDING).limit(1);
+        query.get().addOnSuccessListener(querySnapshot -> {
+        if (!querySnapshot.isEmpty()) {
+            DocumentSnapshot mostRecentDoc = querySnapshot.getDocuments().get(0);
+            Long id = mostRecentDoc.getLong("id");
+            listener.onMostRecentIdRetrieved((id != null) ? id : 0L);
+        } else {
+            listener.onMostRecentIdRetrieved(0L);
+        }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(LinkEmailActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            listener.onRetrievalFailed(e);
+        });
+        }
+
+    public interface OnMostRecentIdRetrievedListener {
+        void onMostRecentIdRetrieved(Long mostRecentId);
+        void onRetrievalFailed(Exception e);
     }
 
     protected boolean isValidEmail(String email) {
