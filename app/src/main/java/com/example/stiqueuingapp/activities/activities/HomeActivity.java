@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,6 +27,7 @@ import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -106,51 +109,51 @@ public class HomeActivity extends AppCompatActivity {
             DocumentReference queueRef = db.collection("queues").document(selectedQueueType);
 
             db.runTransaction(transaction -> {
-                DocumentSnapshot currentQueueNumber = db.collection().document("currentNumber");
-                Long currentNumber = currentQueueNumber.getLong("id");
+                DocumentSnapshot snapshot = transaction.get(queueRef);
+                Long currentNumber = snapshot.getLong("currentNumber");
                 long newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
 
                 transaction.update(queueRef, "currentNumber", newNumber);
 
-                Map<String, Object> ticket = new HashMap<>()
+                Map<String, Object> ticket = new HashMap<>();
                     ticket.put("number", newNumber);
                     ticket.put("service", selectedQueueType);
                     ticket.put("status", "waiting");
                     ticket.put("createdat", FieldValue.serverTimestamp());
                     ticket.put("userid", getUserId(db));
-
-
                 return currentNumber;
+            
             });
     }
+    protected long getCurrentNumber() {
 
-    public String getUserId(FirebaseFirestore db) {
+        return 0L;
+    }
+
+    protected String getUserId(FirebaseFirestore db) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
         boolean isNewUser = sharedPreferences.getBoolean("isNewUser", false);
         String email = sharedPreferences.getString("userEmail", "");
+        DocumentReference docRef = db.collection("").document();
         if (isNewUser) {
-            DocumentReference docRef = db.collection("USERS").document(email);
-        } else {
-            DocumentReference docRef = db.collection("").document();
+            docRef = db.collection("USERS").document(email);
         }
-        /*
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        Log.d("FIREBASE", "DocumentSnapshot data: " + document.getData());
                     } else {
-                        Log.d(TAG, "No such document");
+                        Log.d("FIREBASE", "No such document");
                     }
                 } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    Log.d("FIREBASE", "get failed with ", task.getException());
                 }
             }
         });
-
-         */
+        return null;
     }
 
     // START QUEUE
