@@ -1,6 +1,7 @@
 package com.example.stiqueuingapp.activities.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -66,8 +67,9 @@ public class OldStudentActivity extends AppCompatActivity {
             }
 
             for (int i = 0; i < studentNumbers.size(); i++) {
-                Log.w("Student Number", "Student Number: " + studentNumbers.get(i));
                 if (studentNumberTextField.getText().toString().equals(studentNumbers.get(i))) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                    sharedPreferences.edit().putString("studentNumber", studentNumberTextField.getText().toString()).apply();
                     startActivity(new Intent(this, HomeActivity.class));
                     finish();
                     return;

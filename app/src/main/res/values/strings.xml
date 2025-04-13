@@ -70,6 +70,8 @@
     <string name="queued_successfully">Queued Successfully</string>
     <string name="your_number_in_the_queue_is">Your number in the queue is</string>
     <string name="pop_up_queue_number">R-P-000</string>
+    <string name="leave_queue">Leave Queue</string>
+    <string name="are_you_sure_you_want_to_leave_n_your_current_queue">Are you sure you want to leave your\ncurrent queue</string>
 
     <string name="saf_name">Scholarship Application Form</string>
     <string name="SAFTitle">SCHOLARSHIP\nAPPLICATION FORM (SAF)</string>

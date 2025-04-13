@@ -34,6 +34,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Document;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,7 +66,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
-    private boolean isPWD = false;
+    private boolean isPWD = false, isNewUser = false;
+
+    long id;
 
     private String selectedQueueType;
 
@@ -112,39 +116,45 @@ public class HomeActivity extends AppCompatActivity {
                 DocumentSnapshot snapshot = transaction.get(queueRef);
                 Long currentNumber = snapshot.getLong("currentNumber");
                 long newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
-
                 transaction.update(queueRef, "currentNumber", newNumber);
 
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                isNewUser = sharedPreferences.getBoolean("isNewUser", false);
+                String email = sharedPreferences.getString("userEmail", "");
+                if (isNewUser) {
+                    id = getId(db, email);
+                } else {
+                    id = Long.parseLong(sharedPreferences.getString("studentNumber", ""));
+                }
+
                 Map<String, Object> ticket = new HashMap<>();
+                    ticket.put("createdAt", FieldValue.serverTimestamp());
+                    ticket.put("isPWD", isPWD);
                     ticket.put("number", newNumber);
                     ticket.put("service", selectedQueueType);
                     ticket.put("status", "waiting");
-                    ticket.put("createdat", FieldValue.serverTimestamp());
-                    ticket.put("userid", getUserId(db));
+                    ticket.put("userid", id);
+
+                DocumentReference ticketRef = db.collection("TICKETS").document();
+                transaction.set(ticketRef, ticket);
                 return currentNumber;
-            
+            }).addOnSuccessListener(assignedNumber -> {
+                Log.d("TICKET", "Ticket # " + assignedNumber);
+            }).addOnFailureListener(e -> {
+                Log.w("TICKET", "ERROR");
             });
     }
-    protected long getCurrentNumber() {
 
-        return 0L;
-    }
-
-    protected String getUserId(FirebaseFirestore db) {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-        boolean isNewUser = sharedPreferences.getBoolean("isNewUser", false);
-        String email = sharedPreferences.getString("userEmail", "");
-        DocumentReference docRef = db.collection("").document();
-        if (isNewUser) {
-            docRef = db.collection("USERS").document(email);
-        }
+    protected long getId(FirebaseFirestore db, String email) {
+        DocumentReference docRef = db.collection("USERS").document(email);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d("FIREBASE", "DocumentSnapshot data: " + document.getData());
+                        //uuid
+                        id = document.getLong("id");
                     } else {
                         Log.d("FIREBASE", "No such document");
                     }
@@ -153,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-        return null;
+        return 0;
     }
 
     // START QUEUE
@@ -203,17 +213,18 @@ public class HomeActivity extends AppCompatActivity {
         dialogSelectForm.show();
 
         selectFormNextButton.setOnClickListener(view -> {
-            if (spinnerSelectForm.getSelectedItem().toString().equals("None")) {
+            if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
                 updateQueue();
+                dialogSelectForm.dismiss();
             }
 
-            if (spinnerSelectForm.getSelectedItem().toString().equals("Scholarship Application Form")) {
+            if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Application Form")) {
                 dialogSelectForm.dismiss();
                 startActivity(new Intent(HomeActivity.this, saf_page1.class));
                 finish();
             }
 
-            if (spinnerSelectForm.getSelectedItem().toString().equals("Scholarship Renewal Form")) {
+            if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Renewal Form")) {
                 dialogSelectForm.dismiss();
                 startActivity(new Intent(HomeActivity.this, srf_page1.class));
                 finish();
