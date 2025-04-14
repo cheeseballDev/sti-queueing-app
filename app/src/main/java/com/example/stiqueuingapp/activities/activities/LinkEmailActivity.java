@@ -86,11 +86,13 @@ public class LinkEmailActivity extends AppCompatActivity {
             public void onUuidGenerated(String uniqueId) {
                 db.runTransaction(transaction -> {
                     DocumentSnapshot snapshot = transaction.get(emailDoc);
+
                     if (snapshot.exists())
                         transaction.update(emailDoc, "campus", campus);
 
                     transaction.set(emailDoc, new User(email, campus, uniqueId));
                     return null;
+
                 }).addOnSuccessListener(e -> {
                     SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -99,6 +101,7 @@ public class LinkEmailActivity extends AppCompatActivity {
                     editor.apply();
                     startActivity(new Intent(LinkEmailActivity.this, HomeActivity.class));
                     finish();
+
                 }).addOnFailureListener(e -> {
                     Toast.makeText(LinkEmailActivity.this, "Error in transaction. Please contact support", Toast.LENGTH_LONG).show();
                 });

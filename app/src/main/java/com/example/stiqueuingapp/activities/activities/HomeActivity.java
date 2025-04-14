@@ -153,8 +153,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        //uuid
-                        id = document.getLong("id");
+
                     } else {
                         Log.d("FIREBASE", "No such document");
                     }
