@@ -5,6 +5,7 @@ import static com.google.android.gms.tasks.Tasks.await;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,8 +22,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
 
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,16 +81,15 @@ public class LinkEmailActivity extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference emailDoc = db.collection("USERS").document(email);
 
-        retrieveMostRecentID(db, new OnMostRecentIdRetrievedListener() {
+        generateAndCheckUniqueId(FirebaseFirestore.getInstance(), new OnUuidGeneratedListener() {
             @Override
-            public void onMostRecentIdRetrieved(Long mostRecentId) {
-                db.runTransaction((Transaction.Function<Void>) transaction -> {
+            public void onUuidGenerated(String uniqueId) {
+                db.runTransaction(transaction -> {
                     DocumentSnapshot snapshot = transaction.get(emailDoc);
-                    if (snapshot.exists()) {
+                    if (snapshot.exists())
                         transaction.update(emailDoc, "campus", campus);
-                    }
-                    long newId = (mostRecentId != null) ? mostRecentId + 1 : 1L;
-                    transaction.set(emailDoc, new User(email, campus, newId));
+
+                    transaction.set(emailDoc, new User(email, campus, uniqueId));
                     return null;
                 }).addOnSuccessListener(e -> {
                     SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
@@ -102,31 +105,35 @@ public class LinkEmailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRetrievalFailed(Exception e) {
-                Toast.makeText(LinkEmailActivity.this, "Error retrieving ID. Please try again.", Toast.LENGTH_SHORT).show();
-                }
+            public void onError(Exception e) {
+                Toast.makeText(LinkEmailActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    protected void retrieveMostRecentID(FirebaseFirestore db, OnMostRecentIdRetrievedListener listener) {
-        Query query = db.collection("USERS").orderBy("id", Query.Direction.DESCENDING).limit(1);
-        query.get().addOnSuccessListener(querySnapshot -> {
-        if (!querySnapshot.isEmpty()) {
-            DocumentSnapshot mostRecentDoc = querySnapshot.getDocuments().get(0);
-            Long id = mostRecentDoc.getLong("id");
-            listener.onMostRecentIdRetrieved((id != null) ? id : 0L);
-        } else {
-            listener.onMostRecentIdRetrieved(0L);
-        }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(LinkEmailActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-            listener.onRetrievalFailed(e);
-        });
-        }
+    public void generateAndCheckUniqueId(FirebaseFirestore db, OnUuidGeneratedListener listener) {
+        String newUUID = UUID.randomUUID().toString();
 
-    public interface OnMostRecentIdRetrievedListener {
-        void onMostRecentIdRetrieved(Long mostRecentId);
-        void onRetrievalFailed(Exception e);
+        db.collection("USERS")
+                .whereEqualTo("id", newUUID)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().isEmpty()) {
+                            listener.onUuidGenerated(newUUID);
+                        } else {
+                            generateAndCheckUniqueId(db, listener);
+                        }
+                    } else {
+                        listener.onError(task.getException());
+                    }
+                });
+    }
+
+    public interface OnUuidGeneratedListener {
+        void onUuidGenerated(String uniqueId);
+        void onError(Exception e);
     }
 
     protected boolean isValidEmail(String email) {

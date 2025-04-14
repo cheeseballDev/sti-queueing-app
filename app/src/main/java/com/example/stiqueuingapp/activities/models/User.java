@@ -9,7 +9,7 @@ public class User {
     @PropertyName("email")
     private String email;
     @PropertyName("id")
-    private long id;
+    private String id;
 
     public void setCampus(String campus) {
         this.campus = campus;
@@ -19,7 +19,7 @@ public class User {
         this.email = email;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -31,11 +31,11 @@ public class User {
         return email;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public User(String email, String campus, long id) {
+    public User(String email, String campus, String id) {
         this.email = email;
         this.campus = campus;
         this.id = id;
