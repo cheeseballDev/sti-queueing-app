@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private boolean isPWD = false, isNewUser = false;
 
-    long id;
+    private String id;
 
     private String selectedQueueType;
 
@@ -110,59 +110,51 @@ public class HomeActivity extends AppCompatActivity {
         // PUT THE SHIT ABOVE IN THE METHOD BELOW THAT SETS THE THING
 
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference queueRef = db.collection("queues").document(selectedQueueType);
+            DocumentReference queueRef = db.collection("QUEUES").document(selectedQueueType.toUpperCase());
 
             db.runTransaction(transaction -> {
                 DocumentSnapshot snapshot = transaction.get(queueRef);
                 Long currentNumber = snapshot.getLong("currentNumber");
                 long newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
                 transaction.update(queueRef, "currentNumber", newNumber);
-
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-                isNewUser = sharedPreferences.getBoolean("isNewUser", false);
-                String email = sharedPreferences.getString("userEmail", "");
-                if (isNewUser) {
-                    id = getId(db, email);
-                } else {
-                    id = Long.parseLong(sharedPreferences.getString("studentNumber", ""));
-                }
-
-                Map<String, Object> ticket = new HashMap<>();
-                    ticket.put("createdAt", FieldValue.serverTimestamp());
-                    ticket.put("isPWD", isPWD);
-                    ticket.put("number", newNumber);
-                    ticket.put("service", selectedQueueType);
-                    ticket.put("status", "waiting");
-                    ticket.put("userid", id);
-
-                DocumentReference ticketRef = db.collection("TICKETS").document();
-                transaction.set(ticketRef, ticket);
-                return currentNumber;
-            }).addOnSuccessListener(assignedNumber -> {
-                Log.d("TICKET", "Ticket # " + assignedNumber);
+                createNewTicket(db, newNumber);
+                return newNumber;
             }).addOnFailureListener(e -> {
-                Log.w("TICKET", "ERROR");
+                Log.w("TICKET", e.getMessage(), e);
             });
     }
 
-    protected long getId(FirebaseFirestore db, String email) {
-        DocumentReference docRef = db.collection("USERS").document(email);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+    protected void createNewTicket(FirebaseFirestore db, long newNumber) {
+        db.runTransaction(transaction -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+            isNewUser = sharedPreferences.getBoolean("isNewUser", false);
+            String email = sharedPreferences.getString("userEmail", "");
 
-                    } else {
-                        Log.d("FIREBASE", "No such document");
-                    }
-                } else {
-                    Log.d("FIREBASE", "get failed with ", task.getException());
-                }
+            if (isNewUser) {
+                DocumentReference userRef = db.collection("USERS").document(email);
+                DocumentSnapshot userSnapshot = transaction.get(userRef);
+                id = userSnapshot.getString("id");
+            } else {
+                id = sharedPreferences.getString("studentNumber", "");
             }
+
+            Map<String, Object> ticket = new HashMap<>();
+            ticket.put("createdAt", FieldValue.serverTimestamp());
+            ticket.put("isPWD", isPWD);
+            ticket.put("number", newNumber);
+            ticket.put("service", selectedQueueType);
+            ticket.put("status", "waiting");
+            ticket.put("userid", id);
+
+            DocumentReference ticketRef = db.collection("TICKETS").document();
+            transaction.set(ticketRef, ticket);
+            return null;
+        }).addOnSuccessListener(assignedNumber -> {
+            Log.d("TICKET", "Ticket # " + assignedNumber);
+        }).addOnFailureListener(e -> {
+            Log.w("TICKET", e.getMessage(), e);
         });
-        return 0;
+
     }
 
     // START QUEUE

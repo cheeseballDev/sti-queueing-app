@@ -114,7 +114,7 @@ public class LinkEmailActivity extends AppCompatActivity {
         });
     }
 
-    public void generateAndCheckUniqueId(FirebaseFirestore db, OnUuidGeneratedListener listener) {
+    protected void generateAndCheckUniqueId(FirebaseFirestore db, OnUuidGeneratedListener listener) {
         String newUUID = UUID.randomUUID().toString();
 
         db.collection("USERS")

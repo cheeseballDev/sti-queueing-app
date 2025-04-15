@@ -88,12 +88,10 @@ public class OldStudentActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful())
                             Toast.makeText(OldStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                        }
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : task.getResult())
                             studentNumbers.add(document.getId());
-                        }
                     }
                 });
     }
