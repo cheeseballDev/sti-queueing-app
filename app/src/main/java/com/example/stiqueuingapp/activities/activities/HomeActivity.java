@@ -87,6 +87,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         setDialogsAndButtons();
         setCategories();
+        setQueues();
         setSpinner();
         startQueueButton();
         updateQueue();
@@ -94,20 +95,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // DATABASE QUEUE
     protected void updateQueue() {
-        userNumber = findViewById(R.id.user_number);
-        userCooldown = findViewById(R.id.user_cooldown);
-
-        admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
-        admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_number);
-        admissionCurrentCutOff = admission.findViewById(R.id.queue_current_cut_off);
-
-        registrarCurrentCounter = registrar.findViewById(R.id.queue_current_counter);
-        registrarCurrentCutOff = registrar.findViewById(R.id.queue_current_cut_off);
-        registrarCurrentQueueNumber = registrar.findViewById(R.id.queue_current_counter);
-
-        cashierCurrentCounter = cashier.findViewById(R.id.queue_current_counter);
-        cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
-        cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_counter);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference admissionRef = db.collection("QUEUES").document("ADMISSION");
@@ -119,7 +106,6 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
-
                             Long currentNumber = snapshot.getLong("currentNumber");
                             long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
                             String formattedNumber = String.format("%03d", convertedNumber);
@@ -134,9 +120,43 @@ public class HomeActivity extends AppCompatActivity {
                 }
         );
 
-        // PUT THE SHIT ABOVE IN THE METHOD BELOW THAT SETS THE THING
+        registrarRef.addSnapshotListener(
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                        if (snapshot.exists()) {
+                            Long currentNumber = snapshot.getLong("currentNumber");
+                            long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
+                            String formattedNumber = String.format("%03d", convertedNumber);
+                            boolean isQueuePWD = Boolean.TRUE.equals(snapshot.getBoolean("isPWD"));
+                            if (isQueuePWD) {
+                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-P").append(formattedNumber));
+                            } else {
+                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
+                            }
+                        }
+                    }
+                }
+        );
 
-
+        cashierRef.addSnapshotListener(
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                        if (snapshot.exists()) {
+                            Long currentNumber = snapshot.getLong("currentNumber");
+                            long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
+                            String formattedNumber = String.format("%03d", convertedNumber);
+                            boolean isQueuePWD = Boolean.TRUE.equals(snapshot.getBoolean("isPWD"));
+                            if (isQueuePWD) {
+                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-P").append(formattedNumber));
+                            } else {
+                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
+                            }
+                        }
+                    }
+                }
+        );
     }
 
     protected void updateQueueNumber() {;
@@ -300,6 +320,23 @@ public class HomeActivity extends AppCompatActivity {
         admissionDivider.setBackgroundColor(getResources().getColor(R.color.blue, null));
         registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
         cashierDivider.setBackgroundColor(getResources().getColor(R.color.green, null));
+    }
+
+    protected void setQueues() {
+        userNumber = findViewById(R.id.user_number);
+        userCooldown = findViewById(R.id.user_cooldown);
+
+        admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
+        admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_number);
+        admissionCurrentCutOff = admission.findViewById(R.id.queue_current_cut_off);
+
+        registrarCurrentCounter = registrar.findViewById(R.id.queue_current_counter);
+        registrarCurrentQueueNumber = registrar.findViewById(R.id.queue_current_number);
+        registrarCurrentCutOff = registrar.findViewById(R.id.queue_current_cut_off);
+
+        cashierCurrentCounter = cashier.findViewById(R.id.queue_current_counter);
+        cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_number);
+        cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
     }
 
     protected void setSpinner() {
