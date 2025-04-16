@@ -96,9 +96,9 @@ public class LinkEmailActivity extends AppCompatActivity {
                 }).addOnSuccessListener(e -> {
                     SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("userEmail", email);
-                    editor.putBoolean("isNewUser", true);
-                    editor.apply();
+                    editor.putString("userEmail", email)
+                            .putBoolean("isNewUser", true)
+                            .apply();
                     startActivity(new Intent(LinkEmailActivity.this, HomeActivity.class));
                     finish();
 

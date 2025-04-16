@@ -68,8 +68,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private boolean isPWD = false, isNewUser = false;
 
-    private String id;
-
     private String selectedQueueType;
 
     private ArrayList<QueueType> queueTypes = new ArrayList<>();
@@ -129,6 +127,7 @@ public class HomeActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
             isNewUser = sharedPreferences.getBoolean("isNewUser", false);
             String email = sharedPreferences.getString("userEmail", "");
+            String id;
 
             if (isNewUser) {
                 DocumentReference userRef = db.collection("USERS").document(email);

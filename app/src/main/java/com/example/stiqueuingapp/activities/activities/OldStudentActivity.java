@@ -69,7 +69,10 @@ public class OldStudentActivity extends AppCompatActivity {
             for (int i = 0; i < studentNumbers.size(); i++) {
                 if (studentNumberTextField.getText().toString().equals(studentNumbers.get(i))) {
                     SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-                    sharedPreferences.edit().putString("studentNumber", studentNumberTextField.getText().toString()).apply();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("studentNumber", studentNumberTextField.getText().toString())
+                            .putBoolean("isNewUser", false)
+                            .apply();
                     startActivity(new Intent(this, HomeActivity.class));
                     finish();
                     return;
