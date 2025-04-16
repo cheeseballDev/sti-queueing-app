@@ -107,6 +107,8 @@ public class HomeActivity extends AppCompatActivity {
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
                             Long currentNumber = snapshot.getLong("currentNumber");
+                            Long currentCounter = snapshot.getLong("counter");
+                            Long currentCutOff = snapshot.getLong("cutOffNumber");
                             long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
                             String formattedNumber = String.format("%03d", convertedNumber);
                             boolean isQueuePWD = Boolean.TRUE.equals(snapshot.getBoolean("isPWD"));
@@ -115,6 +117,8 @@ public class HomeActivity extends AppCompatActivity {
                             } else {
                                 admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
                             }
+                            admissionCurrentCounter.setText(new StringBuilder().append(currentCounter));
+                            admissionCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
                         }
                     }
                 }
@@ -126,6 +130,8 @@ public class HomeActivity extends AppCompatActivity {
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
                             Long currentNumber = snapshot.getLong("currentNumber");
+                            Long currentCounter = snapshot.getLong("counter");
+                            Long currentCutOff = snapshot.getLong("cutOffNumber");
                             long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
                             String formattedNumber = String.format("%03d", convertedNumber);
                             boolean isQueuePWD = Boolean.TRUE.equals(snapshot.getBoolean("isPWD"));
@@ -134,6 +140,8 @@ public class HomeActivity extends AppCompatActivity {
                             } else {
                                 registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
                             }
+                            registrarCurrentCounter.setText(new StringBuilder().append(currentCounter));
+                            registrarCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
                         }
                     }
                 }
@@ -145,6 +153,8 @@ public class HomeActivity extends AppCompatActivity {
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
                             Long currentNumber = snapshot.getLong("currentNumber");
+                            Long currentCounter = snapshot.getLong("counter");
+                            Long currentCutOff = snapshot.getLong("cutOffNumber");
                             long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
                             String formattedNumber = String.format("%03d", convertedNumber);
                             boolean isQueuePWD = Boolean.TRUE.equals(snapshot.getBoolean("isPWD"));
@@ -153,6 +163,8 @@ public class HomeActivity extends AppCompatActivity {
                             } else {
                                 cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
                             }
+                            cashierCurrentCounter.setText(new StringBuilder().append(currentCounter));
+                            cashierCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
                         }
                     }
                 }
