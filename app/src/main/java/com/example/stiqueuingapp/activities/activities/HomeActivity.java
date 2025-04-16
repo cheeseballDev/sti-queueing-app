@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -31,8 +32,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import org.w3c.dom.Document;
 
@@ -86,6 +89,7 @@ public class HomeActivity extends AppCompatActivity {
         setCategories();
         setSpinner();
         startQueueButton();
+        updateQueue();
     }
 
     // DATABASE QUEUE
@@ -105,21 +109,50 @@ public class HomeActivity extends AppCompatActivity {
         cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
         cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_counter);
 
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference admissionRef = db.collection("QUEUES").document("ADMISSION");
+        DocumentReference cashierRef = db.collection("QUEUES").document("CASHIER");
+        DocumentReference registrarRef = db.collection("QUEUES").document("REGISTRAR");
+
+        admissionRef.addSnapshotListener(
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                        if (snapshot.exists()) {
+
+                            Long currentNumber = snapshot.getLong("currentNumber");
+                            long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
+                            String formattedNumber = String.format("%03d", convertedNumber);
+                            boolean isQueuePWD = Boolean.TRUE.equals(snapshot.getBoolean("isPWD"));
+                            if (isQueuePWD) {
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-P").append(formattedNumber));
+                            } else {
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
+                            }
+                        }
+                    }
+                }
+        );
+
         // PUT THE SHIT ABOVE IN THE METHOD BELOW THAT SETS THE THING
 
-            final FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference queueRef = db.collection("QUEUES").document(selectedQueueType.toUpperCase());
 
-            db.runTransaction(transaction -> {
-                DocumentSnapshot snapshot = transaction.get(queueRef);
-                Long currentNumber = snapshot.getLong("currentNumber");
-                long newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
-                transaction.update(queueRef, "currentNumber", newNumber);
-                createNewTicket(db, newNumber);
-                return newNumber;
-            }).addOnFailureListener(e -> {
-                Log.w("TICKET", e.getMessage(), e);
-            });
+    }
+
+    protected void updateQueueNumber() {;
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference queueRef = db.collection("QUEUES").document(selectedQueueType.toUpperCase());
+
+        db.runTransaction(transaction -> {
+            DocumentSnapshot snapshot = transaction.get(queueRef);
+            Long currentNumber = snapshot.getLong("currentNumber");
+            long newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
+            transaction.update(queueRef, "currentNumber", newNumber);
+            createNewTicket(db, newNumber);
+            return newNumber;
+        }).addOnFailureListener(e -> {
+            Log.w("TICKET", e.getMessage(), e);
+        });
     }
 
     protected void createNewTicket(FirebaseFirestore db, long newNumber) {
@@ -204,7 +237,7 @@ public class HomeActivity extends AppCompatActivity {
 
         selectFormNextButton.setOnClickListener(view -> {
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
-                updateQueue();
+                updateQueueNumber();
                 dialogSelectForm.dismiss();
             }
 
