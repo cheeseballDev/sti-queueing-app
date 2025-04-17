@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -22,22 +21,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
-import com.example.stiqueuingapp.activities.enums.Campuses;
 import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import org.w3c.dom.Document;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +67,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private String selectedQueueType;
 
+    private String id = "";
+
     private ArrayList<QueueType> queueTypes = new ArrayList<>();
     private ArrayList<String> forms = new ArrayList<>();
     @Override
@@ -89,17 +85,55 @@ public class HomeActivity extends AppCompatActivity {
         setCategories();
         setQueues();
         setSpinner();
+        setUserId();
         startQueueButton();
         updateQueue();
     }
 
-    // DATABASE QUEUE
-    protected void updateQueue() {
-
+    protected void setUserId() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.runTransaction(transaction -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+            isNewUser = sharedPreferences.getBoolean("isNewUser", false);
+            String email = sharedPreferences.getString("userEmail", "");
+            if (isNewUser) {
+                DocumentReference userRef = db.collection("USERS").document(email);
+                DocumentSnapshot userSnapshot = transaction.get(userRef);
+                id = userSnapshot.getString("id");
+            } else {
+                id = sharedPreferences.getString("studentNumber", "");
+            }
+            return null;
+        });
+    }
+
+    protected void updateQueue() {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         DocumentReference admissionRef = db.collection("QUEUES").document("ADMISSION");
         DocumentReference cashierRef = db.collection("QUEUES").document("CASHIER");
         DocumentReference registrarRef = db.collection("QUEUES").document("REGISTRAR");
+        DocumentReference ticketRef = db.collection("TICKETS").document();
+
+        ticketRef.addSnapshotListener(
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                        if (snapshot.exists()) {
+                            Query query = db.collection("TICKETS").whereEqualTo("userid", id);
+                            query.addSnapshotListener((queryDocumentSnapshots, e) -> {
+                                if (queryDocumentSnapshots.isEmpty()) {
+                                    userNumber.setText("0");
+                                    userCooldown.setText("0");
+                                } else {
+                                    userNumber.setText(String.valueOf(queryDocumentSnapshots.size()));
+                                    userCooldown.setText("0");
+                                }
+                            });
+                        }
+                    }
+                }
+        );
 
         admissionRef.addSnapshotListener(
                 new EventListener<DocumentSnapshot>() {
@@ -169,6 +203,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
         );
+
     }
 
     protected void updateQueueNumber() {;
@@ -189,18 +224,6 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void createNewTicket(FirebaseFirestore db, long newNumber) {
         db.runTransaction(transaction -> {
-            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-            isNewUser = sharedPreferences.getBoolean("isNewUser", false);
-            String email = sharedPreferences.getString("userEmail", "");
-            String id;
-
-            if (isNewUser) {
-                DocumentReference userRef = db.collection("USERS").document(email);
-                DocumentSnapshot userSnapshot = transaction.get(userRef);
-                id = userSnapshot.getString("id");
-            } else {
-                id = sharedPreferences.getString("studentNumber", "");
-            }
 
             Map<String, Object> ticket = new HashMap<>();
             ticket.put("createdAt", FieldValue.serverTimestamp());
@@ -221,7 +244,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    // START QUEUE
     protected void startQueueButton() {
         enterQueueButton.setOnClickListener(view ->{
             dialogPWD.show();
@@ -229,7 +251,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // PWD POP UP
     protected void startPWD() {
         PWDConfirmButton.setOnClickListener(view -> {
             startSelectQueue();
@@ -247,7 +268,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // SELECT QUEUE POP UP
     protected void startSelectQueue() {
         dialogSelectQueue.show();
         selectQueueNextButton.setOnClickListener(view -> {
@@ -262,25 +282,27 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // SELECT FORM POP UP
-    // MAIN
+
     protected void startSelectForm() {
         dialogSelectForm.show();
 
         selectFormNextButton.setOnClickListener(view -> {
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
                 updateQueueNumber();
+                // to be updated with success ticket
                 dialogSelectForm.dismiss();
             }
 
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Application Form")) {
                 dialogSelectForm.dismiss();
+                //to be updated
                 startActivity(new Intent(HomeActivity.this, saf_page1.class));
                 finish();
             }
 
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Renewal Form")) {
                 dialogSelectForm.dismiss();
+                //to be updated
                 startActivity(new Intent(HomeActivity.this, srf_page1.class));
                 finish();
             }
