@@ -41,7 +41,8 @@ import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private View admission, registrar, cashier, admissionDivider, registrarDivider, cashierDivider;
+    private View admission, registrar, cashier,
+            admissionDivider, registrarDivider, cashierDivider;
 
     private Button
             enterQueueButton,
@@ -71,7 +72,9 @@ public class HomeActivity extends AppCompatActivity {
     private String id = "";
 
     private ArrayList<QueueType> queueTypes = new ArrayList<>();
+
     private ArrayList<String> forms = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +96,7 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void setUserId() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         db.runTransaction(transaction -> {
             SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
             isNewUser = sharedPreferences.getBoolean("isNewUser", false);
@@ -189,6 +193,7 @@ public class HomeActivity extends AppCompatActivity {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+
                         if (error != null) {
                             Log.e("Firestore", "Listen failed:", error);
                             return;
@@ -197,20 +202,46 @@ public class HomeActivity extends AppCompatActivity {
                         if (snapshot != null && !snapshot.isEmpty()) {
                             for (DocumentSnapshot document : snapshot.getDocuments()) {
                                 Long ticketNumber = document.getLong("number");
+                                String formattedNumber = String.format("%03d", ticketNumber);
+                                boolean isTicketPWD = Boolean.TRUE.equals(document.getBoolean("isPWD"));
+                                String ticketQueueType = document.getString("service").toUpperCase();
                                 if (ticketNumber != null) {
-                                    userNumber.setText(new StringBuilder().append(ticketNumber));
+                                    updateUserNumber(ticketQueueType, isTicketPWD, formattedNumber);
                                 }
-                                return; // Assuming only one active ticket per user per service
+                                return;
                             }
                         } else {
                             userNumber.setText("N/A");
-                            Log.d("Firestore", "No active ticket found for user ");
                         }
-
-
                     }
                 });
 
+    }
+
+    protected void updateUserNumber(String ticketQueueType, boolean isTicketPWD, String formattedNumber) {
+        if (isTicketPWD) {
+            switch (ticketQueueType) {
+                case "ADMISSION":
+                    userNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
+                    return;
+                case "CASHIER":
+                    userNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
+                    return;
+                case "REGISTRAR":
+                    userNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
+            }
+        } else {
+            switch (ticketQueueType) {
+                case "ADMISSION":
+                    userNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
+                    return;
+                case "CASHIER":
+                    userNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
+                    return;
+                case "REGISTRAR":
+                    userNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
+            }
+        }
     }
 
     protected void updateQueueNumber() {;

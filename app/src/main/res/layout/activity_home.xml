@@ -72,12 +72,12 @@
                         android:id="@+id/user_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/montserrat_extrabold"
                         android:text="@string/n_a"
                         android:textColor="@color/blue"
                         android:textSize="38sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
@@ -138,12 +138,12 @@
                         android:id="@+id/user_cooldown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/montserrat_extrabold"
                         android:text="@string/n_a"
                         android:textColor="@color/primary_black"
                         android:textSize="38sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
