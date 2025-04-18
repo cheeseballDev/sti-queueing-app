@@ -32,6 +32,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,27 +114,6 @@ public class HomeActivity extends AppCompatActivity {
         DocumentReference admissionRef = db.collection("QUEUES").document("ADMISSION");
         DocumentReference cashierRef = db.collection("QUEUES").document("CASHIER");
         DocumentReference registrarRef = db.collection("QUEUES").document("REGISTRAR");
-        DocumentReference ticketRef = db.collection("TICKETS").document();
-
-        ticketRef.addSnapshotListener(
-                new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                        if (snapshot.exists()) {
-                            Query query = db.collection("TICKETS").whereEqualTo("userid", id);
-                            query.addSnapshotListener((queryDocumentSnapshots, e) -> {
-                                if (queryDocumentSnapshots.isEmpty()) {
-                                    userNumber.setText("0");
-                                    userCooldown.setText("0");
-                                } else {
-                                    userNumber.setText(String.valueOf(queryDocumentSnapshots.size()));
-                                    userCooldown.setText("0");
-                                }
-                            });
-                        }
-                    }
-                }
-        );
 
         admissionRef.addSnapshotListener(
                 new EventListener<DocumentSnapshot>() {
@@ -203,6 +183,33 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        db.collection("TICKETS")
+                .whereEqualTo("userid", id)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e("Firestore", "Listen failed:", error);
+                            return;
+                        }
+
+                        if (snapshot != null && !snapshot.isEmpty()) {
+                            for (DocumentSnapshot document : snapshot.getDocuments()) {
+                                Long ticketNumber = document.getLong("number");
+                                if (ticketNumber != null) {
+                                    userNumber.setText(new StringBuilder().append(ticketNumber));
+                                }
+                                return; // Assuming only one active ticket per user per service
+                            }
+                        } else {
+                            userNumber.setText("N/A");
+                            Log.d("Firestore", "No active ticket found for user ");
+                        }
+
+
+                    }
+                });
 
     }
 
