@@ -141,16 +141,15 @@ public class HomeActivity extends AppCompatActivity {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                                             for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isQueuePWD = Boolean.TRUE.equals(doc.getBoolean("isPWD"));
+                                                isQueuePWD = doc.getBoolean("isPWD");
+                                            }
+                                            if (isQueuePWD) {
+                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
+                                            } else {
+                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
                                             }
                                         }
                                     });
-
-                            if (isQueuePWD) {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
-                            } else {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
-                            }
                             admissionCurrentCounter.setText(new StringBuilder().append(currentCounter));
                             admissionCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
                         }
@@ -176,16 +175,15 @@ public class HomeActivity extends AppCompatActivity {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                                             for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isQueuePWD = Boolean.TRUE.equals(doc.getBoolean("isPWD"));
+                                                isQueuePWD = doc.getBoolean("isPWD");
+                                            }
+                                            if (isQueuePWD) {
+                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
+                                            } else {
+                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
                                             }
                                         }
                                     });
-
-                            if (isQueuePWD) {
-                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
-                            } else {
-                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
-                            }
                             registrarCurrentCounter.setText(new StringBuilder().append(currentCounter));
                             registrarCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
                         }
@@ -211,16 +209,15 @@ public class HomeActivity extends AppCompatActivity {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                                             for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isQueuePWD = Boolean.TRUE.equals(doc.getBoolean("isPWD"));
+                                                isQueuePWD = doc.getBoolean("isPWD");
+                                            }
+                                            if (isQueuePWD) {
+                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
+                                            } else {
+                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
                                             }
                                         }
                                     });
-
-                            if (isQueuePWD) {
-                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
-                            } else {
-                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
-                            }
                             cashierCurrentCounter.setText(new StringBuilder().append(currentCounter));
                             cashierCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
                         }
@@ -237,21 +234,22 @@ public class HomeActivity extends AppCompatActivity {
                             for (DocumentSnapshot document : snapshot.getDocuments()) {
                                 Long ticketNumber = document.getLong("number");
                                 String formattedNumber = String.format("%03d", ticketNumber);
-                                boolean isTicketPWD = Boolean.TRUE.equals(document.getBoolean("isPWD"));
+                                boolean isTicketPWD = document.getBoolean("isPWD");
                                 String ticketQueueType = document.getString("service").toUpperCase();
                                 if (ticketNumber != null) {
-                                    updateUserNumber(ticketQueueType, isTicketPWD, formattedNumber);
+                                    updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
                                 }
                                 return;
                             }
                         } else {
                             userNumber.setText("N/A");
+
                         }
                     }
                 });
     }
 
-    protected void updateUserNumber(String ticketQueueType, boolean isTicketPWD, String formattedNumber) {
+    protected void updateUserNumberType(String ticketQueueType, boolean isTicketPWD, String formattedNumber) {
         if (isTicketPWD) {
             switch (ticketQueueType) {
                 case "ADMISSION":
@@ -353,20 +351,20 @@ public class HomeActivity extends AppCompatActivity {
         selectFormNextButton.setOnClickListener(view -> {
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
                 updateQueueNumber();
-                // to be updated with success ticket
+
                 dialogSelectForm.dismiss();
             }
 
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Application Form")) {
                 dialogSelectForm.dismiss();
-                //to be updated
+
                 startActivity(new Intent(HomeActivity.this, saf_page1.class));
                 finish();
             }
 
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Renewal Form")) {
                 dialogSelectForm.dismiss();
-                //to be updated
+
                 startActivity(new Intent(HomeActivity.this, srf_page1.class));
                 finish();
             }
