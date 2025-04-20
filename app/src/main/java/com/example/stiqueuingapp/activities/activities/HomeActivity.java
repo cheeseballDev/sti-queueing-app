@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -44,8 +45,7 @@ import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private View admission, registrar, cashier,
-            admissionDivider, registrarDivider, cashierDivider;
+    private View admission, registrar, cashier;
 
     private Button
             enterQueueButton,
@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
-    private boolean isPWD = false, isNewUser = false, isQueuePWD = false;
+    private boolean isPWD = false, isNewUser = false, isQueuePWD = false, isInQueue = false;
 
     private String selectedQueueType;
 
@@ -140,10 +140,11 @@ public class HomeActivity extends AppCompatActivity {
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                                            boolean isAdmissionQueuePWD = false;
                                             for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isQueuePWD = doc.getBoolean("isPWD");
+                                                isAdmissionQueuePWD = doc.getBoolean("isPWD");
                                             }
-                                            if (isQueuePWD) {
+                                            if (isAdmissionQueuePWD) {
                                                 admissionCurrentQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
                                             } else {
                                                 admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
@@ -174,10 +175,11 @@ public class HomeActivity extends AppCompatActivity {
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                                            boolean isRegistrarQueuePWD = false;
                                             for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isQueuePWD = doc.getBoolean("isPWD");
+                                                isRegistrarQueuePWD = doc.getBoolean("isPWD");
                                             }
-                                            if (isQueuePWD) {
+                                            if (isRegistrarQueuePWD) {
                                                 registrarCurrentQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
                                             } else {
                                                 registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
@@ -202,16 +204,18 @@ public class HomeActivity extends AppCompatActivity {
                             long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
                             String formattedNumber = String.format("%03d", convertedNumber);
 
+
                             ticketsRef.whereEqualTo("service", "cashier")
                                     .whereEqualTo("number", convertedNumber)
                                     .limit(1)
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                                            boolean isCashierQueuePWD = false;
                                             for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isQueuePWD = doc.getBoolean("isPWD");
+                                                isCashierQueuePWD = doc.getBoolean("isPWD");
                                             }
-                                            if (isQueuePWD) {
+                                            if (isCashierQueuePWD) {
                                                 cashierCurrentQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
                                             } else {
                                                 cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
@@ -239,6 +243,7 @@ public class HomeActivity extends AppCompatActivity {
                                 if (ticketNumber != null) {
                                     updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
                                 }
+                                isInQueue = true;
                                 return;
                             }
                         } else {
@@ -274,6 +279,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+    protected void updateUserCooldown() {
+
+    }
+
 
     protected void updateQueueNumber() {;
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -376,7 +386,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void setDialogsAndButtons() {
-        enterQueueButton = findViewById(R.id.enter_the_queue_button);
+        if (isInQueue) {
+            enterQueueButton.setText(R.string.leave_queue);
+            enterQueueButton.setTextColor(getResources().getColor(R.color.decline_button_text));
+            enterQueueButton.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.decline_button));
+        } else {
+            enterQueueButton = findViewById(R.id.enter_the_queue_button);
+        }
 
         dialogPWD = new Dialog(HomeActivity.this);
         dialogPWD.setContentView(R.layout.pop_up_pwd);
@@ -409,9 +425,9 @@ public class HomeActivity extends AppCompatActivity {
         registrar = findViewById(R.id.registrar_queue);
         cashier = findViewById(R.id.cashier_queue);
 
-        admissionDivider = admission.findViewById(R.id.divider);
-        registrarDivider = registrar.findViewById(R.id.divider);
-        cashierDivider = cashier.findViewById(R.id.divider);
+        View admissionDivider = admission.findViewById(R.id.divider);
+        View registrarDivider = registrar.findViewById(R.id.divider);
+        View cashierDivider = cashier.findViewById(R.id.divider);
 
         admissionDivider.setBackgroundColor(getResources().getColor(R.color.blue, null));
         registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
