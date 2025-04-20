@@ -1,0 +1,133 @@
+<resources>
+    <string name="app_name">STIQueuingApp</string>
+    <string name="old_student">Existing Student</string>
+    <string name="new_student_parent">New Student / Parent</string>
+    <string name="welcome_to_the_sti_nqueuing_app">Welcome to the STI\nQueuing App</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+    <string name="close_button">Close</string>
+    <string name="student_number">Student #</string>
+    <string name="which_campus">Which campus are you\ncurrently at?</string>
+    <string name="your_number">YOUR NUMBER</string>
+    <string name="your_cooldown">YOUR COOLDOWN</string>
+    <string name="n_a">N/A</string>
+    <string name="now_serving">NOW SERVING</string>
+    <string name="queue_number">A-000</string>
+    <string name="counter">COUNTER</string>
+    <string name="counter_number">1</string>
+    <string name="cut_off">CUT OFF</string>
+    <string name="cut_off_number">000</string>
+    <string name="enter_the_queue">Enter the Queue</string>
+    <string name="pwd_queue">PWD Queue</string>
+    <string name="are_you_a_person_with_disability">Are you a person with disability?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="please_enter_an_email_to_link_nwith_your_account">Please enter an email to link \nwith your account</string>
+    <string name="verify">Verify</string>
+    <string name="select_a_queue">Select a Queue</string>
+    <string name="disclaimer">DISCLAIMER</string>
+    <string name="cooldown_text_warning">You won\'t be able to queue again for\n5 minutes</string>
+    <string name="select_a_form">Select a form</string>
+    <string name="queued_successfully">Queued Successfully</string>
+    <string name="your_number_in_the_queue_is">Your number in the queue is</string>
+    <string name="pop_up_queue_number">R-P-000</string>
+    <string name="leave_queue">Leave Queue</string>
+    <string name="are_you_sure_you_want_to_leave_n_your_current_queue">Are you sure you want to leave your\ncurrent queue</string>
+
+    <string name="saf_name">Scholarship Application Form</string>
+    <string name="SAFTitle">SCHOLARSHIP\nAPPLICATION FORM (SAF)</string>
+    <string name="instructions">PLEASE FILL OUT THIS FORM COMPLETELY TO FACILITATE\nPROCESSING OF YOUR APPLICATION.\nType CAREFULLY and indicate NONE or NOT APPLICABLE whenever\nappropriate.</string>
+    <string name="application_date">Application Date:</string>
+    <string name="campus">Select a campus</string>
+    <string name="level">Level:</string>
+    <string name="preferred_program_track_strand_specialization">Preferred Program/Track/Strand/Specialization:</string>
+    <string name="senior_high_school">SENIOR HIGH SCHOOL</string>
+    <string name="tertiary">TERTIARY</string>
+    <string name="title_of_scholarship">Title of Scholarship:</string>
+    <string name="term">Term:</string>
+    <string name="academic_year">Academic Year:</string>
+    <string name="student_information">Student Information:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="first_name">First Name:</string>
+    <string name="middle_name">Middle Name:</string>
+    <string name="birthdate">Birthdate: (MM/DD/YYYY)</string>
+    <string name="age">Age:</string>
+    <string name="gender">Gender:</string>
+    <string name="contact_number">Contact Number:</string>
+    <string name="permanent_address">Permanent Address:</string>
+    <string name="gwa">General Weighted Average:</string>
+    <string name="rank">Rank:</string>
+    <string name="lnr_or_pscs">LNR or PSCS Student No.</string>
+    <string name="deped_voucher_esc_holder">DepEd Voucher/ESC Holder:</string>
+    <string name="elementary">Elementary:</string>
+    <string name="name_of_school">Name of School:</string>
+    <string name="school_address">School Address:</string>
+    <string name="honors_rank">Honors/Rank/Scholarship Received, if any:</string>
+    <string name="program_track">Program/Track/Strand/Course:</string>
+    <string name="date_of_graduation">Date of Graduation:</string>
+    <string name="schoolType">Type of School</string>
+    <string name="privateSchool">Private</string>
+    <string name="publicSchool">Public</string>
+    <string name="jhs">Junior High School:</string>
+    <string name="shs">Senior High School:</string>
+    <string name="tertiary2">Tertiary:</string>
+    <string name="consentTerms">I hereby declare that the information I have provided are true, correct and complete to the best of my knowledge. I fully understand that if I have provided and false information, such as the basis for the denial of my application or non-readmission or exclusion from STI if already admitted. I, likewise, read and understood the terms and conditions and herein provided and agree to the same. I, further, declare that I am consenting to the collection, use, processing and sharing of my personal data, pursuant to Republic Act No. 10173 or the Data Privacy Act of 2012, for any purpose relative to my enrollment with STI, including but not limited to; evaluation of my application for admission; recording, storing and maintaining said personal information in the People Soft Campus Solution (PSCS) information system or any other similar information system, directories and alumni records; analyzing, assessing and sharing\nfor academic, co-curricular and extra-curricular activities and other related activities, and possible related placement activities. I am fully aware that these personal information I provided shall be retained as long as necessary as determined by STI.</string>
+    <string name="signed_by">Signed By:</string>
+    <string name="conforme">Conforme:</string>
+    <string name="scholarshipDetails">Student’s application and requirements have been\nverified to comply with the terms and conditions\nof the program. As such, the following scholarship\nbenefits and accorded to him/her:</string>
+    <string name="stiExScore">STI SCHOLARSHIP EXAMINATION SCORE</string>
+    <string name="tuitionMisc"><![CDATA[Tuition Fees & Miscellaneous Fees]]></string>
+    <string name="other_school_fees">Other School Fees</string>
+    <string name="special_fees">Special Fees</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="scholarshipCharge">This scholarship grant is chargeable to:</string>
+    <string name="sti_school">STI School</string>
+    <string name="registration_fee">Registration Fee</string>
+    <string name="sti_foundation">STI Foundation</string>
+    <string name="govPartnership">Government Partnership/Grant</string>
+    <string name="sibling_scholarship">SIBLING SCHOLARSHIP</string>
+    <string name="fullSaf">Fully Accomplished SAF Form</string>
+    <string name="scholarship_nrenewal_form_saf">SCHOLARSHIP\nRENEWAL FORM (SAF)</string>
+    <string name="enter_queue">Enter Queue</string>
+</resources>

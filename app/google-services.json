@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "245566263455",
+    "project_id": "sti-queueing-app",
+    "storage_bucket": "sti-queueing-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245566263455:android:82fe5e31bc9f782b6612aa",
+        "android_client_info": {
+          "package_name": "com.example.stiqueuingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJB4UnYkGGr1fmzUyK6zu45CXwdjRI2a8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

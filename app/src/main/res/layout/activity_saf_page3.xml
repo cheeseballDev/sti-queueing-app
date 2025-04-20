@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.forms.saf_page3">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/SAF_instructions"
+                android:layout_width="399dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="104dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center"
+                android:text="@string/instructions"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SAF_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                android:text="@string/SAFTitle"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="61dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/sti_logo" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="172dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/line" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="40dp"
+                android:layout_height="23dp"
+                android:layout_marginTop="24dp"
+                android:color="#767676"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.958"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/gear_solid" />
+
+            <TextView
+                android:id="@+id/educationDetails"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/blue"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingStart="35dp"
+                android:text="II. EDUCATION DETAILS"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/student_information"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/educationDetails" />
+
+            <EditText
+                android:id="@+id/gwa_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/gwa"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <EditText
+                android:id="@+id/rank_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/rank"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gwa_saf3" />
+
+            <EditText
+                android:id="@+id/lnr_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/lnr_or_pscs"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rank_saf3" />
+
+            <TextView
+                android:id="@+id/voucheresc_saf3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/deped_voucher_esc_holder"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lnr_saf3" />
+
+            <TextView
+                android:id="@+id/yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/yes"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintTop_toBottomOf="@+id/voucheresc_saf3" />
+
+            <TextView
+                android:id="@+id/no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/no"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/yes" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/voucheresc_saf3"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                app:srcCompat="@drawable/square_regular" />
+
+            <TextView
+                android:id="@+id/schools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:background="@color/blue"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingStart="25dp"
+                android:text="Schools:"
+                android:textColor="@color/white"
+                android:textSize="23dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+            <TextView
+                android:id="@+id/elementary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/elementary"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schools" />
+
+            <EditText
+                android:id="@+id/schoolName_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/name_of_school"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/elementary" />
+
+            <EditText
+                android:id="@+id/schoolAddress_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/school_address"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolName_saf3" />
+
+            <EditText
+                android:id="@+id/programTrack_saf3"
+                android:layout_width="290dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/program_track"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolAddress_saf3" />
+
+            <EditText
+                android:id="@+id/honors_saf3"
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/honors_rank"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/programTrack_saf3" />
+
+            <EditText
+                android:id="@+id/graduationDate_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/date_of_graduation"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/honors_saf3" />
+
+            <TextView
+                android:id="@+id/schoolType1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/schoolType"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/graduationDate_saf3" />
+
+            <TextView
+                android:id="@+id/public1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/publicSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@id/schoolTypeBox1"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType1" />
+
+            <TextView
+                android:id="@+id/private1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/privateSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@+id/schoolTypeBox2"
+                app:layout_constraintTop_toBottomOf="@+id/public1" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox1"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType1"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox2"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolTypeBox1"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/separator1"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/schoolTypeBox2"
+                app:srcCompat="@drawable/line" />
+
+            <TextView
+                android:id="@+id/jhs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/jhs"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator1" />
+
+            <EditText
+                android:id="@+id/schoolName2_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/name_of_school"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jhs" />
+
+            <EditText
+                android:id="@+id/schoolAddress2_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/school_address"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolName2_saf3" />
+
+            <EditText
+                android:id="@+id/programTrack2_saf3"
+                android:layout_width="290dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/program_track"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolAddress2_saf3" />
+
+            <EditText
+                android:id="@+id/honors2_saf3"
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/honors_rank"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/programTrack2_saf3" />
+
+            <EditText
+                android:id="@+id/graduationDate2_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/date_of_graduation"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/honors2_saf3" />
+
+            <TextView
+                android:id="@+id/schoolType2_saf3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/schoolType"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/graduationDate_saf3" />
+
+            <TextView
+                android:id="@+id/public2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/publicSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@id/schoolTypeBox5"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType2" />
+
+            <TextView
+                android:id="@+id/private2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/privateSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@+id/schoolTypeBox3"
+                app:layout_constraintTop_toBottomOf="@+id/public2" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox3"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType2_saf3"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox4"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolTypeBox3"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/separator2"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/schoolTypeBox4"
+                app:srcCompat="@drawable/line" />
+
+            <TextView
+                android:id="@+id/shs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/shs"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator2" />
+
+            <EditText
+                android:id="@+id/schoolName3_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/name_of_school"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shs" />
+
+            <EditText
+                android:id="@+id/schoolAddress3_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/school_address"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolName3_saf3" />
+
+            <EditText
+                android:id="@+id/programTrack3_saf3"
+                android:layout_width="290dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/program_track"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolAddress3_saf3" />
+
+            <EditText
+                android:id="@+id/honors3_saf3"
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/honors_rank"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/programTrack3_saf3" />
+
+            <EditText
+                android:id="@+id/graduationDate3_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/date_of_graduation"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/honors3_saf3" />
+
+            <TextView
+                android:id="@+id/schoolType3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/schoolType"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/graduationDate3_saf3" />
+
+            <TextView
+                android:id="@+id/public3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/publicSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@id/schoolTypeBox4"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType3" />
+
+            <TextView
+                android:id="@+id/private3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/privateSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@+id/schoolTypeBox5"
+                app:layout_constraintTop_toBottomOf="@+id/public3" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox5"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType3"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox6"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolTypeBox5"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/separator3"
+                android:layout_width="461dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/schoolTypeBox6"
+                app:srcCompat="@drawable/line" />
+
+            <TextView
+                android:id="@+id/tertiary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/tertiary2"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator3" />
+
+            <EditText
+                android:id="@+id/schoolName4_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/name_of_school"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tertiary" />
+
+            <EditText
+                android:id="@+id/schoolAddress4_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/school_address"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolName4_saf3" />
+
+            <EditText
+                android:id="@+id/programTrack4_saf3"
+                android:layout_width="290dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/program_track"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolAddress4_saf3" />
+
+            <EditText
+                android:id="@+id/honors4_saf3"
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/honors_rank"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/programTrack4_saf3" />
+
+            <EditText
+                android:id="@+id/graduationDate4_saf3"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_input"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="@string/date_of_graduation"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#80000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/honors4_saf3" />
+
+            <TextView
+                android:id="@+id/schoolType4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/schoolType"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/graduationDate4_saf3" />
+
+            <TextView
+                android:id="@+id/public4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/publicSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@id/schoolTypeBox7"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType4" />
+
+            <TextView
+                android:id="@+id/private4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/privateSchool"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@+id/schoolTypeBox8"
+                app:layout_constraintTop_toBottomOf="@+id/public4" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox7"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolType4"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/schoolTypeBox8"
+                android:layout_width="33dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schoolTypeBox7"
+                app:srcCompat="@drawable/square_regular" />
+
+            <ImageView
+                android:id="@+id/separator4"
+                android:layout_width="461dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/schoolTypeBox8"
+                app:srcCompat="@drawable/line" />
+
+            <TextView
+                android:id="@+id/consent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Privacy Consent"
+                android:textSize="23dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator4" />
+
+            <TextView
+                android:id="@+id/consentTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/consentTerms"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="14dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/consent" />
+
+            <TextView
+                android:id="@+id/signature1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/signed_by"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="14dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/consentTerms" />
+
+            <ImageView
+                android:id="@+id/signatureBox1_saf3"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signature1"
+                app:srcCompat="@drawable/signature_box" />
+
+            <TextView
+                android:id="@+id/signature2_saf3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/conforme"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="14dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signatureBox1_saf3" />
+
+            <ImageView
+                android:id="@+id/signatureBox2"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signature2_saf3"
+                app:srcCompat="@drawable/signature_box" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signatureBox2"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/next_saf3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:textColor="@color/dark_yellow"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signatureBox2" />
+
+            <Button
+                android:id="@+id/back_saf3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:backgroundTint="@color/yellow"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="@color/dark_yellow"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signatureBox2" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
