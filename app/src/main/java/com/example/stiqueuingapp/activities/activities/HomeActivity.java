@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -26,6 +27,7 @@ import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,15 +35,14 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Document;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -78,6 +79,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private ArrayList<String> forms = new ArrayList<>();
 
+    private CountDownTimer cooldownTimer;
+
+    private long remainingCooldownMillis = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +98,9 @@ public class HomeActivity extends AppCompatActivity {
         setQueues();
         setSpinner();
         setUserId();
-        startQueueButton();
         updateQueue();
+        updateEnterQueueButton();
+        startQueueButton();
     }
 
     protected void setUserId() {
@@ -242,9 +248,10 @@ public class HomeActivity extends AppCompatActivity {
                                 String ticketQueueType = document.getString("service").toUpperCase();
                                 if (ticketNumber != null) {
                                     updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
+                                    isInQueue = true;
+                                    return;
                                 }
-                                isInQueue = true;
-                                return;
+
                             }
                         } else {
                             userNumber.setText("N/A");
@@ -280,35 +287,69 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    protected void updateUserCooldown() {
-
-    }
-
-
-    protected void updateQueueNumber() {;
+    protected void updateQueueNumber() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference queueRef = db.collection("QUEUES").document(selectedQueueType.toUpperCase());
 
         db.runTransaction(transaction -> {
             DocumentSnapshot snapshot = transaction.get(queueRef);
             Long currentNumber = snapshot.getLong("currentNumber");
-            long newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
-            transaction.update(queueRef, "currentNumber", newNumber);
-            createNewTicket(db, newNumber);
+            long newNumber;
+            Boolean isUserInQueue = getUserQueueStatus(db, transaction);
+            if (isUserInQueue) {
+                newNumber = (currentNumber != null) ? currentNumber - 1 : 1L;
+                transaction.update(queueRef, "currentNumber", newNumber);
+            } else {
+                newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
+                transaction.update(queueRef, "currentNumber", newNumber);
+                createNewTicket(db, newNumber);
+            }
             return newNumber;
         });
     }
 
+    protected Boolean getUserQueueStatus(FirebaseFirestore db, Transaction transaction) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        boolean isNewUser = sharedPreferences.getBoolean("isNewUser", false);
+        String email = sharedPreferences.getString("userEmail", "");
+        try {
+            if (isNewUser) {
+                DocumentReference userRef = db.collection("USERS").document(email);
+                DocumentSnapshot userSnapshot = transaction.get(userRef);
+                return userSnapshot.getBoolean("isUserInQueue");
+            } else {
+                DocumentReference studentRef = db.collection("STUDENTS").document(id);
+                DocumentSnapshot studentSnapshot = transaction.get(studentRef);
+                return studentSnapshot.getBoolean("isUserInQueue");
+            }
+        } catch (FirebaseFirestoreException e) {
+            return false;
+        }
+    }
+
+    protected void updateEnterQueueButton() {
+        if (isInQueue) {
+            enterQueueButton.setText(R.string.leave_queue);
+            enterQueueButton.setTextColor(getResources().getColor(R.color.decline_button_text));
+            enterQueueButton.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.decline_button));
+            return;
+        }
+        enterQueueButton.setText(R.string.enter_queue);
+        enterQueueButton.setTextColor(getResources().getColor(R.color.ghost_button_text));
+        enterQueueButton.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.ghost_button));
+    }
+
     protected void createNewTicket(FirebaseFirestore db, long newNumber) {
         db.runTransaction(transaction -> {
-
             Map<String, Object> ticket = new HashMap<>();
             ticket.put("createdAt", FieldValue.serverTimestamp());
             ticket.put("isPWD", isPWD);
             ticket.put("number", newNumber);
             ticket.put("service", selectedQueueType);
-            ticket.put("status", "waiting");
             ticket.put("userid", id);
+
+            isInQueue = true;
+            updateEnterQueueButton();
 
             DocumentReference ticketRef = db.collection("TICKETS").document();
             transaction.set(ticketRef, ticket);
@@ -316,8 +357,29 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    protected void deleteTicket() {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("TICKETS")
+                .whereEqualTo("userid", id)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                        for (DocumentSnapshot document : snapshot.getDocuments()) {
+                            document.getReference().delete();
+                        }
+                    }
+        });
+    }
+
     protected void startQueueButton() {
         enterQueueButton.setOnClickListener(view ->{
+            if (enterQueueButton.getText().equals("Leave Queue")) {
+                deleteTicket();
+                updateQueueNumber();
+                isInQueue = false;
+                updateEnterQueueButton();
+                return;
+            }
             dialogPWD.show();
             startPWD();
         });
@@ -354,20 +416,18 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
     protected void startSelectForm() {
         dialogSelectForm.show();
 
         selectFormNextButton.setOnClickListener(view -> {
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
                 updateQueueNumber();
-
+                updateEnterQueueButton();
                 dialogSelectForm.dismiss();
             }
 
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Application Form")) {
                 dialogSelectForm.dismiss();
-
                 startActivity(new Intent(HomeActivity.this, saf_page1.class));
                 finish();
             }
@@ -386,13 +446,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void setDialogsAndButtons() {
-        if (isInQueue) {
-            enterQueueButton.setText(R.string.leave_queue);
-            enterQueueButton.setTextColor(getResources().getColor(R.color.decline_button_text));
-            enterQueueButton.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.decline_button));
-        } else {
-            enterQueueButton = findViewById(R.id.enter_the_queue_button);
-        }
+        enterQueueButton = findViewById(R.id.enter_the_queue_button);
 
         dialogPWD = new Dialog(HomeActivity.this);
         dialogPWD.setContentView(R.layout.pop_up_pwd);

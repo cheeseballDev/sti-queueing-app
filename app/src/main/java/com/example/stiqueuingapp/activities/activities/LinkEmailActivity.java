@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.models.User;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -90,7 +91,7 @@ public class LinkEmailActivity extends AppCompatActivity {
                     if (snapshot.exists())
                         transaction.update(emailDoc, "campus", campus);
 
-                    transaction.set(emailDoc, new User(email, campus, uniqueId));
+                    transaction.set(emailDoc, new User(email, campus, uniqueId , Timestamp.now(), false, false));
                     return null;
 
                 }).addOnSuccessListener(e -> {
