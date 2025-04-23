@@ -3,8 +3,10 @@ package com.example.stiqueuingapp.activities.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.DnsResolver;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -35,6 +37,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
 
@@ -51,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button
             enterQueueButton,
             PWDConfirmButton, PWDDeclineButton,
+            leaveQueueConfirmButton, leaveQueueDeclineButton,
             selectQueueNextButton,
             selectFormNextButton;
 
@@ -65,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
             admissionCurrentCutOff, registrarCurrentCutOff, cashierCurrentCutOff,
             admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter;
 
-    private Dialog dialogPWD, dialogSelectQueue, dialogSelectForm;
+    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm;
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
@@ -79,9 +83,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private ArrayList<String> forms = new ArrayList<>();
 
-    private CountDownTimer cooldownTimer;
+    //private CountDownTimer cooldownTimer;
 
-    private long remainingCooldownMillis = 0;
+    //private long remainingCooldownMillis = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,17 +97,30 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        setUserId(new Callback<Void>() {
+            @Override
+            public void onSuccess() {
+                setUserSelectedQueueType();
+            }
+            @Override
+            public void onFailure(Exception e) {
+                Log.w("FIREBASE", "Error getting documents:" + e);
+            }
+        });
         setDialogsAndButtons();
         setCategories();
         setQueues();
         setSpinner();
-        setUserId();
         updateQueue();
         updateEnterQueueButton();
         startQueueButton();
     }
 
-    protected void setUserId() {
+    /*
+        BACKEND LOGIC
+     */
+
+    protected void setUserId(final Callback<Void> callback) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.runTransaction(transaction -> {
@@ -114,11 +131,33 @@ public class HomeActivity extends AppCompatActivity {
                 DocumentReference userRef = db.collection("USERS").document(email);
                 DocumentSnapshot userSnapshot = transaction.get(userRef);
                 id = userSnapshot.getString("id");
+                callback.onSuccess();
             } else {
                 id = sharedPreferences.getString("studentNumber", "");
+                callback.onSuccess();
             }
             return null;
-        });
+        }).addOnFailureListener(callback::onFailure);
+    }
+
+    protected void setUserSelectedQueueType() {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("TICKETS")
+                .whereEqualTo("userid", id)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            Log.w("FIREBASE", "SELECTED QUEUE TYPE" + document.getString("service"));
+                            selectedQueueType = document.getString("service");
+                        }
+                    }
+                });
+    }
+    interface Callback<T> {
+        void onSuccess();
+
+        void onFailure(Exception e);
     }
 
     protected void updateQueue() {
@@ -210,7 +249,6 @@ public class HomeActivity extends AppCompatActivity {
                             long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
                             String formattedNumber = String.format("%03d", convertedNumber);
 
-
                             ticketsRef.whereEqualTo("service", "cashier")
                                     .whereEqualTo("number", convertedNumber)
                                     .limit(1)
@@ -249,13 +287,15 @@ public class HomeActivity extends AppCompatActivity {
                                 if (ticketNumber != null) {
                                     updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
                                     isInQueue = true;
+                                    updateEnterQueueButton();
                                     return;
                                 }
 
                             }
                         } else {
                             userNumber.setText("N/A");
-
+                            isInQueue = false;
+                            updateEnterQueueButton();
                         }
                     }
                 });
@@ -295,8 +335,7 @@ public class HomeActivity extends AppCompatActivity {
             DocumentSnapshot snapshot = transaction.get(queueRef);
             Long currentNumber = snapshot.getLong("currentNumber");
             long newNumber;
-            Boolean isUserInQueue = getUserQueueStatus(db, transaction);
-            if (isUserInQueue) {
+            if (isInQueue) {
                 newNumber = (currentNumber != null) ? currentNumber - 1 : 1L;
                 transaction.update(queueRef, "currentNumber", newNumber);
             } else {
@@ -308,24 +347,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    protected Boolean getUserQueueStatus(FirebaseFirestore db, Transaction transaction) {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-        boolean isNewUser = sharedPreferences.getBoolean("isNewUser", false);
-        String email = sharedPreferences.getString("userEmail", "");
-        try {
-            if (isNewUser) {
-                DocumentReference userRef = db.collection("USERS").document(email);
-                DocumentSnapshot userSnapshot = transaction.get(userRef);
-                return userSnapshot.getBoolean("isUserInQueue");
-            } else {
-                DocumentReference studentRef = db.collection("STUDENTS").document(id);
-                DocumentSnapshot studentSnapshot = transaction.get(studentRef);
-                return studentSnapshot.getBoolean("isUserInQueue");
-            }
-        } catch (FirebaseFirestoreException e) {
-            return false;
-        }
-    }
 
     protected void updateEnterQueueButton() {
         if (isInQueue) {
@@ -371,17 +392,33 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        START THE LISTENERS FOR DIALOG BUTTONS
+     */
+
     protected void startQueueButton() {
         enterQueueButton.setOnClickListener(view ->{
             if (enterQueueButton.getText().equals("Leave Queue")) {
-                deleteTicket();
-                updateQueueNumber();
-                isInQueue = false;
-                updateEnterQueueButton();
+                dialogLeaveQueue.show();
+                startLeaveQueue();
                 return;
             }
             dialogPWD.show();
             startPWD();
+        });
+    }
+
+    protected void startLeaveQueue() {
+        leaveQueueConfirmButton.setOnClickListener(view -> {
+            deleteTicket();
+            updateQueueNumber();
+            isInQueue = false;
+            updateEnterQueueButton();
+            dialogLeaveQueue.dismiss();
+        });
+
+        leaveQueueDeclineButton.setOnClickListener(view -> {
+            dialogLeaveQueue.dismiss();
         });
     }
 
@@ -445,6 +482,10 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        SET THE ENTIRE FRONTEND
+     */
+
     protected void setDialogsAndButtons() {
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
 
@@ -452,6 +493,14 @@ public class HomeActivity extends AppCompatActivity {
         dialogPWD.setContentView(R.layout.pop_up_pwd);
         dialogPWD.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogPWD.setCancelable(true);
+
+        dialogLeaveQueue = new Dialog(HomeActivity.this);
+        dialogLeaveQueue.setContentView(R.layout.pop_up_leave_queue);
+        dialogLeaveQueue.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogLeaveQueue.setCancelable(true);
+
+        leaveQueueConfirmButton = dialogLeaveQueue.findViewById(R.id.confirm_button);
+        leaveQueueDeclineButton = dialogLeaveQueue.findViewById(R.id.decline_button);
 
         PWDConfirmButton = dialogPWD.findViewById(R.id.confirm_button);
         PWDDeclineButton = dialogPWD.findViewById(R.id.decline_button);
