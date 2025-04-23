@@ -154,11 +154,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
     }
-    interface Callback<T> {
-        void onSuccess();
-
-        void onFailure(Exception e);
-    }
 
     protected void updateQueue() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -369,27 +364,29 @@ public class HomeActivity extends AppCompatActivity {
             ticket.put("service", selectedQueueType);
             ticket.put("userid", id);
 
-            isInQueue = true;
-            updateEnterQueueButton();
-
             DocumentReference ticketRef = db.collection("TICKETS").document();
             transaction.set(ticketRef, ticket);
             return null;
         });
     }
 
-    protected void deleteTicket() {
+    protected void deleteTicket(final Callback<Void> callback) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         db.collection("TICKETS")
                 .whereEqualTo("userid", id)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                        for (DocumentSnapshot document : snapshot.getDocuments()) {
-                            document.getReference().delete();
-                        }
+                .limit(1)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                        document.getReference().delete()
+                                .addOnSuccessListener(aVoid -> {
+                                    callback.onSuccess();
+                                })
+                                .addOnFailureListener(callback::onFailure);
                     }
-        });
+                });
     }
 
     /*
@@ -410,10 +407,17 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void startLeaveQueue() {
         leaveQueueConfirmButton.setOnClickListener(view -> {
-            deleteTicket();
-            updateQueueNumber();
-            isInQueue = false;
-            updateEnterQueueButton();
+            deleteTicket(new Callback<Void>() {
+                @Override
+                public void onSuccess() {
+                    isInQueue = true;
+                    updateQueueNumber();
+                }
+                @Override
+                public void onFailure(Exception e) {
+                    Log.w("FIREBASE", "Error deleting ticket:" + e);
+                }
+            });
             dialogLeaveQueue.dismiss();
         });
 
@@ -570,5 +574,15 @@ public class HomeActivity extends AppCompatActivity {
         }
         ArrayAdapter<String> formAdapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, forms);
         spinnerSelectForm.setAdapter(formAdapter);
+    }
+
+    /*
+        MISC
+     */
+
+    interface Callback<T> {
+        void onSuccess();
+
+        void onFailure(Exception e);
     }
 }
