@@ -333,6 +333,7 @@ public class HomeActivity extends AppCompatActivity {
             if (isInQueue) {
                 newNumber = (currentNumber != null) ? currentNumber - 1 : 1L;
                 transaction.update(queueRef, "currentNumber", newNumber);
+                isInQueue = false;
             } else {
                 newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
                 transaction.update(queueRef, "currentNumber", newNumber);
@@ -396,7 +397,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void startQueueButton() {
         enterQueueButton.setOnClickListener(view ->{
             if (enterQueueButton.getText().equals("Leave Queue")) {
-                dialogLeaveQueue.show();
                 startLeaveQueue();
                 return;
             }
@@ -406,6 +406,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void startLeaveQueue() {
+        dialogLeaveQueue.show();
+
         leaveQueueConfirmButton.setOnClickListener(view -> {
             deleteTicket(new Callback<Void>() {
                 @Override
@@ -549,13 +551,14 @@ public class HomeActivity extends AppCompatActivity {
         admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_number);
         admissionCurrentCutOff = admission.findViewById(R.id.queue_current_cut_off);
 
+        cashierCurrentCounter = cashier.findViewById(R.id.queue_current_counter);
+        cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_number);
+        cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
+
         registrarCurrentCounter = registrar.findViewById(R.id.queue_current_counter);
         registrarCurrentQueueNumber = registrar.findViewById(R.id.queue_current_number);
         registrarCurrentCutOff = registrar.findViewById(R.id.queue_current_cut_off);
 
-        cashierCurrentCounter = cashier.findViewById(R.id.queue_current_counter);
-        cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_number);
-        cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
     }
 
     protected void setSpinner() {
