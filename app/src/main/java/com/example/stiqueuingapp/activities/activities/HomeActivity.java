@@ -346,7 +346,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
     protected void updateEnterQueueButton() {
         if (isInQueue) {
             enterQueueButton.setText(R.string.leave_queue);
@@ -550,6 +549,7 @@ public class HomeActivity extends AppCompatActivity {
         dialogSuccessForm.setContentView(R.layout.pop_up_success_queue_form);
         dialogSuccessForm.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogSuccessForm.setCancelable(true);
+
         successQueueCloseImageButton = dialogSuccessForm.findViewById(R.id.close_button);
         successQueueNumber = dialogSuccessForm.findViewById(R.id.queue_number);
         successQueueCloseButton = dialogSuccessForm.findViewById(R.id.queue_close_button);
