@@ -3,9 +3,7 @@ package com.example.stiqueuingapp.activities.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.DnsResolver;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -29,7 +26,6 @@ import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,13 +35,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -56,20 +50,23 @@ public class HomeActivity extends AppCompatActivity {
             PWDConfirmButton, PWDDeclineButton,
             leaveQueueConfirmButton, leaveQueueDeclineButton,
             selectQueueNextButton,
-            selectFormNextButton;
+            selectFormNextButton,
+            successQueueCloseButton ;
 
     private ImageButton
             PWDCloseButton,
             selectQueueCloseButton,
-            selectFormCloseButton;
+            selectFormCloseButton,
+            successQueueCloseImageButton;
 
     private TextView
             userNumber, userCooldown,
+            successQueueNumber,
             admissionCurrentQueueNumber, registrarCurrentQueueNumber, cashierCurrentQueueNumber,
             admissionCurrentCutOff, registrarCurrentCutOff, cashierCurrentCutOff,
             admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter;
 
-    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm;
+    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm;
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
@@ -301,23 +298,29 @@ public class HomeActivity extends AppCompatActivity {
             switch (ticketQueueType) {
                 case "ADMISSION":
                     userNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
+                    successQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
                     return;
                 case "CASHIER":
                     userNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
+                    successQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
                     return;
                 case "REGISTRAR":
                     userNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
+                    successQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
             }
         } else {
             switch (ticketQueueType) {
                 case "ADMISSION":
                     userNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
+                    successQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
                     return;
                 case "CASHIER":
                     userNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
+                    successQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
                     return;
                 case "REGISTRAR":
                     userNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
+                    successQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
             }
         }
     }
@@ -401,7 +404,7 @@ public class HomeActivity extends AppCompatActivity {
                 return;
             }
             dialogPWD.show();
-            startPWD();
+            showPWDForm();
         });
     }
 
@@ -428,15 +431,16 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    protected void startPWD() {
+    protected void showPWDForm() {
         PWDConfirmButton.setOnClickListener(view -> {
-            startSelectQueue();
+            showSelectQueueForm();
             isPWD = true;
             dialogPWD.dismiss();
         });
 
         PWDDeclineButton.setOnClickListener(view -> {
-            startSelectQueue();
+            showSelectQueueForm();
+            isPWD = false;
             dialogPWD.dismiss();
         });
 
@@ -445,11 +449,11 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    protected void startSelectQueue() {
+    protected void showSelectQueueForm() {
         dialogSelectQueue.show();
         selectQueueNextButton.setOnClickListener(view -> {
             selectedQueueType = spinnerSelectQueue.getSelectedItem().toString().toLowerCase();
-            startSelectForm();
+            showSelectFormType();
             dialogSelectQueue.dismiss();
         });
 
@@ -459,13 +463,14 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    protected void startSelectForm() {
+    protected void showSelectFormType() {
         dialogSelectForm.show();
 
         selectFormNextButton.setOnClickListener(view -> {
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
                 updateQueueNumber();
                 updateEnterQueueButton();
+                showSuccessQueueForm();
                 dialogSelectForm.dismiss();
             }
 
@@ -488,6 +493,19 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    protected void showSuccessQueueForm() {
+        dialogSuccessForm.show();
+
+        successQueueCloseButton.setOnClickListener(view -> {
+            dialogSuccessForm.dismiss();
+        });
+
+        successQueueCloseImageButton.setOnClickListener(view -> {
+            dialogSuccessForm.dismiss();
+        });
+
+    }
+
     /*
         SET THE ENTIRE FRONTEND
      */
@@ -496,12 +514,12 @@ public class HomeActivity extends AppCompatActivity {
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
 
         dialogPWD = new Dialog(HomeActivity.this);
-        dialogPWD.setContentView(R.layout.pop_up_pwd);
+        dialogPWD.setContentView(R.layout.pop_up_pwd_form);
         dialogPWD.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogPWD.setCancelable(true);
 
         dialogLeaveQueue = new Dialog(HomeActivity.this);
-        dialogLeaveQueue.setContentView(R.layout.pop_up_leave_queue);
+        dialogLeaveQueue.setContentView(R.layout.pop_up_leave_queue_form);
         dialogLeaveQueue.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogLeaveQueue.setCancelable(true);
 
@@ -513,7 +531,7 @@ public class HomeActivity extends AppCompatActivity {
         PWDCloseButton = dialogPWD.findViewById(R.id.close_button);
 
         dialogSelectQueue = new Dialog(HomeActivity.this);
-        dialogSelectQueue.setContentView(R.layout.pop_up_select_queue);
+        dialogSelectQueue.setContentView(R.layout.pop_up_select_queue_form);
         dialogSelectQueue.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogSelectQueue.setCancelable(true);
 
@@ -527,6 +545,14 @@ public class HomeActivity extends AppCompatActivity {
 
         selectFormNextButton = dialogSelectForm.findViewById(R.id.enter_queue_button);
         selectFormCloseButton = dialogSelectForm.findViewById(R.id.close_button);
+
+        dialogSuccessForm = new Dialog(HomeActivity.this);
+        dialogSuccessForm.setContentView(R.layout.pop_up_success_queue_form);
+        dialogSuccessForm.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogSuccessForm.setCancelable(true);
+        successQueueCloseImageButton = dialogSuccessForm.findViewById(R.id.close_button);
+        successQueueNumber = dialogSuccessForm.findViewById(R.id.queue_number);
+        successQueueCloseButton = dialogSuccessForm.findViewById(R.id.queue_close_button);
     }
 
     protected void setCategories() {
