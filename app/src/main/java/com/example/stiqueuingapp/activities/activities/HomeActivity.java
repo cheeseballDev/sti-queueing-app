@@ -1,6 +1,7 @@
 package com.example.stiqueuingapp.activities.activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -70,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
-    private boolean isPWD = false, isNewUser = false, isQueuePWD = false, isInQueue = false;
+    private boolean isPWD = false, isNewUser = false, isInQueue = false, shouldShowQueueSuccessPopup = false;
 
     private String selectedQueueType;
 
@@ -80,9 +81,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private ArrayList<String> forms = new ArrayList<>();
 
-    //private CountDownTimer cooldownTimer;
+    private static long COOLDOWN_DURATION_MILLIS = 15 * 60 * 1000;
 
-    //private long remainingCooldownMillis = 0;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +115,30 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     /*
+        COOLDOWN FUNCTIONS
+     */
+
+    protected void initializeCooldownPrefs(Context context) {
+        sharedPreferences = context.getSharedPreferences("QueueCooldown", Context.MODE_PRIVATE);
+    }
+
+    protected void recordQueueRequestTime() {
+        long currentTime = System.currentTimeMillis();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("QueueCooldown", currentTime);
+        editor.apply();
+    }
+    
+    protected boolean isOnCooldown() {
+        long lastRequestTime = sharedPreferences.getLong("lastQueueRequestTime", 0);
+        long currentTime = System.currentTimeMillis();
+        long timeDifference = currentTime - lastRequestTime;
+        return timeDifference < COOLDOWN_DURATION_MILLIS;
+    }
+
+
+
+    /*
         BACKEND LOGIC
      */
 
@@ -121,13 +146,24 @@ public class HomeActivity extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.runTransaction(transaction -> {
-            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+            sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
             isNewUser = sharedPreferences.getBoolean("isNewUser", false);
             String email = sharedPreferences.getString("userEmail", "");
             if (isNewUser) {
                 DocumentReference userRef = db.collection("USERS").document(email);
                 DocumentSnapshot userSnapshot = transaction.get(userRef);
                 id = userSnapshot.getString("id");
+                deleteTicket(new Callback<Void>() {
+                    @Override
+                    public void onSuccess() {
+                        setUserSelectedQueueType();
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.w("FIREBASE", "Error getting documents:" + e);
+                    }
+                });
                 callback.onSuccess();
             } else {
                 id = sharedPreferences.getString("studentNumber", "");
@@ -282,7 +318,6 @@ public class HomeActivity extends AppCompatActivity {
                                     updateEnterQueueButton();
                                     return;
                                 }
-
                             }
                         } else {
                             userNumber.setText("N/A");
@@ -475,6 +510,13 @@ public class HomeActivity extends AppCompatActivity {
 
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Application Form")) {
                 dialogSelectForm.dismiss();
+                sharedPreferences = getSharedPreferences("HomePreferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isPWD", isPWD)
+                        .putBoolean("isInQueue", isInQueue)
+                        .putString("userid", id)
+                        .putString("queueType",selectedQueueType)
+                        .apply();
                 startActivity(new Intent(HomeActivity.this, saf_page1.class));
                 finish();
             }
@@ -502,7 +544,6 @@ public class HomeActivity extends AppCompatActivity {
         successQueueCloseImageButton.setOnClickListener(view -> {
             dialogSuccessForm.dismiss();
         });
-
     }
 
     /*
@@ -608,6 +649,21 @@ public class HomeActivity extends AppCompatActivity {
     /*
         MISC
      */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        if (intent != null) {
+            shouldShowQueueSuccessPopup = intent.getBooleanExtra("shouldShowQueueSuccessPopup", false);
+        }
+        
+        if (shouldShowQueueSuccessPopup) {
+            showSuccessQueueForm();
+            updateQueueNumber();
+            updateEnterQueueButton();
+            shouldShowQueueSuccessPopup = false;
+        }
+    }
 
     interface Callback<T> {
         void onSuccess();

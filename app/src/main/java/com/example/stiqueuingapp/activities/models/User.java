@@ -18,12 +18,9 @@ public class User {
     @PropertyName("isUserInQueue")
     private Boolean isUserInQueue;
 
-
     public void setCampus(String campus) { this.campus = campus; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public void setId(String id) {
         this.id = id;
