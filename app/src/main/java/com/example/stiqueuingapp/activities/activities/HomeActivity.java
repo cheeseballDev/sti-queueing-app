@@ -81,8 +81,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private ArrayList<String> forms = new ArrayList<>();
 
-    private static long COOLDOWN_DURATION_MILLIS = 15 * 60 * 1000;
-
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -113,30 +111,6 @@ public class HomeActivity extends AppCompatActivity {
         updateEnterQueueButton();
         startQueueButton();
     }
-
-    /*
-        COOLDOWN FUNCTIONS
-     */
-
-    protected void initializeCooldownPrefs(Context context) {
-        sharedPreferences = context.getSharedPreferences("QueueCooldown", Context.MODE_PRIVATE);
-    }
-
-    protected void recordQueueRequestTime() {
-        long currentTime = System.currentTimeMillis();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong("QueueCooldown", currentTime);
-        editor.apply();
-    }
-    
-    protected boolean isOnCooldown() {
-        long lastRequestTime = sharedPreferences.getLong("lastQueueRequestTime", 0);
-        long currentTime = System.currentTimeMillis();
-        long timeDifference = currentTime - lastRequestTime;
-        return timeDifference < COOLDOWN_DURATION_MILLIS;
-    }
-
-
 
     /*
         BACKEND LOGIC
