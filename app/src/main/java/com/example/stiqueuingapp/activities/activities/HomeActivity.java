@@ -492,14 +492,18 @@ public class HomeActivity extends AppCompatActivity {
                         .putString("queueType",selectedQueueType)
                         .apply();
                 startActivity(new Intent(HomeActivity.this, saf_page1.class));
-                finish();
             }
 
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("Scholarship Renewal Form")) {
                 dialogSelectForm.dismiss();
-
+                sharedPreferences = getSharedPreferences("HomePreferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isPWD", isPWD)
+                        .putBoolean("isInQueue", isInQueue)
+                        .putString("userid", id)
+                        .putString("queueType",selectedQueueType)
+                        .apply();
                 startActivity(new Intent(HomeActivity.this, srf_page1.class));
-                finish();
             }
         });
 
