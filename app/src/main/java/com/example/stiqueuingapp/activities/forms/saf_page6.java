@@ -39,7 +39,6 @@ public class saf_page6 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //setSharedPreferences();
         setUI();
         setButtons();
     }
@@ -54,52 +53,6 @@ public class saf_page6 extends AppCompatActivity {
             finish();
         });
     }
-
-    /*
-    protected void setSharedPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("HomePreferences", MODE_PRIVATE);
-        id = sharedPreferences.getString("userid", null);
-        selectedQueueType = sharedPreferences.getString("selectedQueueType", "admission");
-        isPWD = sharedPreferences .getBoolean("isPWD", false);
-        isInQueue = sharedPreferences.getBoolean("isInQueue", false);
-    }
-    protected void updateQueueNumber() {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference queueRef = db.collection("QUEUES").document(selectedQueueType.toUpperCase());
-
-        db.runTransaction(transaction -> {
-            DocumentSnapshot snapshot = transaction.get(queueRef);
-            Long currentNumber = snapshot.getLong("currentNumber");
-            long newNumber;
-            if (isInQueue) {
-                newNumber = (currentNumber != null) ? currentNumber - 1 : 1L;
-                transaction.update(queueRef, "currentNumber", newNumber);
-                isInQueue = false;
-            } else {
-                newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
-                transaction.update(queueRef, "currentNumber", newNumber);
-                createNewTicket(db, newNumber);
-            }
-            return newNumber;
-        });
-    }
-    protected void createNewTicket(FirebaseFirestore db, long newNumber) {
-        db.runTransaction(transaction -> {
-
-            Map<String, Object> ticket = new HashMap<>();
-            ticket.put("createdAt", FieldValue.serverTimestamp());
-            ticket.put("isPWD", isPWD);
-            ticket.put("number", newNumber);
-            ticket.put("service", selectedQueueType);
-            ticket.put("userid", id);
-
-            DocumentReference ticketRef = db.collection("TICKETS").document();
-            transaction.set(ticketRef, ticket);
-            return null;
-        });
-    }
-    */
-
     protected void showSuccessQueueForm() {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("shouldShowQueueSuccessPopup", true);

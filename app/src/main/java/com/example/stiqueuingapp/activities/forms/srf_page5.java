@@ -1,5 +1,6 @@
 package com.example.stiqueuingapp.activities.forms;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -10,8 +11,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.stiqueuingapp.R;
+import com.example.stiqueuingapp.activities.activities.HomeActivity;
 
 public class srf_page5 extends AppCompatActivity {
+
+    private Button previousPageSrf4, submitPage;
 
     private Button submit;
     @Override
@@ -24,7 +28,29 @@ public class srf_page5 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        setButtons();
+        setUI();
+    }
+    protected void showSuccessQueueForm() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("shouldShowQueueSuccessPopup", true);
+        startActivity(intent);
+        finish();
+    }
 
-        //submitPage = findViewById(R.id.);
+    protected void setButtons(){
+        previousPageSrf4.setOnClickListener(view -> {
+            startActivity(new Intent(this, srf_page4.class));
+        });
+
+        submitPage.setOnClickListener(view -> {
+            showSuccessQueueForm();
+            finish();
+        });
+    }
+
+    protected void setUI() {
+        previousPageSrf4=findViewById(R.id.back_srf5);
+        submitPage = findViewById(R.id.submitForm_srf6);
     }
 }

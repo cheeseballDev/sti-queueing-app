@@ -130,4 +130,6 @@
     <string name="fullSaf">Fully Accomplished SAF Form</string>
     <string name="scholarship_nrenewal_form_saf">SCHOLARSHIP\nRENEWAL FORM (SAF)</string>
     <string name="enter_queue">Enter Queue</string>
+    <string name="submit_form">Submit Form</string>
+    <string name="back">Back</string>
 </resources>

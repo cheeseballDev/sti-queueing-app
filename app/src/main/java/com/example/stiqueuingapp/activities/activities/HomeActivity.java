@@ -637,6 +637,11 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if (shouldShowQueueSuccessPopup) {
+            sharedPreferences = getSharedPreferences("HomePreferences", MODE_PRIVATE);
+            isPWD = sharedPreferences.getBoolean("isPWD", isPWD);
+            isInQueue = sharedPreferences.getBoolean("isInQueue", isInQueue);
+            id = sharedPreferences.getString("userid", id);
+            selectedQueueType = sharedPreferences.getString("queueType",selectedQueueType);
             showSuccessQueueForm();
             updateQueueNumber();
             updateEnterQueueButton();
