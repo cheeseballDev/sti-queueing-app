@@ -176,14 +176,14 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
-                            Long currentNumber = snapshot.getLong("currentNumber");
+                            Long currentServing = snapshot.getLong("currentServing");
                             Long currentCounter = snapshot.getLong("counter");
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
-                            long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
-                            String formattedNumber = String.format("%03d", convertedNumber);
+                            long convertedServing = (currentServing != null) ? currentServing : 1L;
+                            String formattedServing = String.format("%03d", currentServing);
 
                             ticketsRef.whereEqualTo("service", "admission")
-                                    .whereEqualTo("number", convertedNumber)
+                                    .whereEqualTo("number", convertedServing)
                                     .limit(1)
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
@@ -193,9 +193,9 @@ public class HomeActivity extends AppCompatActivity {
                                                 isAdmissionQueuePWD = doc.getBoolean("isPWD");
                                             }
                                             if (isAdmissionQueuePWD) {
-                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
+                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedServing));
                                             } else {
-                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
+                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedServing));
                                             }
                                         }
                                     });
@@ -211,14 +211,14 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
-                            Long currentNumber = snapshot.getLong("currentNumber");
+                            Long currentServing = snapshot.getLong("currentServing");
                             Long currentCounter = snapshot.getLong("counter");
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
-                            long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
-                            String formattedNumber = String.format("%03d", convertedNumber);
+                            long convertedServing = (currentServing != null) ? currentServing : 1L;
+                            String formattedServing = String.format("%03d", convertedServing);
 
                             ticketsRef.whereEqualTo("service", "registrar")
-                                    .whereEqualTo("number", convertedNumber)
+                                    .whereEqualTo("number", convertedServing)
                                     .limit(1)
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
@@ -228,9 +228,9 @@ public class HomeActivity extends AppCompatActivity {
                                                 isRegistrarQueuePWD = doc.getBoolean("isPWD");
                                             }
                                             if (isRegistrarQueuePWD) {
-                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
+                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedServing));
                                             } else {
-                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
+                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedServing));
                                             }
                                         }
                                     });
@@ -246,14 +246,14 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
-                            Long currentNumber = snapshot.getLong("currentNumber");
+                            Long currentServing = snapshot.getLong("currentServing");
                             Long currentCounter = snapshot.getLong("counter");
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
-                            long convertedNumber = (currentNumber != null) ? currentNumber : 1L;
-                            String formattedNumber = String.format("%03d", convertedNumber);
+                            long convertedServing = (currentServing != null) ? currentServing : 1L;
+                            String formattedServing = String.format("%03d", convertedServing);
 
                             ticketsRef.whereEqualTo("service", "cashier")
-                                    .whereEqualTo("number", convertedNumber)
+                                    .whereEqualTo("number", convertedServing)
                                     .limit(1)
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
@@ -263,9 +263,9 @@ public class HomeActivity extends AppCompatActivity {
                                                 isCashierQueuePWD = doc.getBoolean("isPWD");
                                             }
                                             if (isCashierQueuePWD) {
-                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
+                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedServing));
                                             } else {
-                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
+                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedServing));
                                             }
                                         }
                                     });
