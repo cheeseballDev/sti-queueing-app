@@ -110,6 +110,7 @@ public class HomeActivity extends AppCompatActivity {
         updateQueue();
         updateEnterQueueButton();
         startQueueButton();
+
     }
 
     /*
@@ -634,7 +635,7 @@ public class HomeActivity extends AppCompatActivity {
         if (intent != null) {
             shouldShowQueueSuccessPopup = intent.getBooleanExtra("shouldShowQueueSuccessPopup", false);
         }
-        
+
         if (shouldShowQueueSuccessPopup) {
             showSuccessQueueForm();
             updateQueueNumber();

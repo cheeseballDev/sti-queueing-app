@@ -51,7 +51,6 @@ public class saf_page6 extends AppCompatActivity {
 
         submitPage.setOnClickListener(view -> {
             showSuccessQueueForm();
-            startActivity(new Intent(saf_page6.this, HomeActivity.class));
             finish();
         });
     }
