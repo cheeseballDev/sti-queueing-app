@@ -10,7 +10,9 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -95,8 +97,8 @@
                 android:id="@+id/sibling"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="@string/sibling_scholarship"
                 android:textSize="17dp"
@@ -166,8 +168,8 @@
                 android:id="@+id/tertiaryOpenSch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="TERTIARY OPEN SCHOLARSHIP"
                 android:textSize="17dp"
@@ -260,8 +262,8 @@
                 android:id="@+id/shsOpenSch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="SHS OPEN SCHOLARSHIP"
                 android:textSize="17dp"
@@ -338,6 +340,7 @@
                 app:layout_constraintStart_toEndOf="@+id/jhsCard"
                 app:layout_constraintTop_toBottomOf="@+id/box7"
                 app:srcCompat="@drawable/square_regular" />
+
             <View
                 android:id="@+id/view2"
                 android:layout_width="0dp"
