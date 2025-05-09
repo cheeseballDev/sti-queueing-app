@@ -49,9 +49,6 @@
             android:name=".activities.activities.LinkEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.activities.VerifyEmailActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.activities.HomeActivity"
             android:exported="false" />
         <activity

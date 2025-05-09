@@ -132,4 +132,8 @@
     <string name="enter_queue">Enter Queue</string>
     <string name="submit_form">Submit Form</string>
     <string name="back">Back</string>
+    <string name="your_queue_details">Your Queue Details</string>
+    <string name="queue_number_title">Queue Number</string>
+    <string name="queue_date_title">QUEUE DATE:</string>
+    <string name="queue_id_no_title">QUEUE ID NO:</string>
 </resources>

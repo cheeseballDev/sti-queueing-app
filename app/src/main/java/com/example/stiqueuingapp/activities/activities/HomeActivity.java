@@ -52,22 +52,25 @@ public class HomeActivity extends AppCompatActivity {
             leaveQueueConfirmButton, leaveQueueDeclineButton,
             selectQueueNextButton,
             selectFormNextButton,
-            successQueueCloseButton ;
+            successQueueCloseButton;
 
     private ImageButton
             PWDCloseButton,
             selectQueueCloseButton,
             selectFormCloseButton,
-            successQueueCloseImageButton;
+            successQueueCloseImageButton,
+            infoButton,
+            infoCloseButton;
 
     private TextView
-            userNumber, userCooldown,
+            userNumber,
             successQueueNumber,
             admissionCurrentQueueNumber, registrarCurrentQueueNumber, cashierCurrentQueueNumber,
             admissionCurrentCutOff, registrarCurrentCutOff, cashierCurrentCutOff,
-            admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter;
+            admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter,
+            infoQueueNumber, infoQueueDate, infoQueueId;
 
-    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm;
+    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm, dialogInfo;
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
@@ -180,7 +183,7 @@ public class HomeActivity extends AppCompatActivity {
                             Long currentCounter = snapshot.getLong("counter");
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
                             long convertedServing = (currentServing != null) ? currentServing : 1L;
-                            String formattedServing = String.format("%03d", currentServing);
+                            String formattedServing = String.format("%03d", convertedServing);
 
                             ticketsRef.whereEqualTo("service", "admission")
                                     .whereEqualTo("number", convertedServing)
@@ -289,6 +292,8 @@ public class HomeActivity extends AppCompatActivity {
                                 String ticketQueueType = document.getString("service").toUpperCase();
                                 if (ticketNumber != null) {
                                     updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
+                                    infoQueueDate.setText(document.getDate("createdAt").toString());
+                                    infoQueueId.setText(document.getId());
                                     isInQueue = true;
                                     updateEnterQueueButton();
                                     return;
@@ -296,6 +301,9 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         } else {
                             userNumber.setText("N/A");
+                            infoQueueNumber.setText("N/A");
+                            infoQueueDate.setText("N/A");
+                            infoQueueId.setText("N/A");
                             isInQueue = false;
                             updateEnterQueueButton();
                         }
@@ -308,28 +316,34 @@ public class HomeActivity extends AppCompatActivity {
             switch (ticketQueueType) {
                 case "ADMISSION":
                     userNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
+                    infoQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
                     successQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedNumber));
                     return;
                 case "CASHIER":
                     userNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
+                    infoQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
                     successQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedNumber));
                     return;
                 case "REGISTRAR":
                     userNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
+                    infoQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
                     successQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedNumber));
             }
         } else {
             switch (ticketQueueType) {
                 case "ADMISSION":
                     userNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
+                    infoQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
                     successQueueNumber.setText(new StringBuilder().append("A-").append(formattedNumber));
                     return;
                 case "CASHIER":
                     userNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
+                    infoQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
                     successQueueNumber.setText(new StringBuilder().append("C-").append(formattedNumber));
                     return;
                 case "REGISTRAR":
                     userNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
+                    infoQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
                     successQueueNumber.setText(new StringBuilder().append("R-").append(formattedNumber));
             }
         }
@@ -401,7 +415,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
     }
-
     /*
         START THE LISTENERS FOR DIALOG BUTTONS
      */
@@ -414,6 +427,10 @@ public class HomeActivity extends AppCompatActivity {
             }
             dialogPWD.show();
             showPWDForm();
+        });
+
+        infoButton.setOnClickListener(view -> {
+            showInfoForm();
         });
     }
 
@@ -525,12 +542,21 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    protected void showInfoForm() {
+        dialogInfo.show();
+
+        infoCloseButton.setOnClickListener(view -> {
+            dialogInfo.dismiss();
+        });
+    }
+
     /*
         SET THE ENTIRE FRONTEND
      */
 
     protected void setDialogsAndButtons() {
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
+        infoButton = findViewById(R.id.user_queue_info);
 
         dialogPWD = new Dialog(HomeActivity.this);
         dialogPWD.setContentView(R.layout.pop_up_pwd_form);
@@ -573,6 +599,16 @@ public class HomeActivity extends AppCompatActivity {
         successQueueCloseImageButton = dialogSuccessForm.findViewById(R.id.close_button);
         successQueueNumber = dialogSuccessForm.findViewById(R.id.queue_number);
         successQueueCloseButton = dialogSuccessForm.findViewById(R.id.queue_close_button);
+
+        dialogInfo = new Dialog(HomeActivity.this);
+        dialogInfo.setContentView(R.layout.pop_up_queue_info);
+        dialogInfo.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogInfo.setCancelable(true);
+
+        infoCloseButton = dialogInfo.findViewById(R.id.close_button);
+        infoQueueDate = dialogInfo.findViewById(R.id.user_queue_date);
+        infoQueueId = dialogInfo.findViewById(R.id.user_queue_id);
+        infoQueueNumber = dialogInfo.findViewById(R.id.user_queue_number);
     }
 
     protected void setCategories() {
@@ -591,7 +627,6 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void setQueues() {
         userNumber = findViewById(R.id.user_number);
-        userCooldown = findViewById(R.id.user_cooldown);
 
         admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
         admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_number);
@@ -604,7 +639,6 @@ public class HomeActivity extends AppCompatActivity {
         registrarCurrentCounter = registrar.findViewById(R.id.queue_current_counter);
         registrarCurrentQueueNumber = registrar.findViewById(R.id.queue_current_number);
         registrarCurrentCutOff = registrar.findViewById(R.id.queue_current_cut_off);
-
     }
 
     protected void setSpinner() {
