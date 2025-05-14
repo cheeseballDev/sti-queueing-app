@@ -186,7 +186,7 @@ public class HomeActivity extends AppCompatActivity {
                             Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
 
                             if (isOnBreak) {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BREAK"));
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BRK"));
                                 return;
                             }
 
@@ -230,11 +230,10 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
-
                             Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
 
                             if (isOnBreak) {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BREAK"));
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BRK"));
                                 return;
                             }
 
@@ -278,11 +277,10 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
-
                             Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
 
                             if (isOnBreak) {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BREAK"));
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BRK"));
                                 return;
                             }
 
