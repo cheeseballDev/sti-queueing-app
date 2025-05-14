@@ -183,6 +183,13 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
+                            Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
+
+                            if (isOnBreak) {
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BREAK"));
+                                return;
+                            }
+
                             Long currentServing = snapshot.getLong("currentServing");
                             Long currentCounter = snapshot.getLong("counter");
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
@@ -223,11 +230,20 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
+
+                            Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
+
+                            if (isOnBreak) {
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BREAK"));
+                                return;
+                            }
+
                             Long currentServing = snapshot.getLong("currentServing");
                             Long currentCounter = snapshot.getLong("counter");
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
                             long convertedServing = (currentServing != null) ? currentServing : 1L;
                             String formattedServing = String.format("%03d", convertedServing);
+
                             ticketsRef.whereEqualTo("service", "registrar")
                                     .whereEqualTo("number", convertedServing)
                                     .limit(1)
@@ -262,6 +278,14 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (snapshot.exists()) {
+
+                            Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
+
+                            if (isOnBreak) {
+                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BREAK"));
+                                return;
+                            }
+
                             Long currentServing = snapshot.getLong("currentServing");
                             Long currentCounter = snapshot.getLong("counter");
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
