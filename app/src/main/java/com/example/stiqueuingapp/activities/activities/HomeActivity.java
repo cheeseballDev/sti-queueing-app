@@ -52,7 +52,9 @@ public class HomeActivity extends AppCompatActivity {
             leaveQueueConfirmButton, leaveQueueDeclineButton,
             selectQueueNextButton,
             selectFormNextButton,
-            successQueueCloseButton;
+            successQueueCloseButton,
+            infoCloseButton,
+            notificationCloseButton;
 
     private ImageButton
             PWDCloseButton,
@@ -60,7 +62,8 @@ public class HomeActivity extends AppCompatActivity {
             selectFormCloseButton,
             successQueueCloseImageButton,
             infoButton,
-            infoCloseButton;
+            infoCloseImageButton,
+            notificationCloseImageButton;
 
     private TextView
             userNumber,
@@ -68,9 +71,10 @@ public class HomeActivity extends AppCompatActivity {
             admissionCurrentQueueNumber, registrarCurrentQueueNumber, cashierCurrentQueueNumber,
             admissionCurrentCutOff, registrarCurrentCutOff, cashierCurrentCutOff,
             admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter,
-            infoQueueNumber, infoQueueDate, infoQueueId;
+            infoQueueNumber, infoQueueDate, infoQueueId,
+            notificationQueueServiceType, notificationCounterNumber;
 
-    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm, dialogInfo;
+    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm, dialogInfo, dialogNotification;
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
@@ -204,6 +208,11 @@ public class HomeActivity extends AppCompatActivity {
                                     });
                             admissionCurrentCounter.setText(new StringBuilder().append(currentCounter));
                             admissionCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
+                            notificationQueueServiceType.setText(new StringBuilder().append("ADMISSION"));
+                            notificationCounterNumber.setText(new StringBuilder().append(currentCounter));
+                            if (userNumber == admissionCurrentQueueNumber) {
+                                showNotification();
+                            }
                         }
                     }
                 }
@@ -219,7 +228,6 @@ public class HomeActivity extends AppCompatActivity {
                             Long currentCutOff = snapshot.getLong("cutOffNumber");
                             long convertedServing = (currentServing != null) ? currentServing : 1L;
                             String formattedServing = String.format("%03d", convertedServing);
-
                             ticketsRef.whereEqualTo("service", "registrar")
                                     .whereEqualTo("number", convertedServing)
                                     .limit(1)
@@ -239,6 +247,11 @@ public class HomeActivity extends AppCompatActivity {
                                     });
                             registrarCurrentCounter.setText(new StringBuilder().append(currentCounter));
                             registrarCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
+                            notificationQueueServiceType.setText(new StringBuilder().append("REGISTRAR"));
+                            notificationCounterNumber.setText(new StringBuilder().append(currentCounter));
+                            if (userNumber == registrarCurrentQueueNumber) {
+                                showNotification();
+                            }
                         }
                     }
                 }
@@ -274,6 +287,11 @@ public class HomeActivity extends AppCompatActivity {
                                     });
                             cashierCurrentCounter.setText(new StringBuilder().append(currentCounter));
                             cashierCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
+                            notificationQueueServiceType.setText(new StringBuilder().append("CASHIER"));
+                            notificationCounterNumber.setText(new StringBuilder().append(currentCounter));
+                            if (userNumber == cashierCurrentQueueNumber) {
+                                showNotification();
+                            }
                         }
                     }
                 }
@@ -545,8 +563,24 @@ public class HomeActivity extends AppCompatActivity {
     protected void showInfoForm() {
         dialogInfo.show();
 
+        infoCloseImageButton.setOnClickListener(view -> {
+            dialogInfo.dismiss();
+        });
+
         infoCloseButton.setOnClickListener(view -> {
             dialogInfo.dismiss();
+        });
+    }
+
+    protected void showNotification() {
+        dialogNotification.show();
+
+        notificationCloseImageButton.setOnClickListener(view -> {
+            dialogNotification.dismiss();
+        });
+
+        notificationCloseButton.setOnClickListener(view -> {
+            dialogNotification.dismiss();
         });
     }
 
@@ -605,10 +639,21 @@ public class HomeActivity extends AppCompatActivity {
         dialogInfo.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogInfo.setCancelable(true);
 
-        infoCloseButton = dialogInfo.findViewById(R.id.close_button);
+        infoCloseImageButton = dialogInfo.findViewById(R.id.close_button);
+        infoCloseButton = dialogInfo.findViewById(R.id.info_close_button);
         infoQueueDate = dialogInfo.findViewById(R.id.user_queue_date);
         infoQueueId = dialogInfo.findViewById(R.id.user_queue_id);
         infoQueueNumber = dialogInfo.findViewById(R.id.user_queue_number);
+
+        dialogNotification = new Dialog(HomeActivity.this);
+        dialogNotification.setContentView(R.layout.pop_up_notification);
+        dialogNotification.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogNotification.setCancelable(true);
+
+        notificationCloseButton = dialogNotification.findViewById(R.id.notification_close_button);
+        notificationCloseImageButton = dialogNotification.findViewById(R.id.close_button);
+        notificationQueueServiceType = dialogNotification.findViewById(R.id.notification_queue_service_type);
+        notificationCounterNumber = dialogNotification.findViewById(R.id.notification_number_type);
     }
 
     protected void setCategories() {
