@@ -104,4 +104,9 @@
     <string name="counter_colon">COUNTER:</string>
     <string name="your_number_is_next_in_line_please_proceed_in_the_following_queue_specified_above">Your number is next in line! Please proceed in the following queue specified above!</string>
     <string name="lenguwahe">LANGUAGE:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="admission">Admission</string>
+    <string name="cashier">Cashier</string>
+    <string name="registrar">Registrar</string>
 </resources>
