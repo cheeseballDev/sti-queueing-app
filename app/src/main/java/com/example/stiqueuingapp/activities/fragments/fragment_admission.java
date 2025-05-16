@@ -1,4 +1,4 @@
-package com.example.stiqueuingapp;
+package com.example.stiqueuingapp.activities.fragments;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.stiqueuingapp.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_registrar#newInstance} factory method to
+ * Use the {@link fragment_admission#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_registrar extends Fragment {
+public class fragment_admission extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class fragment_registrar extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fragment_registrar() {
+    public fragment_admission() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class fragment_registrar extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_registrar.
+     * @return A new instance of fragment fragment_admission.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_registrar newInstance(String param1, String param2) {
-        fragment_registrar fragment = new fragment_registrar();
+    public static fragment_admission newInstance(String param1, String param2) {
+        fragment_admission fragment = new fragment_admission();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class fragment_registrar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registrar, container, false);
+        return inflater.inflate(R.layout.fragment_admission, container, false);
     }
 }

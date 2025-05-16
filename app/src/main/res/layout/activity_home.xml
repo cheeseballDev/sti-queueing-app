@@ -8,15 +8,6 @@
     tools:context=".activities.activities.HomeActivity">
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu=""/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,6 +17,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/imageView3"
@@ -169,57 +167,62 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/enter_the_queue_button"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ghost_button"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/enter_the_queue"
+                android:textAllCaps="false"
+                android:textColor="@color/ghost_button_text"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/CardView1" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginTop="13dp"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayout">
+            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayout"
+            app:tabIndicatorColor="@color/blue"
+            app:tabSelectedTextColor="@color/blue">
 
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admission" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cashier" />
 
-                <include
-                    android:id="@+id/admission_queue"
-                    layout="@layout/queue_card" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/registrar" />
 
-                <include
-                    android:id="@+id/registrar_queue"
-                    layout="@layout/queue_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="12dp" />
+        </com.google.android.material.tabs.TabLayout>
 
-                <include
-                    android:id="@+id/cashier_queue"
-                    layout="@layout/queue_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="12dp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout2">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/enter_the_queue_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginTop="28dp"
-                    android:background="@drawable/ghost_button"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:text="@string/enter_the_queue"
-                    android:textAllCaps="false"
-                    android:textColor="@color/ghost_button_text"
-                    android:textSize="16sp" />
+        </FrameLayout>
 
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
