@@ -23,6 +23,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.Forms;
@@ -32,6 +34,7 @@ import com.example.stiqueuingapp.activities.forms.srf_page1;
 import com.example.stiqueuingapp.activities.fragments.FragmentAdmission;
 import com.example.stiqueuingapp.activities.fragments.FragmentCashier;
 import com.example.stiqueuingapp.activities.fragments.FragmentRegistrar;
+import com.example.stiqueuingapp.activities.models.HomeViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,8 +52,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
-
-    private View admission, registrar, cashier;
 
     private Button
             enterQueueButton,
@@ -77,6 +78,8 @@ public class HomeActivity extends AppCompatActivity {
             infoQueueNumber, infoQueueDate, infoQueueId,
             notificationQueueServiceType, notificationCounterNumber;
 
+    private HomeViewModel viewModel;
+
     private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm, dialogInfo, dialogNotification;
 
     private TabLayout tabLayout;
@@ -89,7 +92,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private String selectedQueueType;
 
-    private String id = "";
+    private String id = "", ticketQueueType = null;;
 
     private ArrayList<QueueType> queueTypes = new ArrayList<>();
 
@@ -123,6 +126,7 @@ public class HomeActivity extends AppCompatActivity {
         updateEnterQueueButton();
         startQueueButton();
         startTabButtons();
+        startQueueListeners();
     }
 
     /*
@@ -188,15 +192,23 @@ public class HomeActivity extends AppCompatActivity {
                                 Long ticketNumber = document.getLong("number");
                                 String formattedNumber = String.format("%03d", ticketNumber);
                                 boolean isTicketPWD = document.getBoolean("isPWD");
-                                String ticketQueueType = document.getString("service").toUpperCase();
+                                ticketQueueType = document.getString("service").toUpperCase();
                                 if (ticketNumber != null) {
                                     updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
                                     infoQueueDate.setText(document.getDate("createdAt").toString());
                                     infoQueueId.setText(document.getId());
                                     isInQueue = true;
                                     updateEnterQueueButton();
+
+                                    String currentServingNumber = getCurrentServingNumber(ticketQueueType);
+                                    if (currentServingNumber != null && currentServingNumber.equals(userNumber.getText().toString())) {
+                                        notificationCounterNumber.setText(new StringBuilder().append(ticketNumber));
+                                        notificationQueueServiceType.setText(new StringBuilder().append(ticketQueueType));
+                                        showNotification();
+                                    }
                                     return;
                                 }
+
                             }
                         } else {
                             userNumber.setText("N/A");
@@ -210,6 +222,37 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
+    private String getCurrentServingNumber(String queueType) {
+        switch (queueType) {
+            case "ADMISSION":
+                if (viewModel.getAdmissionCounter1QueueNumber().getValue() != null && !viewModel.getAdmissionCounter1QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getAdmissionCounter1QueueNumber().getValue();
+                if (viewModel.getAdmissionCounter2QueueNumber().getValue() != null && !viewModel.getAdmissionCounter2QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getAdmissionCounter2QueueNumber().getValue();
+                if (viewModel.getAdmissionCounter3QueueNumber().getValue() != null && !viewModel.getAdmissionCounter3QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getAdmissionCounter3QueueNumber().getValue();
+                break;
+            case "CASHIER":
+                if (viewModel.getCashierCounter1QueueNumber().getValue() != null && !viewModel.getCashierCounter1QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getCashierCounter1QueueNumber().getValue();
+                if (viewModel.getCashierCounter2QueueNumber().getValue() != null && !viewModel.getCashierCounter2QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getCashierCounter2QueueNumber().getValue();
+                if (viewModel.getCashierCounter3QueueNumber().getValue() != null && !viewModel.getCashierCounter3QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getCashierCounter3QueueNumber().getValue();
+                break;
+            case "REGISTRAR":
+                if (viewModel.getRegistrarCounter1QueueNumber().getValue() != null && !viewModel.getRegistrarCounter1QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getRegistrarCounter1QueueNumber().getValue();
+                if (viewModel.getRegistrarCounter2QueueNumber().getValue() != null && !viewModel.getRegistrarCounter2QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getRegistrarCounter2QueueNumber().getValue();
+                if (viewModel.getRegistrarCounter3QueueNumber().getValue() != null && !viewModel.getRegistrarCounter3QueueNumber().getValue().equals("ON-BRK"))
+                    return viewModel.getRegistrarCounter3QueueNumber().getValue();
+                break;
+            default:
+                return null;
+        }
+        return null;
+    }
     protected void updateUserNumberType(String ticketQueueType, boolean isTicketPWD, String formattedNumber) {
         if (isTicketPWD) {
             switch (ticketQueueType) {
@@ -465,9 +508,87 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    /*
-        SET THE ENTIRE FRONTEND
-     */
+    protected void startQueueListeners() {
+        viewModel.getAdmissionCounter1QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("ADMISSION", currentServingNumber);
+            }
+        });
+        viewModel.getAdmissionCounter2QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("ADMISSION", currentServingNumber);
+            }
+        });
+        viewModel.getAdmissionCounter3QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("ADMISSION", currentServingNumber);
+            }
+        });
+
+        viewModel.getCashierCounter1QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("CASHIER", currentServingNumber);
+            }
+        });
+
+        viewModel.getCashierCounter2QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("CASHIER", currentServingNumber);
+            }
+        });
+
+        viewModel.getCashierCounter3QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("CASHIER", currentServingNumber);
+            }
+        });
+
+        viewModel.getRegistrarCounter1QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("REGISTRAR", currentServingNumber);
+            }
+        });
+
+        viewModel.getRegistrarCounter2QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("REGISTRAR", currentServingNumber);
+            }
+        });
+
+        viewModel.getRegistrarCounter3QueueNumber().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String currentServingNumber) {
+                checkIfUserIsServing("REGISTRAR", currentServingNumber);
+            }
+        });
+    }
+
+    private void checkIfUserIsServing(String queueType, String currentServingNumber) {
+        if (ticketQueueType != null && ticketQueueType.equals(queueType) && currentServingNumber != null) {
+            String formattedUserNumber = userNumber.getText().toString();
+            if (!currentServingNumber.equals("ON-BRK") && currentServingNumber.equals(formattedUserNumber)) {
+                // Set notification details
+                notificationQueueServiceType.setText(new StringBuilder().append(queueType));
+                // You might need to extract the ticketNumber part from formattedUserNumber
+                String[] parts = formattedUserNumber.split("-");
+                if (parts.length > 1) {
+                    notificationCounterNumber.setText(new StringBuilder().append(parts[parts.length - 1]));
+                } else {
+                    notificationCounterNumber.setText(new StringBuilder().append(formattedUserNumber));
+                }
+                showNotification();
+            }
+        }
+    }
+
 
     protected void startTabButtons() {
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new FragmentAdmission())
@@ -503,7 +624,13 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        SET THE ENTIRE FRONTEND
+     */
+
     protected void setDialogsAndButtons() {
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
         userNumber = findViewById(R.id.user_number);
         frameLayout = findViewById(R.id.frameLayout);
         tabLayout = findViewById(R.id.tabLayout);
@@ -596,6 +723,7 @@ public class HomeActivity extends AppCompatActivity {
     /*
         MISC
      */
+
     @Override
     protected void onResume() {
         super.onResume();

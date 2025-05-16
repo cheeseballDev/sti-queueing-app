@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="250dp">
 
@@ -77,26 +78,16 @@
             app:layout_constraintStart_toStartOf="@+id/notification_queue_service_type"
             app:layout_constraintTop_toTopOf="@+id/textView18" />
 
-        <View
-            android:id="@+id/view3"
-            android:layout_width="360dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/primary_black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notification_number_type" />
-
         <TextView
             android:id="@+id/textView20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/your_number_is_next_in_line_please_proceed_in_the_following_queue_specified_above"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+            app:layout_constraintTop_toBottomOf="@+id/notification_number_type" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/notification_close_button"
