@@ -210,8 +210,13 @@ public class HomeViewModel extends AndroidViewModel {
 
                 switch ((int) convertedCounter) {
                     case 1:
+                        if (currentServing != null && currentServing == 0) {
+                            admissionCounter1QueueNumber.setValue("A-000");
+                            admissionCounter1CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            admissionCounter1QueueNumber.setValue("ON-BRK");
+                            admissionCounter1QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef1 = db.collection("TICKETS");
@@ -232,8 +237,13 @@ public class HomeViewModel extends AndroidViewModel {
                         admissionCounter1CutOff.setValue(currentCutOff.toString());
                         break;
                     case 2:
+                        if (currentServing != null && currentServing == 0) {
+                            admissionCounter2QueueNumber.setValue("A-000");
+                            admissionCounter2CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            admissionCounter2QueueNumber.setValue("ON-BRK");
+                            admissionCounter2QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef2 = db.collection("TICKETS");
@@ -254,8 +264,13 @@ public class HomeViewModel extends AndroidViewModel {
                         admissionCounter2CutOff.setValue(currentCutOff.toString());
                         break;
                     case 3:
+                        if (currentServing != null && currentServing == 0) {
+                            admissionCounter3QueueNumber.setValue("A-000");
+                            admissionCounter3CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            admissionCounter3QueueNumber.setValue("ON-BRK");
+                            admissionCounter3QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef3 = db.collection("TICKETS");
@@ -292,8 +307,13 @@ public class HomeViewModel extends AndroidViewModel {
 
                 switch ((int) convertedCounter) {
                     case 1:
+                        if (currentServing != null && currentServing == 0) {
+                            cashierCounter1QueueNumber.setValue("C-000");
+                            cashierCounter1CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            cashierCounter1QueueNumber.setValue("ON-BRK");
+                            cashierCounter1QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef1 = db.collection("TICKETS");
@@ -314,8 +334,13 @@ public class HomeViewModel extends AndroidViewModel {
                         cashierCounter1CutOff.setValue(currentCutOff.toString());
                         break;
                     case 2:
+                        if (currentServing != null && currentServing == 0) {
+                            cashierCounter2QueueNumber.setValue("C-000");
+                            cashierCounter2CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            cashierCounter2QueueNumber.setValue("ON-BRK");
+                            cashierCounter2QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef2 = db.collection("TICKETS");
@@ -336,8 +361,13 @@ public class HomeViewModel extends AndroidViewModel {
                         cashierCounter2CutOff.setValue(currentCutOff.toString());
                         break;
                     case 3:
+                        if (currentServing != null && currentServing == 0) {
+                            cashierCounter3QueueNumber.setValue("C-000");
+                            cashierCounter3CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            cashierCounter3QueueNumber.setValue("ON-BRK");
+                            cashierCounter3QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef3 = db.collection("TICKETS");
@@ -374,8 +404,13 @@ public class HomeViewModel extends AndroidViewModel {
 
                 switch ((int) convertedCounter) {
                     case 1:
+                        if (currentServing != null && currentServing == 0) {
+                            registrarCounter1QueueNumber.setValue("R-000");
+                            registrarCounter1CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            registrarCounter1QueueNumber.setValue("ON-BRK");
+                            registrarCounter1QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef1 = db.collection("TICKETS");
@@ -396,8 +431,13 @@ public class HomeViewModel extends AndroidViewModel {
                         registrarCounter1CutOff.setValue(currentCutOff.toString());
                         break;
                     case 2:
+                        if (currentServing != null && currentServing == 0) {
+                            registrarCounter2QueueNumber.setValue("R-000");
+                            registrarCounter2CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            registrarCounter2QueueNumber.setValue("ON-BRK");
+                            registrarCounter2QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef2 = db.collection("TICKETS");
@@ -418,8 +458,13 @@ public class HomeViewModel extends AndroidViewModel {
                         registrarCounter2CutOff.setValue(currentCutOff.toString());
                         break;
                     case 3:
+                        if (currentServing != null && currentServing == 0) {
+                            registrarCounter1QueueNumber.setValue("R-000");
+                            registrarCounter1CutOff.setValue("000");
+                            break;
+                        }
                         if (isOnBreak != null && isOnBreak) {
-                            registrarCounter3QueueNumber.setValue("ON-BRK");
+                            registrarCounter3QueueNumber.setValue("PAUSED");
                             return;
                         }
                         CollectionReference ticketsRef3 = db.collection("TICKETS");
