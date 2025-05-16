@@ -574,10 +574,8 @@ public class HomeActivity extends AppCompatActivity {
     private void checkIfUserIsServing(String queueType, String currentServingNumber) {
         if (ticketQueueType != null && ticketQueueType.equals(queueType) && currentServingNumber != null) {
             String formattedUserNumber = userNumber.getText().toString();
-            if (!currentServingNumber.equals("ON-BRK") && currentServingNumber.equals(formattedUserNumber)) {
-                // Set notification details
+            if (currentServingNumber.equals(formattedUserNumber)) {
                 notificationQueueServiceType.setText(new StringBuilder().append(queueType));
-                // You might need to extract the ticketNumber part from formattedUserNumber
                 String[] parts = formattedUserNumber.split("-");
                 if (parts.length > 1) {
                     notificationCounterNumber.setText(new StringBuilder().append(parts[parts.length - 1]));
