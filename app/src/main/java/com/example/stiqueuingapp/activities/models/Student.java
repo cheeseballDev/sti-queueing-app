@@ -5,21 +5,16 @@ import com.google.firebase.firestore.PropertyName;
 
 public class Student {
 
-    @PropertyName("id")
-    private long studentID;
+    private String email;
 
-    public Student() { }
+    private String name;
 
-    public Student(long studentID) {
-            this.studentID = studentID;
+    public String getName() {
+        return this.name;
     }
 
-    @PropertyName("id")
-    public long getStudentID() { return studentID; }
-
-    @PropertyName("id")
-    public void setStudentID(long studentID) { this.studentID = studentID; }
-
-
-
+    public Student(String email, String name) {
+        this.email = email;
+        this.name = name;
+    }
 }

@@ -1,3 +1,3 @@
 package com.example.stiqueuingapp.activities.enums;
 
-public enum QueueType { Admission, Cashier, Registrar }
+public enum QueueType { Admission, Registrar, Cashier }

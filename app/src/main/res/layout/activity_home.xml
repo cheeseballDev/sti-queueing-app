@@ -12,8 +12,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -43,10 +45,10 @@
                 android:layout_marginEnd="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/CardView2"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintEnd_toStartOf="@id/CardView2">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -70,14 +72,24 @@
                         android:id="@+id/user_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/montserrat_extrabold"
                         android:text="@string/n_a"
                         android:textColor="@color/blue"
                         android:textSize="38sp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView1"
                         app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+                    <ImageButton
+                        android:id="@+id/user_queue_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/circle_info_solid" />
 
                     <View
                         android:id="@+id/divider1"
@@ -100,9 +112,9 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@+id/CardView1">
+                app:layout_constraintStart_toEndOf="@+id/CardView1"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -136,13 +148,12 @@
                         android:id="@+id/user_cooldown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/montserrat_extrabold"
                         android:text="@string/n_a"
                         android:textColor="@color/primary_black"
                         android:textSize="38sp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView2"
                         app:layout_constraintTop_toBottomOf="@+id/textView2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -151,6 +162,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -168,24 +180,21 @@
 
                 <include
                     android:id="@+id/admission_queue"
-                    layout="@layout/queue_card"
-                    />
+                    layout="@layout/queue_card" />
 
                 <include
                     android:id="@+id/registrar_queue"
                     layout="@layout/queue_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:layout_marginTop="12dp" />
 
                 <include
                     android:id="@+id/cashier_queue"
                     layout="@layout/queue_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:layout_marginTop="12dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/enter_the_queue_button"
@@ -193,11 +202,11 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="28dp"
                     android:background="@drawable/ghost_button"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/montserrat_semibold"
+                    android:text="@string/enter_the_queue"
+                    android:textAllCaps="false"
                     android:textColor="@color/ghost_button_text"
-                    android:textSize="16sp"
-                    android:text="@string/enter_the_queue" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

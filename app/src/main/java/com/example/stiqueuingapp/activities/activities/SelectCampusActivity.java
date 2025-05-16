@@ -1,7 +1,10 @@
 package com.example.stiqueuingapp.activities.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -14,13 +17,14 @@ import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.Campuses;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SelectCampusActivity extends AppCompatActivity {
 
+    private Button nextButton;
+
     private Spinner campusDropDown;
 
-    private ArrayList<Campuses> campuses = new ArrayList<>();
+    private ArrayList<String> campuses = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,20 +36,32 @@ public class SelectCampusActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-
-        initializeDropDown();
-
-
+        setDropDown();
+        setButtons();
     }
 
-    void initializeDropDown() {
+    protected void setButtons() {
+        nextButton = findViewById(R.id.next_button);
+        nextButton.setOnClickListener(view -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("campus", campusDropDown.getSelectedItem().toString());
+            editor.apply();
+            startActivity(new Intent(this, LinkEmailActivity.class));
+            finish();
+        });
+    }
+
+    protected void setDropDown() {
         campusDropDown = findViewById(R.id.campus_spinner);
-
-        campuses.addAll(Arrays.asList(Campuses.values()));
-        ArrayAdapter<Campuses> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
+        for (Campuses campus : Campuses.values()) {
+            if (campus.toString().contains("_")) {
+                campuses.add(campus.toString().replaceAll("_", "-"));
+                continue;
+            }
+            campuses.add(campus.toString());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, campuses);
         campusDropDown.setAdapter(adapter);
-
     }
 }

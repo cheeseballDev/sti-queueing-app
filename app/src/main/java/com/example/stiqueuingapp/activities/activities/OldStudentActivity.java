@@ -1,7 +1,9 @@
 package com.example.stiqueuingapp.activities.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,9 +28,12 @@ import java.util.ArrayList;
 public class OldStudentActivity extends AppCompatActivity {
 
     private Button nextPageButton;
+
     private EditText studentNumberTextField;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private ArrayList<Long> studentNumbers = new ArrayList<>();
+
+    private ArrayList<String> studentNumbers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +45,8 @@ public class OldStudentActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             getStudentNumbers();
             return insets;
-
         });
         setButtons();
-
     }
 
     protected void setButtons() {
@@ -64,31 +67,34 @@ public class OldStudentActivity extends AppCompatActivity {
             }
 
             for (int i = 0; i < studentNumbers.size(); i++) {
-                if (Integer.parseInt(studentNumberTextField.getText().toString()) != studentNumbers.get(i)) {
-                    studentNumberTextField.setError("No such student number exists");
+                if (studentNumberTextField.getText().toString().equals(studentNumbers.get(i))) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("studentNumber", studentNumberTextField.getText().toString())
+                            .putBoolean("isNewUser", false)
+                            .apply();
+                    startActivity(new Intent(this, HomeActivity.class));
+                    finish();
                     return;
                 }
             }
 
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
+            if (!studentNumbers.contains(studentNumberTextField.getText().toString()))
+                studentNumberTextField.setError("No such student number exists");
         });
     }
 
 
     protected void getStudentNumbers() {
         db.collection("STUDENTS")
-                .whereEqualTo("id", true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (!task.isSuccessful())
                             Toast.makeText(OldStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Student student = document.toObject(Student.class);
-                            studentNumbers.add(student.getStudentID());
-                        }
+                        for (QueryDocumentSnapshot document : task.getResult())
+                            studentNumbers.add(document.getId());
                     }
                 });
     }
