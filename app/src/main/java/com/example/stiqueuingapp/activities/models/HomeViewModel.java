@@ -178,13 +178,26 @@ public class HomeViewModel extends AndroidViewModel {
         DocumentReference cashierRef = db.collection("QUEUES").document("CASHIER");
         DocumentReference registrarRef = db.collection("QUEUES").document("REGISTRAR");
 
+        admissionCounter1QueueNumber.setValue("A-000");
+        admissionCounter2QueueNumber.setValue("A-000");
+        admissionCounter3QueueNumber.setValue("A-000");
+
+        admissionCounter2Counter.setValue("2");
+        admissionCounter3Counter.setValue("3");
+
         cashierCounter1QueueNumber.setValue("C-000");
         cashierCounter2QueueNumber.setValue("C-000");
         cashierCounter3QueueNumber.setValue("C-000");
 
+        cashierCounter2Counter.setValue("2");
+        cashierCounter3Counter.setValue("3");
+
         registrarCounter1QueueNumber.setValue("R-000");
         registrarCounter2QueueNumber.setValue("R-000");
         registrarCounter3QueueNumber.setValue("R-000");
+
+        registrarCounter2Counter.setValue("2");
+        registrarCounter3Counter.setValue("3");
 
         admissionRef.addSnapshotListener((snapshot, error) -> {
             if (snapshot != null && snapshot.exists()) {
@@ -216,7 +229,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     admissionCounter1QueueNumber.setValue("A-" + formattedServing);
                                 });
-                        admissionCounter1Counter.setValue(currentCounter.toString());
                         admissionCounter1CutOff.setValue(currentCutOff.toString());
                         break;
                     case 2:
@@ -239,7 +251,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     admissionCounter2QueueNumber.setValue("A-" + formattedServing);
                                 });
-                        admissionCounter2Counter.setValue(currentCounter.toString());
                         admissionCounter2CutOff.setValue(currentCutOff.toString());
                         break;
                     case 3:
@@ -262,7 +273,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     admissionCounter3QueueNumber.setValue("A-" + formattedServing);
                                 });
-                        admissionCounter3Counter.setValue(currentCounter.toString());
                         admissionCounter3CutOff.setValue(currentCutOff.toString());
                         break;
                     default:
@@ -301,7 +311,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     cashierCounter1QueueNumber.setValue("C-" + formattedServing);
                                 });
-                        cashierCounter1Counter.setValue(currentCounter.toString());
                         cashierCounter1CutOff.setValue(currentCutOff.toString());
                         break;
                     case 2:
@@ -324,7 +333,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     cashierCounter2QueueNumber.setValue("C-" + formattedServing);
                                 });
-                        cashierCounter2Counter.setValue(currentCounter.toString());
                         cashierCounter2CutOff.setValue(currentCutOff.toString());
                         break;
                     case 3:
@@ -347,7 +355,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     cashierCounter3QueueNumber.setValue("C-" + formattedServing);
                                 });
-                        cashierCounter3Counter.setValue(currentCounter.toString());
                         cashierCounter3CutOff.setValue(currentCutOff.toString());
                         break;
                     default:
@@ -386,7 +393,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     registrarCounter1QueueNumber.setValue("R-" + formattedServing);
                                 });
-                        registrarCounter1Counter.setValue(currentCounter.toString());
                         registrarCounter1CutOff.setValue(currentCutOff.toString());
                         break;
                     case 2:
@@ -409,7 +415,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     registrarCounter2QueueNumber.setValue("R-" + formattedServing);
                                 });
-                        registrarCounter2Counter.setValue(currentCounter.toString());
                         registrarCounter2CutOff.setValue(currentCutOff.toString());
                         break;
                     case 3:
@@ -432,7 +437,6 @@ public class HomeViewModel extends AndroidViewModel {
                                     }
                                     registrarCounter3QueueNumber.setValue("R-" + formattedServing);
                                 });
-                        registrarCounter3Counter.setValue(currentCounter.toString());
                         registrarCounter3CutOff.setValue(currentCutOff.toString());
                         break;
                     default:
