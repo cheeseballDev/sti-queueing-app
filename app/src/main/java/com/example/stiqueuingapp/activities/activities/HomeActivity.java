@@ -470,6 +470,10 @@ public class HomeActivity extends AppCompatActivity {
      */
 
     protected void startTabButtons() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new FragmentAdmission())
+                .addToBackStack(null)
+                .commit();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -503,10 +507,6 @@ public class HomeActivity extends AppCompatActivity {
         userNumber = findViewById(R.id.user_number);
         frameLayout = findViewById(R.id.frameLayout);
         tabLayout = findViewById(R.id.tabLayout);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new FragmentAdmission())
-                .addToBackStack(null)
-                .commit();
 
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
         infoButton = findViewById(R.id.user_queue_info);
