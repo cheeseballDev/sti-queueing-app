@@ -1,7 +1,6 @@
 package com.example.stiqueuingapp.activities.activities;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,12 +21,18 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.Forms;
 import com.example.stiqueuingapp.activities.enums.QueueType;
 import com.example.stiqueuingapp.activities.forms.saf_page1;
 import com.example.stiqueuingapp.activities.forms.srf_page1;
+import com.example.stiqueuingapp.activities.fragments.FragmentAdmission;
+import com.example.stiqueuingapp.activities.fragments.FragmentCashier;
+import com.example.stiqueuingapp.activities.fragments.FragmentRegistrar;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -68,13 +74,14 @@ public class HomeActivity extends AppCompatActivity {
     private TextView
             userNumber,
             successQueueNumber,
-            admissionCurrentQueueNumber, registrarCurrentQueueNumber, cashierCurrentQueueNumber,
-            admissionCurrentCutOff, registrarCurrentCutOff, cashierCurrentCutOff,
-            admissionCurrentCounter, registrarCurrentCounter, cashierCurrentCounter,
             infoQueueNumber, infoQueueDate, infoQueueId,
             notificationQueueServiceType, notificationCounterNumber;
 
     private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm, dialogInfo, dialogNotification;
+
+    private TabLayout tabLayout;
+
+    private FrameLayout frameLayout;
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
@@ -111,13 +118,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         setDialogsAndButtons();
-        setCategories();
-        setQueues();
         setSpinner();
         updateQueue();
         updateEnterQueueButton();
         startQueueButton();
-
+        startTabButtons();
     }
 
     /*
@@ -172,152 +177,6 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void updateQueue() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        DocumentReference admissionRef = db.collection("QUEUES").document("ADMISSION");
-        DocumentReference cashierRef = db.collection("QUEUES").document("CASHIER");
-        DocumentReference registrarRef = db.collection("QUEUES").document("REGISTRAR");
-        CollectionReference ticketsRef = FirebaseFirestore.getInstance().collection("TICKETS");
-
-        admissionRef.addSnapshotListener(
-                new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                        if (snapshot.exists()) {
-                            Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
-
-                            if (isOnBreak) {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BRK"));
-                                return;
-                            }
-
-                            Long currentServing = snapshot.getLong("currentServing");
-                            Long currentCounter = snapshot.getLong("counter");
-                            Long currentCutOff = snapshot.getLong("cutOffNumber");
-                            long convertedServing = (currentServing != null) ? currentServing : 1L;
-                            String formattedServing = String.format("%03d", convertedServing);
-
-                            ticketsRef.whereEqualTo("service", "admission")
-                                    .whereEqualTo("number", convertedServing)
-                                    .limit(1)
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                                            boolean isAdmissionQueuePWD = false;
-                                            for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isAdmissionQueuePWD = doc.getBoolean("isPWD");
-                                            }
-                                            if (isAdmissionQueuePWD) {
-                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-P-").append(formattedServing));
-                                            } else {
-                                                admissionCurrentQueueNumber.setText(new StringBuilder().append("A-").append(formattedServing));
-                                            }
-                                        }
-                                    });
-                            admissionCurrentCounter.setText(new StringBuilder().append(currentCounter));
-                            admissionCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
-                            notificationQueueServiceType.setText(new StringBuilder().append("ADMISSION"));
-                            notificationCounterNumber.setText(new StringBuilder().append(currentCounter));
-                            if (userNumber == admissionCurrentQueueNumber) {
-                                showNotification();
-                            }
-                        }
-                    }
-                }
-        );
-
-        registrarRef.addSnapshotListener(
-                new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                        if (snapshot.exists()) {
-                            Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
-
-                            if (isOnBreak) {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BRK"));
-                                return;
-                            }
-
-                            Long currentServing = snapshot.getLong("currentServing");
-                            Long currentCounter = snapshot.getLong("counter");
-                            Long currentCutOff = snapshot.getLong("cutOffNumber");
-                            long convertedServing = (currentServing != null) ? currentServing : 1L;
-                            String formattedServing = String.format("%03d", convertedServing);
-
-                            ticketsRef.whereEqualTo("service", "registrar")
-                                    .whereEqualTo("number", convertedServing)
-                                    .limit(1)
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                                            boolean isRegistrarQueuePWD = false;
-                                            for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isRegistrarQueuePWD = doc.getBoolean("isPWD");
-                                            }
-                                            if (isRegistrarQueuePWD) {
-                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-P-").append(formattedServing));
-                                            } else {
-                                                registrarCurrentQueueNumber.setText(new StringBuilder().append("R-").append(formattedServing));
-                                            }
-                                        }
-                                    });
-                            registrarCurrentCounter.setText(new StringBuilder().append(currentCounter));
-                            registrarCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
-                            notificationQueueServiceType.setText(new StringBuilder().append("REGISTRAR"));
-                            notificationCounterNumber.setText(new StringBuilder().append(currentCounter));
-                            if (userNumber == registrarCurrentQueueNumber) {
-                                showNotification();
-                            }
-                        }
-                    }
-                }
-        );
-
-        cashierRef.addSnapshotListener(
-                new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                        if (snapshot.exists()) {
-                            Boolean isOnBreak = snapshot.getBoolean("isOnBreak");
-
-                            if (isOnBreak) {
-                                admissionCurrentQueueNumber.setText(new StringBuilder().append("ON-BRK"));
-                                return;
-                            }
-
-                            Long currentServing = snapshot.getLong("currentServing");
-                            Long currentCounter = snapshot.getLong("counter");
-                            Long currentCutOff = snapshot.getLong("cutOffNumber");
-                            long convertedServing = (currentServing != null) ? currentServing : 1L;
-                            String formattedServing = String.format("%03d", convertedServing);
-
-                            ticketsRef.whereEqualTo("service", "cashier")
-                                    .whereEqualTo("number", convertedServing)
-                                    .limit(1)
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                                            boolean isCashierQueuePWD = false;
-                                            for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                                                isCashierQueuePWD = doc.getBoolean("isPWD");
-                                            }
-                                            if (isCashierQueuePWD) {
-                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-P-").append(formattedServing));
-                                            } else {
-                                                cashierCurrentQueueNumber.setText(new StringBuilder().append("C-").append(formattedServing));
-                                            }
-                                        }
-                                    });
-                            cashierCurrentCounter.setText(new StringBuilder().append(currentCounter));
-                            cashierCurrentCutOff.setText(new StringBuilder().append(currentCutOff));
-                            notificationQueueServiceType.setText(new StringBuilder().append("CASHIER"));
-                            notificationCounterNumber.setText(new StringBuilder().append(currentCounter));
-                            if (userNumber == cashierCurrentQueueNumber) {
-                                showNotification();
-                            }
-                        }
-                    }
-                }
-        );
 
         db.collection("TICKETS")
                 .whereEqualTo("userid", id)
@@ -610,7 +469,49 @@ public class HomeActivity extends AppCompatActivity {
         SET THE ENTIRE FRONTEND
      */
 
+    protected void startTabButtons() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Fragment fragment = null;
+                switch(tab.getPosition()) {
+                    case 0:
+                        fragment = new FragmentAdmission();
+                        break;
+                    case 1:
+                        fragment = new FragmentCashier();
+                        break;
+                    case 2:
+                        fragment = new FragmentRegistrar();
+                        break;
+                }
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
     protected void setDialogsAndButtons() {
+        userNumber = findViewById(R.id.user_number);
+        frameLayout = findViewById(R.id.frameLayout);
+        tabLayout = findViewById(R.id.tabLayout);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new FragmentAdmission())
+                .addToBackStack(null)
+                .commit();
+
         enterQueueButton = findViewById(R.id.enter_the_queue_button);
         infoButton = findViewById(R.id.user_queue_info);
 
@@ -676,36 +577,6 @@ public class HomeActivity extends AppCompatActivity {
         notificationCloseImageButton = dialogNotification.findViewById(R.id.close_button);
         notificationQueueServiceType = dialogNotification.findViewById(R.id.notification_queue_service_type);
         notificationCounterNumber = dialogNotification.findViewById(R.id.notification_number_type);
-    }
-
-    protected void setCategories() {
-        admission = findViewById(R.id.admission_queue);
-        registrar = findViewById(R.id.registrar_queue);
-        cashier = findViewById(R.id.cashier_queue);
-
-        View admissionDivider = admission.findViewById(R.id.divider);
-        View registrarDivider = registrar.findViewById(R.id.divider);
-        View cashierDivider = cashier.findViewById(R.id.divider);
-
-        admissionDivider.setBackgroundColor(getResources().getColor(R.color.blue, null));
-        registrarDivider.setBackgroundColor(getResources().getColor(R.color.red, null));
-        cashierDivider.setBackgroundColor(getResources().getColor(R.color.green, null));
-    }
-
-    protected void setQueues() {
-        userNumber = findViewById(R.id.user_number);
-
-        admissionCurrentCounter = admission.findViewById(R.id.queue_current_counter);
-        admissionCurrentQueueNumber = admission.findViewById(R.id.queue_current_number);
-        admissionCurrentCutOff = admission.findViewById(R.id.queue_current_cut_off);
-
-        cashierCurrentCounter = cashier.findViewById(R.id.queue_current_counter);
-        cashierCurrentQueueNumber = cashier.findViewById(R.id.queue_current_number);
-        cashierCurrentCutOff = cashier.findViewById(R.id.queue_current_cut_off);
-
-        registrarCurrentCounter = registrar.findViewById(R.id.queue_current_counter);
-        registrarCurrentQueueNumber = registrar.findViewById(R.id.queue_current_number);
-        registrarCurrentCutOff = registrar.findViewById(R.id.queue_current_cut_off);
     }
 
     protected void setSpinner() {

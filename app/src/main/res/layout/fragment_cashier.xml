@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.fragments.fragment_cashier">
+    tools:context=".activities.fragments.FragmentCashier">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -20,18 +23,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <include
-                android:id="@+id/admission_queue"
+                android:id="@+id/cashier_queue_1"
                 layout="@layout/queue_card" />
 
             <include
-                android:id="@+id/registrar_queue"
+                android:id="@+id/cashier_queue_2"
                 layout="@layout/queue_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp" />
 
             <include
-                android:id="@+id/cashier_queue"
+                android:id="@+id/cashier_queue_3"
                 layout="@layout/queue_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
