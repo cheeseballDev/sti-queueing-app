@@ -1,10 +1,8 @@
 package com.example.stiqueuingapp.activities.models;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -234,6 +232,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     admissionCounter1QueueNumber.setValue("A-" + formattedServing);
                                 });
                         admissionCounter1CutOff.setValue(currentCutOff.toString());
+                        admissionCounter1Counter.setValue("1");
                         break;
                     case 2:
                         if (isOnBreak != null && isOnBreak) {
@@ -260,6 +259,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     admissionCounter2QueueNumber.setValue("A-" + formattedServing);
                                 });
                         admissionCounter2CutOff.setValue(currentCutOff.toString());
+                        admissionCounter2Counter.setValue("2");
                         break;
                     case 3:
                         if (isOnBreak != null && isOnBreak) {
@@ -286,6 +286,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     admissionCounter3QueueNumber.setValue("A-" + formattedServing);
                                 });
                         admissionCounter3CutOff.setValue(currentCutOff.toString());
+                        admissionCounter3Counter.setValue("3");
                         break;
                     default:
                         break;
@@ -328,6 +329,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     cashierCounter1QueueNumber.setValue("C-" + formattedServing);
                                 });
                         cashierCounter1CutOff.setValue(currentCutOff.toString());
+                        cashierCounter1Counter.setValue("1");
                         break;
                     case 2:
                         if (isOnBreak != null && isOnBreak) {
@@ -354,6 +356,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     cashierCounter2QueueNumber.setValue("C-" + formattedServing);
                                 });
                         cashierCounter2CutOff.setValue(currentCutOff.toString());
+                        cashierCounter1Counter.setValue("2");
                         break;
                     case 3:
                         if (isOnBreak != null && isOnBreak) {
@@ -380,6 +383,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     cashierCounter3QueueNumber.setValue("C-" + formattedServing);
                                 });
                         cashierCounter3CutOff.setValue(currentCutOff.toString());
+                        cashierCounter1Counter.setValue("3");
                         break;
                     default:
                         break;
@@ -422,6 +426,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     registrarCounter1QueueNumber.setValue("R-" + formattedServing);
                                 });
                         registrarCounter1CutOff.setValue(currentCutOff.toString());
+                        registrarCounter1Counter.setValue("1");
                         break;
                     case 2:
                         if (isOnBreak != null && isOnBreak) {
@@ -448,6 +453,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     registrarCounter2QueueNumber.setValue("R-" + formattedServing);
                                 });
                         registrarCounter2CutOff.setValue(currentCutOff.toString());
+                        registrarCounter2Counter.setValue("2");
                         break;
                     case 3:
                         if (isOnBreak != null && isOnBreak) {
@@ -474,6 +480,7 @@ public class HomeViewModel extends AndroidViewModel {
                                     registrarCounter3QueueNumber.setValue("R-" + formattedServing);
                                 });
                         registrarCounter3CutOff.setValue(currentCutOff.toString());
+                        registrarCounter3Counter.setValue("3");
                         break;
                     default:
                         break;
