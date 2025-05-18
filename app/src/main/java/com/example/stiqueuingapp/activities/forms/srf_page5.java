@@ -17,7 +17,6 @@ public class srf_page5 extends AppCompatActivity {
 
     private Button previousPageSrf4, submitPage;
 
-    private Button submit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +27,8 @@ public class srf_page5 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        setButtons();
         setUI();
-    }
-    protected void showSuccessQueueForm() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("shouldShowQueueSuccessPopup", true);
-        startActivity(intent);
-        finish();
+        setButtons();
     }
 
     protected void setButtons(){
@@ -49,8 +42,15 @@ public class srf_page5 extends AppCompatActivity {
         });
     }
 
+    protected void showSuccessQueueForm() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("shouldShowQueueSuccessPopup", true);
+        startActivity(intent);
+        finish();
+    }
+
     protected void setUI() {
         previousPageSrf4=findViewById(R.id.back_srf5);
-        submitPage = findViewById(R.id.submitForm_srf6);
+        submitPage = findViewById(R.id.submitForm_srf5);
     }
 }
