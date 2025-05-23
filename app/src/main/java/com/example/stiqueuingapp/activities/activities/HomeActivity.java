@@ -88,11 +88,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private Spinner spinnerSelectQueue, spinnerSelectForm;
 
-    private boolean isPWD = false, isNewUser = false, isInQueue = false, shouldShowQueueSuccessPopup = false;
+    private boolean isPWD = false, isForm = false, isNewUser = false, isInQueue = false, shouldShowQueueSuccessPopup = false;
 
-    private String selectedQueueType;
-
-    private String id = "", ticketQueueType = null;;
+    private String id = "", ticketQueueType = null, selectedQueueType;
 
     private ArrayList<QueueType> queueTypes = new ArrayList<>();
 
@@ -170,12 +168,9 @@ public class HomeActivity extends AppCompatActivity {
                 .whereEqualTo("userid", id)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            Log.w("FIREBASE", "SELECTED QUEUE TYPE" + document.getString("service"));
+                    if (!queryDocumentSnapshots.isEmpty())
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots)
                             selectedQueueType = document.getString("service");
-                        }
-                    }
                 });
     }
 
@@ -325,10 +320,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void createNewTicket(FirebaseFirestore db, long newNumber) {
-        db.runTransaction(transaction -> {
+        db.runTransaction(  transaction -> {
             Map<String, Object> ticket = new HashMap<>();
             ticket.put("createdAt", FieldValue.serverTimestamp());
             ticket.put("isPWD", isPWD);
+            ticket.put("isForm", isForm);
             ticket.put("number", newNumber);
             ticket.put("service", selectedQueueType);
             ticket.put("userid", id);
@@ -421,7 +417,14 @@ public class HomeActivity extends AppCompatActivity {
         dialogSelectQueue.show();
         selectQueueNextButton.setOnClickListener(view -> {
             selectedQueueType = spinnerSelectQueue.getSelectedItem().toString().toLowerCase();
-            showSelectFormType();
+            if (selectedQueueType.equals("registrar") || selectedQueueType.equals("admission")) {
+                showSelectFormType();
+                dialogSelectQueue.dismiss();
+                return;
+            }
+            updateQueueNumber();
+            updateEnterQueueButton();
+            showSuccessQueueForm();
             dialogSelectQueue.dismiss();
         });
 
@@ -448,6 +451,7 @@ public class HomeActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isPWD", isPWD)
                         .putBoolean("isInQueue", isInQueue)
+                        .putBoolean("isForm", true)
                         .putString("userid", id)
                         .putString("queueType",selectedQueueType)
                         .apply();
@@ -460,6 +464,7 @@ public class HomeActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isPWD", isPWD)
                         .putBoolean("isInQueue", isInQueue)
+                        .putBoolean("isForm", true)
                         .putString("userid", id)
                         .putString("queueType",selectedQueueType)
                         .apply();
@@ -732,6 +737,7 @@ public class HomeActivity extends AppCompatActivity {
             sharedPreferences = getSharedPreferences("HomePreferences", MODE_PRIVATE);
             isPWD = sharedPreferences.getBoolean("isPWD", isPWD);
             isInQueue = sharedPreferences.getBoolean("isInQueue", isInQueue);
+            isForm = sharedPreferences.getBoolean("isForm", isForm);
             id = sharedPreferences.getString("userid", id);
             selectedQueueType = sharedPreferences.getString("queueType",selectedQueueType);
             showSuccessQueueForm();
