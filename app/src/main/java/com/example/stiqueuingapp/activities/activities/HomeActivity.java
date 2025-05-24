@@ -320,11 +320,11 @@ public class HomeActivity extends AppCompatActivity {
             Long currentNumber = snapshot.getLong("currentNumber");
             long newNumber;
             if (isInQueue) {
-                newNumber = (currentNumber != null) ? currentNumber - 1 : 1L;
+                newNumber = (currentNumber != null && currentNumber != 0) ? currentNumber - 1 : 1L;
                 transaction.update(queueRef, "currentNumber", newNumber);
                 isInQueue = false;
             } else {
-                newNumber = (currentNumber != null) ? currentNumber + 1 : 1L;
+                newNumber = (currentNumber != null && currentNumber != 0) ? currentNumber + 1 : 1L;
                 transaction.update(queueRef, "currentNumber", newNumber);
                 createNewTicket(db, newNumber);
             }
@@ -355,6 +355,7 @@ public class HomeActivity extends AppCompatActivity {
             ticket.put("isPWD", isPWD);
             ticket.put("isForm", isForm);
             ticket.put("number", newNumber);
+            ticket.put("status", "waiting");
             ticket.put("service", selectedQueueType);
             ticket.put("userid", id);
 
