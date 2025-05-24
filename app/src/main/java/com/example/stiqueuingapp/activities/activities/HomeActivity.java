@@ -126,7 +126,7 @@ public class HomeActivity extends AppCompatActivity {
         updateEnterQueueButton();
         startQueueButton();
         startTabButtons();
-        startQueueListeners();
+        checkIfUserIsServing();
     }
 
     /*
@@ -163,6 +163,10 @@ public class HomeActivity extends AppCompatActivity {
             return null;
         }).addOnFailureListener(callback::onFailure);
     }
+
+    /*
+        LISTENERS
+     */
 
     protected void setUserSelectedQueueType() {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -217,6 +221,27 @@ public class HomeActivity extends AppCompatActivity {
                             infoQueueId.setText("N/A");
                             isInQueue = false;
                             updateEnterQueueButton();
+                        }
+                    }
+                });
+    }
+
+    private void checkIfUserIsServing() {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("TICKETS")
+                .whereEqualTo("userid", id)
+                .whereEqualTo("status", "serving")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                        if (!snapshot.isEmpty()) {
+                            for (DocumentSnapshot document : snapshot.getDocuments()) {
+                                notificationQueueServiceType.setText(new StringBuilder().append(document.getString("service")));
+                                notificationCounterNumber.setText(new StringBuilder().append(document.getString("number")));
+                                showNotification();
+                                return;
+                            }
                         }
                     }
                 });
@@ -323,6 +348,10 @@ public class HomeActivity extends AppCompatActivity {
         enterQueueButton.setTextColor(getResources().getColor(R.color.ghost_button_text));
         enterQueueButton.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.ghost_button));
     }
+
+    /*
+        CRUD OPERATIONS
+     */
 
     protected void createNewTicket(FirebaseFirestore db, long newNumber) {
         db.runTransaction(transaction -> {
@@ -506,84 +535,6 @@ public class HomeActivity extends AppCompatActivity {
         notificationCloseButton.setOnClickListener(view -> {
             dialogNotification.dismiss();
         });
-    }
-
-    /*
-        LISTENERS
-     */
-
-    protected void startQueueListeners() {
-        viewModel.getAdmissionCounter1QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("ADMISSION", currentServingNumber, viewModel.getAdmissionCounter1Counter().getValue());
-            }
-        });
-        viewModel.getAdmissionCounter2QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("ADMISSION", currentServingNumber, viewModel.getAdmissionCounter2Counter().getValue());
-            }
-        });
-        viewModel.getAdmissionCounter3QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("ADMISSION", currentServingNumber, viewModel.getAdmissionCounter3Counter().getValue());
-            }
-        });
-
-        viewModel.getCashierCounter1QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("CASHIER", currentServingNumber, viewModel.getCashierCounter1Counter().getValue());
-            }
-        });
-
-        viewModel.getCashierCounter2QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("CASHIER", currentServingNumber, viewModel.getCashierCounter2Counter().getValue());
-            }
-        });
-
-        viewModel.getCashierCounter3QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("CASHIER", currentServingNumber, viewModel.getCashierCounter3Counter().getValue());
-            }
-        });
-
-        viewModel.getRegistrarCounter1QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("REGISTRAR", currentServingNumber, viewModel.getRegistrarCounter1Counter().getValue());
-            }
-        });
-
-        viewModel.getRegistrarCounter2QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("REGISTRAR", currentServingNumber, viewModel.getRegistrarCounter2Counter().getValue());
-            }
-        });
-
-        viewModel.getRegistrarCounter3QueueNumber().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String currentServingNumber) {
-                checkIfUserIsServing("REGISTRAR", currentServingNumber, viewModel.getRegistrarCounter3Counter().getValue());
-            }
-        });
-    }
-
-    private void checkIfUserIsServing(String queueType, String currentServingNumber, String counterNumber) {
-        if (ticketQueueType != null && ticketQueueType.equals(queueType) && currentServingNumber != null) {
-            String formattedUserNumber = userNumber.getText().toString();
-            if (currentServingNumber.equals(formattedUserNumber)) {
-                notificationQueueServiceType.setText(new StringBuilder().append(queueType));
-                notificationCounterNumber.setText(new StringBuilder().append(counterNumber));
-                showNotification();
-            }
-        }
     }
 
     /*
