@@ -183,31 +183,43 @@ public class HomeActivity extends AppCompatActivity {
 
         db.collection("TICKETS")
                 .whereEqualTo("userid", id)
+                .whereIn("status", Arrays.asList("waiting", "serving", "finished"))
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                         if (!snapshot.isEmpty()) {
+                            boolean foundWaitingOrServing = false;
                             for (DocumentSnapshot document : snapshot.getDocuments()) {
-                                Long ticketNumber = document.getLong("number");
-                                String formattedNumber = String.format("%03d", ticketNumber);
-                                boolean isTicketPWD = document.getBoolean("isPWD");
-                                ticketQueueType = document.getString("service").toUpperCase();
-                                if (ticketNumber != null) {
-                                    updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
-                                    infoQueueDate.setText(document.getDate("createdAt").toString());
-                                    infoQueueId.setText(document.getId());
-                                    isInQueue = true;
-                                    updateEnterQueueButton();
-
-                                    String currentServingNumber = getCurrentServingNumber(ticketQueueType);
-                                    if (currentServingNumber != null && currentServingNumber.equals(userNumber.getText().toString())) {
-                                        notificationCounterNumber.setText(new StringBuilder().append(ticketNumber));
-                                        notificationQueueServiceType.setText(new StringBuilder().append(ticketQueueType));
-                                        showNotification();
+                                String status = document.getString("status");
+                                if (status != null && (status.equals("waiting") || status.equals("serving"))) {
+                                    Long ticketNumber = document.getLong("number");
+                                    String formattedNumber = String.format("%03d", ticketNumber);
+                                    boolean isTicketPWD = document.getBoolean("isPWD");
+                                    ticketQueueType = document.getString("service").toUpperCase();
+                                    if (ticketNumber != null) {
+                                        updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
+                                        infoQueueDate.setText(document.getDate("createdAt").toString());
+                                        infoQueueId.setText(document.getId());
+                                        isInQueue = true;
+                                        updateEnterQueueButton();
+                                        foundWaitingOrServing = true;
+                                        return;
                                     }
-                                    return;
                                 }
-
+                            }
+                            if (!foundWaitingOrServing) {
+                                for (DocumentSnapshot document : snapshot.getDocuments()) {
+                                    String status = document.getString("status");
+                                    if (status != null && status.equals("finished")) {
+                                        userNumber.setText("N/A");
+                                        infoQueueNumber.setText("N/A");
+                                        infoQueueDate.setText("N/A");
+                                        infoQueueId.setText("N/A");
+                                        isInQueue = false;
+                                        updateEnterQueueButton();
+                                        return;
+                                    }
+                                }
                             }
                         } else {
                             userNumber.setText("N/A");
