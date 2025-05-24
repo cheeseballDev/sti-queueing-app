@@ -233,7 +233,7 @@ public class HomeActivity extends AppCompatActivity {
                         if (!snapshot.isEmpty()) {
                             for (DocumentSnapshot document : snapshot.getDocuments()) {
                                 notificationQueueServiceType.setText(new StringBuilder().append(document.getString("service")));
-                                notificationCounterNumber.setText(new StringBuilder().append(document.getString("number")));
+                                notificationCounterNumber.setText(new StringBuilder().append(document.getLong("number")));
                                 showNotification();
                                 return;
                             }
