@@ -746,7 +746,6 @@ public class HomeActivity extends AppCompatActivity {
             isForm = sharedPreferences.getBoolean("isForm", isForm);
             id = sharedPreferences.getString("userid", id);
             selectedQueueType = sharedPreferences.getString("queueType",selectedQueueType);
-            showSuccessQueueForm();
             updateQueueNumber();
             updateEnterQueueButton();
             shouldShowQueueSuccessPopup = false;
