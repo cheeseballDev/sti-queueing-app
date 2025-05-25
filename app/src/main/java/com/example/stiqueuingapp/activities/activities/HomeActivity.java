@@ -269,24 +269,6 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    protected void triggerNotification(Long ticketNumber) {
-        String currentServingStr = getCurrentServingNumber(ticketQueueType);
-        if (currentServingStr != null) {
-            try {
-                long currentServing = Long.parseLong(currentServingStr.replaceAll("[^\\d]", ""));
-                long userNumber = ticketNumber;
-
-                long diff = userNumber - currentServing;
-                if (diff <= 5 && diff > 0) {
-                    showSystemNotification("Your turn is approaching!",
-                            "Only " + diff + " people ahead of you in the queue.");
-                }
-            } catch (NumberFormatException e) {
-                Log.e("NOTIFICATION", "Failed to parse queue numbers", e);
-            }
-        }
-    }
-
     private String getCurrentServingNumber(String queueType) {
         switch (queueType) {
             case "ADMISSION":
@@ -661,6 +643,24 @@ public class HomeActivity extends AppCompatActivity {
             channel.setDescription(description);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    protected void triggerNotification(Long ticketNumber) {
+        String currentServingStr = getCurrentServingNumber(ticketQueueType);
+        if (currentServingStr != null) {
+            try {
+                long currentServing = Long.parseLong(currentServingStr.replaceAll("[^\\d]", ""));
+                long userNumber = ticketNumber;
+
+                long diff = userNumber - currentServing;
+                if (diff <= 5 && diff > 0) {
+                    showSystemNotification("Your turn is approaching!",
+                            "Only " + diff + " people ahead of you in the queue.");
+                }
+            } catch (NumberFormatException e) {
+                Log.e("NOTIFICATION", "Failed to parse queue numbers", e);
+            }
         }
     }
 
