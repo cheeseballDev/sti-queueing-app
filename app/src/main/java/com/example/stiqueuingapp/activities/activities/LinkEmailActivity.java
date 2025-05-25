@@ -126,12 +126,12 @@ public class LinkEmailActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         if (task.getResult().isEmpty()) {
                             listener.onUuidGenerated(newUUID);
-                        } else {
-                            generateAndCheckUniqueId(db, listener);
+                            return;
                         }
-                    } else {
-                        listener.onError(task.getException());
+                        generateAndCheckUniqueId(db, listener);
+                        return;
                     }
+                    listener.onError(task.getException());
                 });
     }
 

@@ -108,23 +108,25 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        setDialogsAndButtons();
+        setSpinner();
         setUserId(new Callback<Void>() {
             @Override
             public void onSuccess() {
                 setUserSelectedQueueType();
+                updateQueue();
+                updateEnterQueueButton();
+                startQueueButton();
+                startTabButtons();
+                checkIfUserIsServing();
             }
             @Override
             public void onFailure(Exception e) {
                 Log.w("FIREBASE", "Error getting documents:" + e);
             }
         });
-        setDialogsAndButtons();
-        setSpinner();
-        updateQueue();
-        updateEnterQueueButton();
-        startQueueButton();
-        startTabButtons();
-        checkIfUserIsServing();
+
+
     }
 
     /*
@@ -423,6 +425,7 @@ public class HomeActivity extends AppCompatActivity {
                 public void onSuccess() {
                     isInQueue = true;
                     updateQueueNumber();
+
                 }
                 @Override
                 public void onFailure(Exception e) {
@@ -713,7 +716,6 @@ public class HomeActivity extends AppCompatActivity {
 
     interface Callback<T> {
         void onSuccess();
-
         void onFailure(Exception e);
     }
 }
