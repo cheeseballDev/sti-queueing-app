@@ -350,6 +350,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 transaction.update(queueRef, "currentNumber", newNumber);
                 createNewTicket(db, newNumber);
+                showSuccessQueueForm();
             }
             return newNumber;
         }).addOnFailureListener(e -> {
@@ -484,7 +485,6 @@ public class HomeActivity extends AppCompatActivity {
             }
             updateQueueNumber();
             updateEnterQueueButton();
-            showSuccessQueueForm();
             dialogSelectQueue.dismiss();
         });
 
