@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -25,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.stiqueuingapp.R;
 import com.example.stiqueuingapp.activities.enums.Forms;
@@ -110,6 +113,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         setDialogsAndButtons();
         setSpinner();
+        setRefreshLayout();
         setUserId(new Callback<Void>() {
             @Override
             public void onSuccess() {
@@ -332,6 +336,8 @@ public class HomeActivity extends AppCompatActivity {
         db.runTransaction(transaction -> {
             DocumentSnapshot snapshot = transaction.get(queueRef);
             Long currentNumber = snapshot.getLong("currentNumber");
+            Long cutOffNumber = snapshot.getLong("cutOffNumber");
+
             long newNumber;
             if (isInQueue) {
                 newNumber = (currentNumber != null && currentNumber != 0) ? currentNumber - 1 : 1L;
@@ -339,12 +345,21 @@ public class HomeActivity extends AppCompatActivity {
                 isInQueue = false;
             } else {
                 newNumber = (currentNumber != null && currentNumber != 0) ? currentNumber + 1 : 1L;
+                if (newNumber > cutOffNumber) {
+                    throw new FirebaseFirestoreException("Queue limit reached", FirebaseFirestoreException.Code.ABORTED);
+                }
                 transaction.update(queueRef, "currentNumber", newNumber);
                 createNewTicket(db, newNumber);
             }
             return newNumber;
+        }).addOnFailureListener(e -> {
+            if (e instanceof FirebaseFirestoreException &&
+                    ((FirebaseFirestoreException) e).getCode() == FirebaseFirestoreException.Code.ABORTED) {
+                Toast.makeText(this, "Queue limit reached", Toast.LENGTH_SHORT).show();
+            }
         });
     }
+
 
     protected void updateEnterQueueButton() {
         if (isInQueue) {
@@ -596,6 +611,13 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        SETUP NOTIFICATIONS
+     */
+
+
+
+
     protected void setDialogsAndButtons() {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -668,6 +690,24 @@ public class HomeActivity extends AppCompatActivity {
         notificationCloseImageButton = dialogNotification.findViewById(R.id.close_button);
         notificationQueueServiceType = dialogNotification.findViewById(R.id.notification_queue_service_type);
         notificationCounterNumber = dialogNotification.findViewById(R.id.notification_number_type);
+    }
+
+    protected void setRefreshLayout() {
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateQueue();
+                updateQueueNumber();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
 
     protected void setSpinner() {
