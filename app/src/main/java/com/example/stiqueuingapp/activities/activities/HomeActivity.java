@@ -1,8 +1,13 @@
 package com.example.stiqueuingapp.activities.activities;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +22,9 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -109,9 +117,11 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
         setDialogsAndButtons();
         setSpinner();
         setRefreshLayout();
+        createNotificationChannel();
         setUserId(new Callback<Void>() {
             @Override
             public void onSuccess() {
@@ -200,6 +210,7 @@ public class HomeActivity extends AppCompatActivity {
                                     String formattedNumber = String.format("%03d", ticketNumber);
                                     boolean isTicketPWD = document.getBoolean("isPWD");
                                     ticketQueueType = document.getString("service").toUpperCase();
+                                    triggerNotification(ticketNumber);
                                     if (ticketNumber != null) {
                                         updateUserNumberType(ticketQueueType, isTicketPWD, formattedNumber);
                                         infoQueueDate.setText(document.getDate("createdAt").toString());
@@ -256,6 +267,24 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    protected void triggerNotification(Long ticketNumber) {
+        String currentServingStr = getCurrentServingNumber(ticketQueueType);
+        if (currentServingStr != null) {
+            try {
+                long currentServing = Long.parseLong(currentServingStr.replaceAll("[^\\d]", ""));
+                long userNumber = ticketNumber;
+
+                long diff = userNumber - currentServing;
+                if (diff <= 5 && diff > 0) {
+                    showSystemNotification("Your turn is approaching!",
+                            "Only " + diff + " people ahead of you in the queue.");
+                }
+            } catch (NumberFormatException e) {
+                Log.e("NOTIFICATION", "Failed to parse queue numbers", e);
+            }
+        }
     }
 
     private String getCurrentServingNumber(String queueType) {
@@ -623,7 +652,35 @@ public class HomeActivity extends AppCompatActivity {
         SETUP NOTIFICATIONS
      */
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Queue Alerts";
+            String description = "Notifications for queue updates";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("QUEUE_CHANNEL_ID", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
+    private void showSystemNotification(String title, String message) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "QUEUE_CHANNEL_ID")
+                .setSmallIcon(R.drawable.ic_launcher_foreground) // Replace with your app icon
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+        }
+        notificationManager.notify(1001, builder.build());
+    }
 
 
     protected void setDialogsAndButtons() {
