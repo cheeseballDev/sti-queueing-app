@@ -356,7 +356,7 @@ public class HomeActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             if (e instanceof FirebaseFirestoreException &&
                     ((FirebaseFirestoreException) e).getCode() == FirebaseFirestoreException.Code.ABORTED) {
-                Toast.makeText(this, "Queue limit reached", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Queue limit reached", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -501,7 +501,6 @@ public class HomeActivity extends AppCompatActivity {
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
                 updateQueueNumber();
                 updateEnterQueueButton();
-                showSuccessQueueForm();
                 dialogSelectForm.dismiss();
             }
 
