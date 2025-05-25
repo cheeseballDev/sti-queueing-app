@@ -109,4 +109,6 @@
     <string name="admission">Admission</string>
     <string name="cashier">Cashier</string>
     <string name="registrar">Registrar</string>
+    <string name="queue_failed">Queue Failed</string>
+    <string name="queue_limit_reached">Queue limit reached!</string>
 </resources>

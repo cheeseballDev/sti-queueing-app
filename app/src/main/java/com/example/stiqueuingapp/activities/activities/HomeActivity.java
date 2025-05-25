@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -25,7 +23,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -39,7 +36,6 @@ import com.example.stiqueuingapp.activities.fragments.FragmentCashier;
 import com.example.stiqueuingapp.activities.fragments.FragmentRegistrar;
 import com.example.stiqueuingapp.activities.models.HomeViewModel;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -64,7 +60,8 @@ public class HomeActivity extends AppCompatActivity {
             selectFormNextButton,
             successQueueCloseButton,
             infoCloseButton,
-            notificationCloseButton;
+            notificationCloseButton,
+            failQueueCloseButton;
 
     private ImageButton
             PWDCloseButton,
@@ -73,7 +70,8 @@ public class HomeActivity extends AppCompatActivity {
             successQueueCloseImageButton,
             infoButton,
             infoCloseImageButton,
-            notificationCloseImageButton;
+            notificationCloseImageButton,
+            failQueueCloseImageButton;
 
     private TextView
             userNumber,
@@ -83,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private HomeViewModel viewModel;
 
-    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm, dialogInfo, dialogNotification;
+    private Dialog dialogPWD, dialogLeaveQueue, dialogSelectQueue, dialogSelectForm, dialogSuccessForm, dialogInfo, dialogNotification, dialogFailQueue;
 
     private TabLayout tabLayout;
 
@@ -356,11 +354,10 @@ public class HomeActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             if (e instanceof FirebaseFirestoreException &&
                     ((FirebaseFirestoreException) e).getCode() == FirebaseFirestoreException.Code.ABORTED) {
-                Toast.makeText(this, "Queue limit reached", Toast.LENGTH_LONG).show();
+                showQueueFailure();
             }
         });
     }
-
 
     protected void updateEnterQueueButton() {
         if (isInQueue) {
@@ -572,6 +569,18 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    protected void showQueueFailure() {
+        dialogFailQueue.show();
+
+        failQueueCloseButton.setOnClickListener(view -> {
+            dialogFailQueue.dismiss();
+        });
+
+        failQueueCloseImageButton.setOnClickListener(view -> {
+            dialogFailQueue.dismiss();
+        });
+    }
+
     /*
         SET THE ENTIRE FRONTEND
      */
@@ -689,6 +698,15 @@ public class HomeActivity extends AppCompatActivity {
         notificationCloseImageButton = dialogNotification.findViewById(R.id.close_button);
         notificationQueueServiceType = dialogNotification.findViewById(R.id.notification_queue_service_type);
         notificationCounterNumber = dialogNotification.findViewById(R.id.notification_number_type);
+
+        dialogFailQueue = new Dialog(HomeActivity.this);
+        dialogFailQueue.setContentView(R.layout.pop_up_fail_queue_form);
+        dialogFailQueue.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogFailQueue.setCancelable(true);
+
+        failQueueCloseButton = dialogFailQueue.findViewById(R.id.queue_close_button);
+        failQueueCloseImageButton = dialogFailQueue.findViewById(R.id.close_button);
+
     }
 
     protected void setRefreshLayout() {
