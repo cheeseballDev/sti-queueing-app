@@ -346,26 +346,30 @@ public class HomeActivity extends AppCompatActivity {
             DocumentSnapshot snapshot = transaction.get(queueRef);
             Long currentNumber = snapshot.getLong("currentNumber");
             Long cutOffNumber = snapshot.getLong("cutOffNumber");
-
+            currentNumber = (currentNumber != null) ? currentNumber : 0L;
+            cutOffNumber = (cutOffNumber != null) ? cutOffNumber : Long.MAX_VALUE;
             long newNumber;
             if (isInQueue) {
-                newNumber = (currentNumber != null && currentNumber != 0) ? currentNumber - 1 : 1L;
+                newNumber = (currentNumber > 1) ? currentNumber - 1 : 1L;
                 transaction.update(queueRef, "currentNumber", newNumber);
                 isInQueue = false;
             } else {
-                newNumber = (currentNumber != null && currentNumber != 0) ? currentNumber + 1 : 1L;
+                newNumber = currentNumber + 1;
                 if (newNumber > cutOffNumber) {
                     throw new FirebaseFirestoreException("Queue limit reached", FirebaseFirestoreException.Code.ABORTED);
                 }
                 transaction.update(queueRef, "currentNumber", newNumber);
                 createNewTicket(db, newNumber);
-                showSuccessQueueForm();
             }
             return newNumber;
         }).addOnFailureListener(e -> {
             if (e instanceof FirebaseFirestoreException &&
                     ((FirebaseFirestoreException) e).getCode() == FirebaseFirestoreException.Code.ABORTED) {
                 showQueueFailure();
+            }
+        }).addOnSuccessListener(  newNumber -> {
+            if (!isInQueue) { 
+                showSuccessQueueForm();
             }
         });
     }
@@ -509,6 +513,7 @@ public class HomeActivity extends AppCompatActivity {
             if (spinnerSelectForm.getSelectedItem().toString().equalsIgnoreCase("None")) {
                 updateQueueNumber();
                 updateEnterQueueButton();
+                isForm = false;
                 dialogSelectForm.dismiss();
             }
 
@@ -654,9 +659,15 @@ public class HomeActivity extends AppCompatActivity {
                 long userNumber = ticketNumber;
 
                 long diff = userNumber - currentServing;
+                if (userNumber == currentServing) {
+                    showSystemNotification("It's your turn!",
+                            "Please proceed to the counter and service specified in the counter");
+                    return;
+                }
                 if (diff <= 5 && diff > 0) {
                     showSystemNotification("Your turn is approaching!",
-                            "Only " + diff + " people ahead of you in the queue.");
+                            "Only " + diff + " people ahead of you in the queue. Please return back to the office area as soon as possible.");
+                    return;
                 }
             } catch (NumberFormatException e) {
                 Log.e("NOTIFICATION", "Failed to parse queue numbers", e);
@@ -666,7 +677,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void showSystemNotification(String title, String message) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "QUEUE_CHANNEL_ID")
-                .setSmallIcon(R.drawable.ic_launcher_foreground) // Replace with your app icon
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -772,8 +783,6 @@ public class HomeActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                updateQueue();
-                updateQueueNumber();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
